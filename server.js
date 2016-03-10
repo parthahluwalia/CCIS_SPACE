@@ -3,7 +3,7 @@
 var express = require('express');
 var fs      = require('fs');
 
-// HELLOOOOOOOOOOOOO WORLLLDDDDDDDDDDDDDD!!!!!!!!!!!!!!!!
+// HE
 
 /**
  *  Define the sample application.
