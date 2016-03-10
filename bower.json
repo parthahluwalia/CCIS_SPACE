@@ -1,0 +1,30 @@
+{
+  "name": "crsneufe",
+  "description": "App for browser",
+  "main": "server.js",
+  "authors": [
+    "Parth Ahluwalia"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "OpenShift",
+    "Node.js",
+    "application",
+    "openshift"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-router": "ui-router#^0.2.18",
+    "bootstrap": "^3.3.6",
+    "AngularJS": "angular-latest#^1.5.0",
+    "less": "^2.6.1"
+  }
+}
