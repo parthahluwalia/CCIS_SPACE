@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 
-describe("Test Suite", function(){
-    it("It should pass when everything is OK", function(){
-        expect(true).to.be.true;
-    });
+    describe("Test Suite - FAIL", function(){
+        it("It should FAIL for test", function(){
+            expect(false).to.be.true;
+        })
 })
