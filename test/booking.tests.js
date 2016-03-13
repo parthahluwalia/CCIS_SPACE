@@ -13,10 +13,10 @@ chai.should();
 
 describe("Booking Tests", function(){
 
-    after(function (done) {
-        server.close();
-        done();
-    });
+    //after(function (done) {
+    //    server.close();
+    //    done();
+    //});
 
     //it("A server should respond with status 200 on /api/booking GET", function(done){
     //    request
