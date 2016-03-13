@@ -1,0 +1,9 @@
+Express server listening on port 3000
+In Booking controller
+In Booking controller
+In Booking controller
+<testsuite name="Mocha Tests" tests="3" failures="0" errors="0" skipped="0" timestamp="Sun, 13 Mar 2016 07:31:50 GMT" time="0.039">
+<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.026"/>
+<testcase classname="Booking Tests" name="A server should respond with JSON Object on /api/booking GET" time="0.006"/>
+<testcase classname="Booking Tests" name="A booking should contain the properties - name,email,purpose and resources" time="0.003"/>
+</testsuite>

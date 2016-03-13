@@ -8,7 +8,7 @@ module.exports = function (services) {
         modulePath = '/api/booking',
         services;
 
-    // Load module services
+     // Load module services
     services.booking = require('./services/booking.service.js')();
 
     // Load routes
