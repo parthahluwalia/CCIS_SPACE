@@ -28,7 +28,7 @@ app.get('/foo', function (req, res) {
 });
 
 // Start the server
-console.log('Express server listening on port ' + port);
+//console.log('Express server listening on port ' + port);
 app.listen(port, ipaddress);
 
 module.exports = app;
