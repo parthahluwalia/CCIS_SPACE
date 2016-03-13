@@ -7,7 +7,7 @@ module.exports = function (bookingService) {
     }
 
     BookingController.prototype.getBooking = function(req, res, next) {
-          //console.log('In Booking controller');
+        //console.log('In Booking controller');
         var booking = bookingService.getBooking();
 
         res.status(200).send(booking);
