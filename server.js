@@ -1,6 +1,6 @@
 'use strict';
 
-// Load external packages
+//  Load external packages
 var express = require('express');
 var app = express();
 var path = require('path');
