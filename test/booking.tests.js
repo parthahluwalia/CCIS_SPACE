@@ -12,15 +12,21 @@ chai.use(chaiHttp);
 chai.should();
 
 describe("Booking Tests", function(){
-    it("A server should respond with status 200 on /api/booking GET", function(done){
-        request
-            .get('/api/booking')
-            .end(function(err, res){
-                res.should.have.status(200);
-                done();
-            })
 
+    after(function (done) {
+        server.close();
+        done();
     });
+
+    //it("A server should respond with status 200 on /api/booking GET", function(done){
+    //    request
+    //        .get('/api/booking')
+    //        .end(function(err, res){
+    //            res.should.have.status(200);
+    //            done();
+    //        })
+    //
+    //});
 
     //it("A server should respond with JSON Object on /api/booking GET", function(done){
     //    request

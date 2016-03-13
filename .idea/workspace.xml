@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e6faa0b4-b213-45a4-b6be-1eb45b6673ca" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-reports.xml" afterPath="$PROJECT_DIR$/test-reports.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/booking.tests.js" afterPath="$PROJECT_DIR$/test/booking.tests.js" />
     </list>
     <ignored path="CCIS_SPACE.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -76,8 +78,8 @@
       <file leaf-file-name="booking.tests.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/booking.tests.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5804196">
-              <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.6503497">
+              <caret line="28" column="8" selection-start-line="20" selection-start-column="6" selection-end-line="28" selection-end-column="8" />
               <folding>
                 <element signature="e#0#39#0" expanded="false" />
               </folding>
@@ -131,11 +133,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/test/test.js" />
-        <option value="$PROJECT_DIR$/test/booking.tests.js" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/middleware/api/booking/controllers/booking.controller.js" />
         <option value="$PROJECT_DIR$/middleware/api/booking/booking.module.js" />
+        <option value="$PROJECT_DIR$/test/booking.tests.js" />
       </list>
     </option>
   </component>
@@ -572,8 +574,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/booking.tests.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5804196">
-          <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.6503497">
+          <caret line="28" column="8" selection-start-line="20" selection-start-column="6" selection-end-line="28" selection-end-column="8" />
           <folding>
             <element signature="e#0#39#0" expanded="false" />
           </folding>
