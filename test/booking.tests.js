@@ -18,17 +18,16 @@ describe("Booking Tests", function(){
 
     });
 
-    //afterEach(function (done) {
-    //    server.close();
-    //    done();
-    //});
+    afterEach(function (done) {
+        server.close();
+        done();
+    });
     //
-    //it("A server should respond with status 200 on /api/booking GET", function(done){
+    //it("A server should respond with status 200 on /api/booking GET", function(){
     //    request
     //        .get('/api/booking')
     //        .end(function(err, res){
     //            res.should.have.status(200);
-    //            done();
     //        })
     //
     //});
