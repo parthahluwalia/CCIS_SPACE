@@ -22,6 +22,7 @@ describe("Booking Tests", function(){
         server.close();
         done();
     });
+
     //
     //it("A server should respond with status 200 on /api/booking GET", function(){
     //    request
