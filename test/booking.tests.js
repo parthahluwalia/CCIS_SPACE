@@ -39,6 +39,7 @@ describe("Booking Tests", function(){
 
     });
 
+    
     it("A booking should contain the properties - name,email,purpose and resources", function(done){
         request
             .get('/api/booking')
