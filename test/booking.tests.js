@@ -5,8 +5,8 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 var should = chai.should();
 var expect = require('chai').expect;
-var server = require('../');
-var request = require("supertest").agent(server);
+//var server = require('../');
+//var request = require("supertest").agent(server);
 
 chai.use(chaiHttp);
 chai.should();
