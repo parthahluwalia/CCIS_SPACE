@@ -5,8 +5,8 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 var should = chai.should();
 var expect = require('chai').expect;
-//var server = require('../');
-//var request = require("supertest").agent(server);
+var server = require('../');
+var request = require("supertest").agent(server);
 
 chai.use(chaiHttp);
 chai.should();
@@ -18,21 +18,21 @@ describe("Booking Tests", function(){
 
     });
 
-    //afterEach(function (done) {
-    //    //console.log("SERVER CLOSE");
-    //    server.close();
-    //    done();
-    //});
+    afterEach(function (done) {
+        //console.log("SERVER CLOSE");
+        server.close();
+        done();
+    });
 
 
-    //it("A server should respond with status 200 on /api/booking GET", function(){
-    //    request
-    //        .get('/api/booking')
-    //        .end(function(err, res){
-    //            res.should.have.status(200);
-    //        })
-    //
-    //});
+    it("A server should respond with status 200 on /api/booking GET", function(){
+        request
+            .get('/api/booking')
+            .end(function(err, res){
+                res.should.have.status(200);
+            })
+
+    });
 
     //it("A server should respond with JSON Object on /api/booking GET", function(done){
     //    request
