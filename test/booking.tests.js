@@ -6,7 +6,7 @@ var chaiHttp = require('chai-http');
 var should = chai.should();
 var expect = require('chai').expect;
 var server = require('../');
-var request = require("supertest").agent(server.listen());
+var request = require("supertest").agent(server);
 
 chai.use(chaiHttp);
 chai.should();
@@ -19,6 +19,7 @@ describe("Booking Tests", function(){
     });
 
     afterEach(function (done) {
+        console.log("SERVER CLOSE");
         server.close();
         done();
     });
