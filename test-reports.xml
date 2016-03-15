@@ -1,4 +1,11 @@
-<testsuite name="Mocha Tests" tests="2" failures="0" errors="0" skipped="0" timestamp="Mon, 14 Mar 2016 04:31:09 GMT" time="0.031">
+<testsuite name="Mocha Tests" tests="4" failures="1" errors="1" skipped="0" timestamp="Tue, 15 Mar 2016 20:02:46 GMT" time="0.042">
 <testcase classname="Booking Tests" name="Pass" time="0"/>
-<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.006"/>
+<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.007"/>
+<testcase classname="Booking Tests" name="A server should respond with JSON Object on /api/booking GET" time="0.007"/>
+<testcase classname="Booking Tests" name="A booking should contain the properties - name,email,purpose and resources" time="0"><failure><![CDATA[expected { Object (name, email, ...) } to have a property 'foo'
+AssertionError: expected { Object (name, email, ...) } to have a property 'foo'
+    at Test.&lt;anonymous&gt; (test/booking.tests.js:55:38)
+    at Test.assert (node_modules/supertest/lib/test.js:156:6)
+    at Server.assert (node_modules/supertest/lib/test.js:127:12)
+    at emitCloseNT (net.js:1524:8)]]></failure></testcase>
 </testsuite>
