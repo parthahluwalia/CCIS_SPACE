@@ -13,7 +13,7 @@ chai.should();
 
 describe("Booking Tests", function(){
 
-    it("Pass", function(){
+    it("Foo test", function(){
         expect(true).to.be.true;
 
     });
