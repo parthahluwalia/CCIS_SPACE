@@ -106,7 +106,7 @@ Response {
         'content-type': 'application/json; charset=utf-8',
         'content-length': '106',
         etag: 'W/"6a-YFgA5bf6uj3kv+EFQwZcbw"',
-        date: 'Wed, 16 Mar 2016 05:20:52 GMT',
+        date: 'Wed, 16 Mar 2016 05:27:29 GMT',
         connection: 'close' },
      rawHeaders: 
       [ 'X-Powered-By',
@@ -118,7 +118,7 @@ Response {
         'ETag',
         'W/"6a-YFgA5bf6uj3kv+EFQwZcbw"',
         'Date',
-        'Wed, 16 Mar 2016 05:20:52 GMT',
+        'Wed, 16 Mar 2016 05:27:29 GMT',
         'Connection',
         'close' ],
      trailers: {},
@@ -459,14 +459,14 @@ Response {
      'content-type': 'application/json; charset=utf-8',
      'content-length': '106',
      etag: 'W/"6a-YFgA5bf6uj3kv+EFQwZcbw"',
-     date: 'Wed, 16 Mar 2016 05:20:52 GMT',
+     date: 'Wed, 16 Mar 2016 05:27:29 GMT',
      connection: 'close' },
   header: 
    { 'x-powered-by': 'Express',
      'content-type': 'application/json; charset=utf-8',
      'content-length': '106',
      etag: 'W/"6a-YFgA5bf6uj3kv+EFQwZcbw"',
-     date: 'Wed, 16 Mar 2016 05:20:52 GMT',
+     date: 'Wed, 16 Mar 2016 05:27:29 GMT',
      connection: 'close' },
   statusCode: 200,
   status: 200,
@@ -488,7 +488,9 @@ Response {
   type: 'application/json',
   setEncoding: [Function: bound ],
   redirects: [] }
-<testsuite name="Mocha Tests" tests="2" failures="0" errors="0" skipped="0" timestamp="Wed, 16 Mar 2016 05:20:52 GMT" time="0.049">
-<testcase classname="Booking Tests" name="Pass" time="0.001"/>
-<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.005"/>
+<testsuite name="Mocha Tests" tests="4" failures="0" errors="0" skipped="0" timestamp="Wed, 16 Mar 2016 05:27:29 GMT" time="0.061">
+<testcase classname="Booking Tests" name="Pass" time="0"/>
+<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.006"/>
+<testcase classname="Booking Tests" name="A server should respond with JSON Object on /api/booking GET" time="0.011"/>
+<testcase classname="Booking Tests" name="A booking should contain the properties - name,email,purpose and resources" time="0.002"/>
 </testsuite>
