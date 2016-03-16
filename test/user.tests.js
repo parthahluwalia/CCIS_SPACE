@@ -19,8 +19,6 @@ describe("User Tests", function(){
 
     });
 
-
-
     it("User tests - Foo", function(){
         expect(false).to.be.false;
 
