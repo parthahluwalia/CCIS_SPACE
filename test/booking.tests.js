@@ -29,6 +29,8 @@ describe("Booking Tests", function(){
         request
             .get('/api/booking')
             .end(function(err, res){
+                console.log(err);
+                console.log("----");
                 console.log(res);
                 res.should.have.statusCode(200);
             })
