@@ -18,11 +18,11 @@ describe("Booking Tests", function(){
 
     });
 
-    afterEach(function (done) {
-        //console.log("SERVER CLOSE");
-        server.close();
-        done();
-    });
+    //afterEach(function (done) {
+    //    //console.log("SERVER CLOSE");
+    //    server.close();
+    //    done();
+    //});
 
 
     it("A server should respond with status 200 on /api/booking GET", function(){
