@@ -29,7 +29,8 @@ describe("Booking Tests", function(){
         request
             .get('/api/booking')
             .end(function(err, res){
-                res.should.have.status(200);
+                console.log(res);
+                res.should.have.statusCode(200);
             })
 
     });
@@ -38,6 +39,7 @@ describe("Booking Tests", function(){
         request
             .get('/api/booking')
             .end(function(err, res){
+                console.log(res);
                 res.should.have.status(200);
                 res.should.be.json;
                 done();
