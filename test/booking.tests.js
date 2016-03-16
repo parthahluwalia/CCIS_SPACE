@@ -6,7 +6,7 @@ var chaiHttp = require('chai-http');
 var should = chai.should();
 var expect = require('chai').expect;
 var server = require('../');
-var request = require("supertest").agent(server);
+//var request = require("supertest").agent(server);
 
 chai.use(chaiHttp);
 chai.should();
@@ -26,8 +26,8 @@ describe("Booking Tests", function(){
 
 
     it("A server should respond with status 200 on /api/booking GET", function(){
-        console.log(request);
-        request
+        //console.log(request);
+        chai.request(server)
             .get('/api/booking')
             .end(function(err, res){
                 console.log(err);

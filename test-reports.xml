@@ -1,37 +1,3 @@
-TestAgent {
-  jar: 
-   CookieJar {
-     setCookie: [Function: setCookie],
-     getCookie: [Function: getCookie],
-     getCookies: [Function: getCookies] },
-  app: 
-   Server {
-     domain: null,
-     _events: 
-      { request: [Object],
-        connection: [Function: connectionListener],
-        clientError: [Function] },
-     _eventsCount: 3,
-     _maxListeners: undefined,
-     _connections: 0,
-     _handle: 
-      TCP {
-        _externalStream: {},
-        fd: 14,
-        reading: false,
-        owner: [Circular],
-        onread: null,
-        onconnection: [Function: onconnection],
-        writeQueueSize: 0 },
-     _usingSlaves: false,
-     _slaves: [],
-     _unref: false,
-     allowHalfOpen: true,
-     pauseOnConnect: false,
-     httpAllowHalfOpen: false,
-     timeout: 120000,
-     _pendingResponseData: 0,
-     _connectionKey: '4:127.0.0.1:6969' } }
 null
 ----
 Response {
@@ -69,8 +35,8 @@ Response {
      _events: 
       { end: [Object],
         data: [Object],
-        error: [Object],
-        close: [Function: bound emit] },
+        close: [Function: bound emit],
+        error: [Function: bound emit] },
      _eventsCount: 4,
      _maxListeners: undefined,
      socket: 
@@ -140,7 +106,7 @@ Response {
         'content-type': 'application/json; charset=utf-8',
         'content-length': '106',
         etag: 'W/"6a-YFgA5bf6uj3kv+EFQwZcbw"',
-        date: 'Wed, 16 Mar 2016 05:16:00 GMT',
+        date: 'Wed, 16 Mar 2016 05:20:52 GMT',
         connection: 'close' },
      rawHeaders: 
       [ 'X-Powered-By',
@@ -152,7 +118,7 @@ Response {
         'ETag',
         'W/"6a-YFgA5bf6uj3kv+EFQwZcbw"',
         'Date',
-        'Wed, 16 Mar 2016 05:16:00 GMT',
+        'Wed, 16 Mar 2016 05:20:52 GMT',
         'Connection',
         'close' ],
      trailers: {},
@@ -217,7 +183,7 @@ Response {
         _headerSent: true,
         socket: [Object],
         connection: [Object],
-        _header: 'GET /api/booking HTTP/1.1\r\nHost: 127.0.0.1:6969\r\nAccept-Encoding: gzip, deflate\r\nUser-Agent: node-superagent/1.8.0\r\nConnection: close\r\n\r\n',
+        _header: 'GET /api/booking HTTP/1.1\r\nHost: 127.0.0.1:6969\r\nAccept-Encoding: gzip, deflate\r\nUser-Agent: node-superagent/1.2.0\r\nConnection: close\r\n\r\n',
         _headers: [Object],
         _headerNames: [Object],
         _onPendingData: null,
@@ -237,27 +203,21 @@ Response {
   request: 
    Test {
      domain: null,
-     _events: 
-      { end: [Function: bound _clearTimeout],
-        response: [Function: bound ],
-        redirect: [Object] },
-     _eventsCount: 3,
+     _events: { end: [Function: bound ] },
+     _eventsCount: 1,
      _maxListeners: undefined,
      _agent: false,
      _formData: null,
-     method: 'GET',
+     method: 'get',
      url: 'http://127.0.0.1:6969/api/booking',
-     _header: { 'user-agent': 'node-superagent/1.8.0' },
-     header: { 'User-Agent': 'node-superagent/1.8.0' },
+     header: {},
      writable: true,
      _redirects: 0,
-     _maxRedirects: 0,
+     _maxRedirects: 5,
      cookies: '',
      qs: {},
      qsRaw: [],
      _redirectList: [],
-     _streamRequest: false,
-     _buffer: true,
      app: 
       Server {
         domain: null,
@@ -275,8 +235,6 @@ Response {
         timeout: 120000,
         _pendingResponseData: 0,
         _connectionKey: '4:127.0.0.1:6969' },
-     _asserts: [],
-     _ca: undefined,
      req: 
       ClientRequest {
         domain: null,
@@ -301,7 +259,7 @@ Response {
         _headerSent: true,
         socket: [Object],
         connection: [Object],
-        _header: 'GET /api/booking HTTP/1.1\r\nHost: 127.0.0.1:6969\r\nAccept-Encoding: gzip, deflate\r\nUser-Agent: node-superagent/1.8.0\r\nConnection: close\r\n\r\n',
+        _header: 'GET /api/booking HTTP/1.1\r\nHost: 127.0.0.1:6969\r\nAccept-Encoding: gzip, deflate\r\nUser-Agent: node-superagent/1.2.0\r\nConnection: close\r\n\r\n',
         _headers: [Object],
         _headerNames: [Object],
         _onPendingData: null,
@@ -427,11 +385,11 @@ Response {
         _idleNext: null,
         _idlePrev: null,
         _idleTimeout: -1 },
-     _header: 'GET /api/booking HTTP/1.1\r\nHost: 127.0.0.1:6969\r\nAccept-Encoding: gzip, deflate\r\nUser-Agent: node-superagent/1.8.0\r\nConnection: close\r\n\r\n',
+     _header: 'GET /api/booking HTTP/1.1\r\nHost: 127.0.0.1:6969\r\nAccept-Encoding: gzip, deflate\r\nUser-Agent: node-superagent/1.2.0\r\nConnection: close\r\n\r\n',
      _headers: 
       { host: '127.0.0.1:6969',
         'accept-encoding': 'gzip, deflate',
-        'user-agent': 'node-superagent/1.8.0' },
+        'user-agent': 'node-superagent/1.2.0' },
      _headerNames: 
       { host: 'Host',
         'accept-encoding': 'Accept-Encoding',
@@ -501,14 +459,14 @@ Response {
      'content-type': 'application/json; charset=utf-8',
      'content-length': '106',
      etag: 'W/"6a-YFgA5bf6uj3kv+EFQwZcbw"',
-     date: 'Wed, 16 Mar 2016 05:16:00 GMT',
+     date: 'Wed, 16 Mar 2016 05:20:52 GMT',
      connection: 'close' },
   header: 
    { 'x-powered-by': 'Express',
      'content-type': 'application/json; charset=utf-8',
      'content-length': '106',
      etag: 'W/"6a-YFgA5bf6uj3kv+EFQwZcbw"',
-     date: 'Wed, 16 Mar 2016 05:16:00 GMT',
+     date: 'Wed, 16 Mar 2016 05:20:52 GMT',
      connection: 'close' },
   statusCode: 200,
   status: 200,
@@ -530,7 +488,7 @@ Response {
   type: 'application/json',
   setEncoding: [Function: bound ],
   redirects: [] }
-<testsuite name="Mocha Tests" tests="2" failures="0" errors="0" skipped="0" timestamp="Wed, 16 Mar 2016 05:16:00 GMT" time="0.05">
+<testsuite name="Mocha Tests" tests="2" failures="0" errors="0" skipped="0" timestamp="Wed, 16 Mar 2016 05:20:52 GMT" time="0.049">
 <testcase classname="Booking Tests" name="Pass" time="0.001"/>
-<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.017"/>
+<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.005"/>
 </testsuite>
