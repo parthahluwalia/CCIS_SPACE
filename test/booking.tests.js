@@ -31,7 +31,7 @@ describe("Booking Tests", function(){
         chai.request(server)
             .get('/api/booking')
             .end(function(err, res){
-                res.should.have.statusCode(200);
+                res.should.have.status(200);
             })
 
     });
