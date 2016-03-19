@@ -17,6 +17,7 @@ module.exports = function () {
 			endTime: "11:30 PM",
 			purpose: "Fun",
 			priority: "High",
+			status: "Confirmed",
 			createDate: "12 Feb 2016",
 			room: {roomnumber: "1", capacity: "200", projector: "Availabe"},
 			name: 'Kung Fu Panda',
