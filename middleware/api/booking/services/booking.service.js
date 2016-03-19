@@ -12,10 +12,15 @@ module.exports = function () {
 	// Get a booking -- placeholder dragons!
 	BookingService.prototype.getBooking = function () {
 		var booking = {
+			_id: '1234567890123456',
+			startTime: "11:00PM",
+			endTime: "11:30 PM",
+			purpose: "Fun",
+			priority: "High",
+			createDate: "12 Feb 2016",
+			room: {roomnumber: "1", capacity: "200", projector: "Availabe"},
 			name: 'Kung Fu Panda',
-			email: 'dragon.warrior@pandas.com',
-			purpose: 'Sleeping',
-			resources: 'Just a bed'
+			requestor: {name: {first: "Johnny", last: "depp"}, email: "johnnyDepp@abc.com", phone:"1234567890"}
 		};
 
 		return booking;
