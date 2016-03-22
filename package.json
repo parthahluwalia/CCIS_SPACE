@@ -1,22 +1,18 @@
 {
-  "name": "OpenShift-Sample-App",
+  "name": "crs",
   "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "description": "CCIS Room Scheduler",
   "keywords": [
     "OpenShift",
     "Node.js",
     "application",
     "openshift"
   ],
-  "author": {
-    "name": "OpenShift",
-    "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
-  },
+  "author": "OpenShift <ramr@example.org> (http://www.openshift.com/)",
   "homepage": "http://www.openshift.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openshift/origin-server"
+    "url": "git+https://github.com/openshift/origin-server.git"
   },
   "engines": {
     "node": ">= 0.6.0",
@@ -26,6 +22,8 @@
     "bluebird": "^3.2.2",
     "body-parser": "~1.13.2",
     "bower": "^1.7.7",
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "express": "~4.13.1",
@@ -33,9 +31,11 @@
     "jade": "~1.11.0",
     "lodash": "^4.6.1",
     "moment": "^2.12.0",
+    "mocha": "^2.4.5",
     "mongoose": "^4.4.6",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "supertest": "^1.2.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
@@ -44,5 +44,13 @@
   },
   "bundleDependencies": [],
   "private": true,
-  "main": "server.js"
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "./node_modules/.bin/mocha --recursive -R xunit test/ > test-reports.xml"
+  },
+  "bugs": {
+    "url": "https://github.com/openshift/origin-server/issues"
+  },
+  "license": "ISC"
 }
