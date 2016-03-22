@@ -56,6 +56,75 @@ module.exports = function (ccisroomDb) {
     }
 
     /**
+     * Create a booking, spliting a booking request to n booking records
+     * @param: {bookingDetails}
+     * returns [{nBookingInstances}]
+     */
+    BookingService.prototype.createBooking = function (bookingDetails) {
+        var self = this,
+            createDate = Date.now(),
+            bookingDetails = typeof bookingDetails === 'string' ? JSON.parse(bookingDetails) : bookingDetails;
+
+        return self.getRequestorId(bookingDetails.requestor)
+            .then(function (requestorId) {
+                // Prepare n booking records by forking the booking request accorrding to the repeat criteria
+                var nBookingRecords =  self.forkBookingRecords(bookingDetails, requestorId);
+
+                // Save these records
+                return Promise.map(nBookingRecords, function (bookingRecord) {
+                    return self.saveBookingRecord(bookingRecord);
+                })
+                .then(function (bookingRecords) {
+                    console.log('Booking Records created: ', bookingRecords, null, 2);
+                    return Promise.resolve(bookingRecords);
+                })
+                .catch(function (error) {
+                    return Promise.reject(error);
+                });
+            })
+            .catch(function (error) {
+                console.log('Error while saving n booking records: ' + error);
+                return Promise.reject(error);
+            });
+    };
+
+    /**
+     * Checks if the requestor exists in the 'requestor' collection, creates the requestor if 
+     * it doesn't, updates the requestor document otherwise
+     * @param: {bookingDetails}
+     * returns: {nbookingRecords}
+     */
+    BookingService.prototype.getRequestorId = function (bookingRequestor) {
+        return this.RequestorModel
+            .findOne({ email: bookingRequestor.email })
+            .exec()
+            .then(function (requestor) {
+                // Insert update the requestor details
+                if (_.has(bookingRequestor, 'name.first')) {    
+                    _.set(requestor, 'name.first', bookingRequestor.name.first);
+                }
+
+                if (_.has(bookingRequestor, 'name.last')) {
+                    _.set(requestor, 'name.last', bookingRequestor.name.last);
+                }
+
+                if (_.has(bookingRequestor, 'phone')) {
+                    requestor.phone = bookingRequestor.phone;
+                }
+                // save should return an mpromise object
+                return requestor.save();
+            })
+            .then(function (refurbedRequestor) {
+                // Rseolve with requestor id
+                return Promise.resolve(refurbedRequestor._id);
+            })
+            .catch(function (err) {
+                console.log('Error while playing with requestor for booking: ', err);
+                return Promise.reject(err);
+            });
+    };
+
+    /**
      * Get a mognoose instance of the booking record
      * @param: {bookingDetails}
      * returns: {nbookingRecords}
@@ -115,42 +184,6 @@ module.exports = function (ccisroomDb) {
     };
 
     /**
-     * Checks if the requestor exists in the 'requestor' collection, creates the requestor if 
-     * it doesn't, updates the requestor document otherwise
-     * @param: {bookingDetails}
-     * returns: {nbookingRecords}
-     */
-    BookingService.prototype.getRequestorId = function (bookingRequestor) {
-        return this.RequestorModel
-            .findOne({ email: bookingRequestor.email })
-            .exec()
-            .then(function (requestor) {
-                // Insert update the requestor details
-                if (_.has(bookingRequestor, 'name.first')) {
-                    _.set(requestor, 'name.first', bookingRequestor.name.first);
-                }
-
-                if (_.has(bookingRequestor, 'name.last')) {
-                    _.set(requestor, 'name.last', bookingRequestor.name.last);
-                }
-
-                if (_.has(bookingRequestor, 'phone')) {
-                    requestor.phone = bookingRequestor.phone;
-                }
-                // save should return an mpromise object
-                return requestor.save();
-            })
-            .then(function (refurbedRequestor) {
-                // Rseolve with requestor id
-                return Promise.resolve(refurbedRequestor._id);
-            })
-            .catch(function (err) {
-                console.log('Error while playing with requestor for booking: ', err);
-                return Promise.reject(err);
-            });
-    };
-
-    /**
      * Save the booking record
      * @param: {bookingRecord}
      * returns: Promisified{bookingRecord}
@@ -164,39 +197,6 @@ module.exports = function (ccisroomDb) {
             .catch(function (err) {
                 console.log('Err: ', err, null, 2);
                 return Promise.reject(err);
-            });
-    };
-
-    /**
-     * Create a booking, spliting a booking request to n booking records
-     * @param: {bookingDetails}
-     * returns [{nBookingInstances}]
-     */
-    BookingService.prototype.createBooking = function (bookingDetails) {
-        var self = this,
-            createDate = Date.now(),
-            bookingDetails = typeof bookingDetails === 'string' ? JSON.parse(bookingDetails) : bookingDetails;
-
-        return self.getRequestorId(bookingDetails.requestor)
-            .then(function (requestorId) {
-                // Prepare n booking records by forking the booking request accorrding to the repeat criteria
-                var nBookingRecords =  self.forkBookingRecords(bookingDetails, requestorId);
-
-                // Save these records
-                return Promise.map(nBookingRecords, function (bookingRecord) {
-                    return self.saveBookingRecord(bookingRecord);
-                })
-                .then(function (bookingRecords) {
-                    console.log('Booking Records created: ', bookingRecords, null, 2);
-                    return Promise.resolve(bookingRecords);
-                })
-                .catch(function (error) {
-                    return Promise.reject(error);
-                });
-            })
-            .catch(function (error) {
-                console.log('Error while saving n booking records: ' + error);
-                return Promise.reject(error);
             });
     };
 

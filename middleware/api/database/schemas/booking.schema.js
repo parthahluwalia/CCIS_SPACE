@@ -52,7 +52,8 @@ var Schema = new mongoose.Schema({
     },*/
     requestor: {
         type: ObjectId,
-        ref: 'Requestor'
+        ref: 'Requestor',
+        required: true
     },
     lastModified: {
         type: Date,

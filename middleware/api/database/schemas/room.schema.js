@@ -15,6 +15,10 @@ var Schema = new mongoose.Schema({
             type: Boolean,
             default: false
         },
+        blueJeans: {
+            type: Boolean,
+            default: false
+        },
         capacity: Number
     },
     description: {
@@ -26,3 +30,5 @@ var Schema = new mongoose.Schema({
         default: Date.now()
     }
 }, { collection: 'room' });
+
+module.exports = Schema;
