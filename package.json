@@ -1,7 +1,7 @@
 {
   "name": "crs",
   "version": "1.0.0",
-  "description": "CCIS Room Scheduler",
+  "description": "CCIS Room Scheduler App",
   "keywords": [
     "OpenShift",
     "Node.js",

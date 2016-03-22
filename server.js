@@ -27,8 +27,7 @@ var services = {},
 require('./middleware/api')(app, services, config);
 
 // Start the server
-//console.log('Express server listening on port ' + port);
+console.log('Express server listening on port ' + port);
 var server = app.listen(port, ipaddress);
-
 
 module.exports = server;
