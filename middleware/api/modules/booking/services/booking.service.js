@@ -92,11 +92,15 @@ module.exports = function (ccisroomDb) {
      * Checks if the requestor exists in the 'requestor' collection, creates the requestor if 
      * it doesn't, updates the requestor document otherwise
      * @param: {bookingDetails}
-     * returns: {nbookingRecords}
+     * returns: {RequestorId}
      */
     BookingService.prototype.getRequestorId = function (bookingRequestor) {
         var self = this;
-        
+        // Check if requestor's email is not specified.
+        if (!_.has(bookingRequestor, 'email')) {
+            return Promise.reject({ err: 'A request must specify the requestor\'s email'})
+        }
+
         return self.RequestorModel
             .findOne({ email: bookingRequestor.email })
             .exec()
@@ -104,6 +108,7 @@ module.exports = function (ccisroomDb) {
                 if (!requestor) {
                     console.log('New Requestor! Creating a requestor record');
                     requestor = new self.RequestorModel();
+                    requestor.email = bookingRequestor.email;
                 } else {
                     console.log('Found requestor, Updating!');
                 }
