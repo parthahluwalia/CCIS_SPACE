@@ -67,6 +67,7 @@ module.exports = function (ccisroomDb) {
 
         return self.getRequestorId(bookingDetails.requestor)
             .then(function (requestorId) {
+                console.log('Requestor Id: ', requestorId);
                 // Prepare n booking records by forking the booking request accorrding to the repeat criteria
                 var nBookingRecords =  self.forkBookingRecords(bookingDetails, requestorId);
 
@@ -110,7 +111,7 @@ module.exports = function (ccisroomDb) {
                     requestor = new self.RequestorModel();
                     requestor.email = bookingRequestor.email;
                 } else {
-                    console.log('Found requestor, Updating!');
+                    console.log('Requestor exists, Updating record!');
                 }
 
                 // Insert update the requestor details

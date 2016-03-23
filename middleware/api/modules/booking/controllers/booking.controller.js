@@ -24,6 +24,8 @@ module.exports = function (bookingService) {
 
         var booking = bookingService.createBooking(bookingDetails)
             .then(function (bookings) {
+                console.log('Bookings in booking controller');
+                console.log(bookings, null, 2);
                 return bookings;
             })
             .catch(function (error) {

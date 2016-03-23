@@ -11,7 +11,5 @@ module.exports = function (processEnv, devDbName) {
     var devDbUrl = 'mongodb://localhost:27017/' + devDbName, 
         dbConfig = _.has(processEnv, 'OPENSHIFT_MONGODB_DB_URL') ? processEnv.OPENSHIFT_MONGODB_DB_URL : devDbUrl;
 
-    console.log('DB Config: ' + dbConfig);
-
     return dbConfig;
 };
