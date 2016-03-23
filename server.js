@@ -23,6 +23,8 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 3000; //6969;
 var services = {},
     config = require('./middleware/api/config')(process.env);
 
+console.log('Config: ', config, null, 2);
+
 // Load Middleware API modules
 require('./middleware/api')(app, services, config);
 
