@@ -26,6 +26,11 @@ var services = {},
 // Load Middleware API modules
 require('./middleware/api')(app, services, config);
 
+app.get('/foo', function (req, res) {
+    console.log('Foo Barring on the main server.js file');
+    res.status(200).send('SUCCESS: Foo Barring on the main server.js file')
+});
+
 // Start the server
 console.log('Express server listening on port ' + port);
 var server = app.listen(port, ipaddress);
