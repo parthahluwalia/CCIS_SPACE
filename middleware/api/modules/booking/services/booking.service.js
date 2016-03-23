@@ -95,10 +95,16 @@ module.exports = function (ccisroomDb) {
      * returns: {nbookingRecords}
      */
     BookingService.prototype.getRequestorId = function (bookingRequestor) {
-        return this.RequestorModel
+        var self = this;
+        
+        return self.RequestorModel
             .findOne({ email: bookingRequestor.email })
             .exec()
             .then(function (requestor) {
+                if (!requestor) {
+                    requestor = new self.RequestorModel();
+                }
+
                 // Insert update the requestor details
                 if (_.has(bookingRequestor, 'name.first')) {    
                     _.set(requestor, 'name.first', bookingRequestor.name.first);
