@@ -102,7 +102,10 @@ module.exports = function (ccisroomDb) {
             .exec()
             .then(function (requestor) {
                 if (!requestor) {
+                    console.log('New Requestor! Creating a requestor record');
                     requestor = new self.RequestorModel();
+                } else {
+                    console.log('Found requestor, Updating!');
                 }
 
                 // Insert update the requestor details
