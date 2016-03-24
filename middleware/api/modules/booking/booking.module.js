@@ -10,7 +10,6 @@ module.exports = function (services, config) {
         modulePath = '/api/booking';
 
     // Connect to ccisroom database
-    // if (!_.has(config.db.ccisroom)) ==> handle this condition
     var ccisroomDb = mongoose.connect(config.db.ccisroom);
 
     // Load module services

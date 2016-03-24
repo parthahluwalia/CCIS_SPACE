@@ -45,11 +45,11 @@ var Schema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Member'
     },*/
-    /*room: {
+    room: {
         type: ObjectId,
         ref: 'Room',
         required: true
-    },*/
+    },
     requestor: {
         type: ObjectId,
         ref: 'Requestor',

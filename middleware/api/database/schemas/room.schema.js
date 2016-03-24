@@ -8,7 +8,8 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var Schema = new mongoose.Schema({
     roomNumber: {
         type: String,
-        required: true
+        required: true,
+        unqiue: true
     },
     details: {
         projector: {
