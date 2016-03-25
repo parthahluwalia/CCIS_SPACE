@@ -10,6 +10,7 @@ module.exports = function (ccisroomDb) {
     function BookingService () {
         this.BookingModel = require('../../../database/models/booking.model.js')(ccisroomDb);
         this.RequestorModel = require('../../../database/models/requestor.model.js')(ccisroomDb);
+        this.RoomModel = require('../../../database/models/room.model.js')(ccisroomDb);
     }
 
     function getBookingCriteria (startDate, endDate) {
@@ -63,20 +64,26 @@ module.exports = function (ccisroomDb) {
     BookingService.prototype.createBooking = function (bookingDetails) {
         var self = this,
             createDate = Date.now(),
-            bookingDetails = typeof bookingDetails === 'string' ? JSON.parse(bookingDetails) : bookingDetails;
+            bookingDetails = typeof bookingDetails === 'string' ? JSON.parse(bookingDetails) : bookingDetails,
+            roomId;
 
-        return self.getRequestorId(bookingDetails.requestor)
+        return self.getRoomId(bookingDetails.roomNumber)
+            .then(function (bookingRoomId) {
+                roomId = bookingRoomId;
+                console.log('Room Id: ', roomId);
+                return self.getRequestorId(bookingDetails.requestor);
+            })
             .then(function (requestorId) {
                 console.log('Requestor Id: ', requestorId);
                 // Prepare n booking records by forking the booking request accorrding to the repeat criteria
-                var nBookingRecords =  self.forkBookingRecords(bookingDetails, requestorId);
+                var nBookingRecords = self.forkBookingRecords(bookingDetails, roomId, requestorId);
 
                 // Save these records
                 return Promise.map(nBookingRecords, function (bookingRecord) {
                     return self.saveBookingRecord(bookingRecord);
                 })
                 .then(function (bookingRecords) {
-                    console.log('Booking Records created: ', bookingRecords, null, 2);
+                    // console.log('Booking Records created: ', bookingRecords, null, 2);
                     return Promise.resolve(bookingRecords);
                 })
                 .catch(function (error) {
@@ -86,6 +93,29 @@ module.exports = function (ccisroomDb) {
             .catch(function (error) {
                 console.log('Error while saving n booking records: ' + error);
                 return Promise.reject(error);
+            });
+
+            // We also need to close the db connection
+    };
+
+    BookingService.prototype.getRoomId = function (roomNumber) {
+        if (!roomNumber) {
+            return Promise.reject({ err: 'Not found: Booking request should contain a room number' });
+        }
+
+        console
+        return this.RoomModel
+            .findOne({ roomNumber: roomNumber })
+            .exec()
+            .then(function (room) {
+                if (!room) {
+                    return Promise.reject('Room ' + roomNumber + ' not found in the database');
+                }
+
+                return Promise.resolve(room._id);
+            })
+            .catch(function (err) {
+                return Promise.reject(err);
             });
     };
 
@@ -144,7 +174,7 @@ module.exports = function (ccisroomDb) {
      * @param: {bookingDetails}
      * returns: {nbookingRecords}
      */
-    BookingService.prototype.forkBookingRecords = function (bookingDetails, requestorId) {
+    BookingService.prototype.forkBookingRecords = function (bookingDetails, roomId, requestorId) {
         var nBookingRecords = [],
             createDate = Date.now(),
             purpose = bookingDetails.purpose,
@@ -158,14 +188,15 @@ module.exports = function (ccisroomDb) {
             startMin = parseInt(startTime[1]),
             endHour = parseInt(endTime[0]),
             endMin = parseInt(endTime[1]),
-            repeatCritera = _.has(bookingDetails, repeatCritera) ? parseInt(bookingDetails.repeatCritera) : 1;
+            repeatCritera = _.has(bookingDetails, repeatCritera) ? parseInt(bookingDetails.repeatCritera) : 1,
+            bookingRecord;
 
         // @TO-DO:
         // Trigger error if start time / end time doesn't exist
 
         var date = startDate;
         while (date <= endDate) {
-            var bookingRecord = new this.BookingModel();
+            bookingRecord = new this.BookingModel();
 
             date.hour(startHour);
             date.minute(startMin);
@@ -178,6 +209,7 @@ module.exports = function (ccisroomDb) {
             bookingRecord.endTime = endDateTime;
 
             bookingRecord.createDate = createDate;
+            bookingRecord.room = roomId;
             bookingRecord.requestor = requestorId;
 
             if (purpose) {
