@@ -31,4 +31,4 @@ console.log('Express server listening on port ' + port);
 var server = app.listen(port, ipaddress);
 
 // Commenting! -- Why the hell are we exporting server 
-// module.exports = server;
+module.exports = server;
