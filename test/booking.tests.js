@@ -67,7 +67,7 @@ describe("Booking Tests", function(){
     //
     //});
 
-    if("A Booking should be made on api/booking/ POST", function(done){
+    it("A Booking should be made on api/booking/ POST", function(done){
             chai.request(server)
                 .post('/api/booking')
                 .send({"purpose": "Purpose 4", "startDate": "2016-03-20", "endDate": "2016-03-22", "startTime": "01:30", "endTime": "03:30", "requestor": { "email": "jannunzi@gmail.com" }, "roomNumber": "111"})
