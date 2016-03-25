@@ -12,10 +12,10 @@ chai.should();
 
 describe("Booking Tests", function(){
 
-    after(function (done) {
-        server.close();
-        done();
-    });
+    //after(function (done) {
+    //    server.close();
+    //    done();
+    //});
 
     it("Booking Dummy Test", function(){
         expect(true).to.be.true;
