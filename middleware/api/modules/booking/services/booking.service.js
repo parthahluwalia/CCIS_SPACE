@@ -102,7 +102,7 @@ module.exports = function (ccisroomDb) {
 
         console.log('finding room');
         if (!roomNumber) {
-            return Promise.reject({ err: 'Not found: Booking request should contain a room number' });
+            return Promise.reject('Not found: Booking request should contain a room number');
         }
 
         return this.RoomModel

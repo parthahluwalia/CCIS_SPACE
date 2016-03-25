@@ -74,6 +74,7 @@ describe("Booking Tests", function(){
                 .end(function(err, res){
                     res.should.have.status(200);
                     res.should.be.json;
+                    console.log(res.body);
                     done();
                 })
         });
