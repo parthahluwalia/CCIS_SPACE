@@ -19,7 +19,7 @@ describe("Booking Tests", function(){
 
     it("A server should create booking and return with newly added booking on /api/booking POST", function(){
         //TO-DO
-        expect(false).to.be.false;
+        expect(true).to.be.true;
 
     })
 
