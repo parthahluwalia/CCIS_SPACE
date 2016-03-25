@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="CcisSpaceApp">
 	<head>
 		<meta charset="utf-8">
-        <title>Building with Bower</title>
-        <link href="css/app.css" rel="stylesheet">
-		<script src="js/foo.js"></script>
-		<script src="js/app.js"></script>
+        <title>CCIS Space</title>
+		<!-- Jquery library-->
+		<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+		<!-- bootstrap libraries-->
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<!-- AngularJS libraries-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+		<script src="https://code.angularjs.org/1.5.0/angular-route.js"></script>
+        <!-- Local CSS -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <!-- Local JavaScript -->
+        <script src="js/app.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/main.controller.js"></script>
+        <script src="views/header/header.controller.js"></script>
+
 	</head>
 
-	<body>
-		<h1 class="hello jumbotron">Oye balley Balley !!! Chak de fattey Napp De Gilli !! Subeh jhalanadr Shaam nu Dilli !!</h1>
-	</body>
+    <body ng-controller="MainController">
+    <div ng-include src="'views/header/header.view.html'"></div>
+    <div ng-view>
+    </div>
+
+    <div ng-include src="'views/footer/footer.view.html'"></div>
+    </body>
 </html>
