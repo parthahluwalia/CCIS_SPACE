@@ -99,11 +99,12 @@ module.exports = function (ccisroomDb) {
     };
 
     BookingService.prototype.getRoomId = function (roomNumber) {
+
+        console.log('finding room');
         if (!roomNumber) {
             return Promise.reject({ err: 'Not found: Booking request should contain a room number' });
         }
 
-        console
         return this.RoomModel
             .findOne({ roomNumber: roomNumber })
             .exec()
@@ -115,6 +116,7 @@ module.exports = function (ccisroomDb) {
                 return Promise.resolve(room._id);
             })
             .catch(function (err) {
+                console.log('Can\'t  find room!!!');
                 return Promise.reject(err);
             });
     };
