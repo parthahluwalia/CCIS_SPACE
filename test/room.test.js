@@ -12,9 +12,9 @@ chai.should();
 
 describe("Room Test", function(){
 
-    it("Room Dummy Test", function(){
-        expect(true).to.be.true;
-
-    });
+    //it("Room Dummy Test", function(){
+    //    expect(true).to.be.true;
+    //
+    //});
 
 })
