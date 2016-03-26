@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e6faa0b4-b213-45a4-b6be-1eb45b6673ca" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-reports.xml" afterPath="$PROJECT_DIR$/test-reports.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/booking.tests.js" afterPath="$PROJECT_DIR$/test/booking.tests.js" />
     </list>
     <ignored path="CCIS_SPACE.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="booking.tests.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="booking.tests.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/booking.tests.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5784543">
+              <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
               <folding>
                 <element signature="e#0#39#0" expanded="false" />
               </folding>
@@ -66,10 +66,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test-reports.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test-reports.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test-reports.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -174,9 +174,9 @@
         <option value="$PROJECT_DIR$/test/requestor.test.js" />
         <option value="$PROJECT_DIR$/test/room.test.js" />
         <option value="$PROJECT_DIR$/test/user.tests.js" />
-        <option value="$PROJECT_DIR$/test/booking.tests.js" />
         <option value="$PROJECT_DIR$/middleware/api/modules/booking/services/booking.service.js" />
         <option value="$PROJECT_DIR$/test-reports.xml" />
+        <option value="$PROJECT_DIR$/test/booking.tests.js" />
       </list>
     </option>
   </component>
@@ -779,16 +779,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/booking.tests.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#39#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/middleware/api/booking/services/booking.service.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -810,6 +800,16 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/booking.tests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5784543">
+          <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#39#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
