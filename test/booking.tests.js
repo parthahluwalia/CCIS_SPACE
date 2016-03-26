@@ -21,6 +21,10 @@ describe("Booking Tests", function(){
     //    done();
     //});
 
+    afterEach(function(done){
+        done();
+    });
+
 
 
     //it("Booking Dummy Test", function(){
