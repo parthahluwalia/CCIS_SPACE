@@ -17,16 +17,16 @@ describe("Booking Tests", function(){
     //    done();
     //});
 
-    it("Booking Dummy Test", function(){
-        expect(true).to.be.true;
-
-    });
-
-    it("A server should create booking and return with newly added booking on /api/booking POST", function(){
-        //TO-DO
-        expect(true).to.be.true;
-
-    })
+    //it("Booking Dummy Test", function(){
+    //    expect(true).to.be.true;
+    //
+    //});
+    //
+    //it("A server should create booking and return with newly added booking on /api/booking POST", function(){
+    //    //TO-DO
+    //    expect(true).to.be.true;
+    //
+    //})
 
     //it("A server should respond with status 200 on /api/booking GET", function(){
     //    chai.request(server)
