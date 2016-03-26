@@ -17,9 +17,9 @@ describe("Booking Tests", function(){
     //    done();
     //});
 
-    beforeEach(function(done){
-        done();
-    });
+    //beforeEach(function(done){
+    //    done();
+    //});
 
 
 
