@@ -21,6 +21,8 @@ describe("Booking Tests", function(){
         done();
     });
 
+
+
     //it("Booking Dummy Test", function(){
     //    expect(true).to.be.true;
     //
@@ -87,4 +89,4 @@ describe("Booking Tests", function(){
                 })
         });
 
-})
+});
