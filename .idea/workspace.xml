@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e6faa0b4-b213-45a4-b6be-1eb45b6673ca" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-reports.xml" afterPath="$PROJECT_DIR$/test-reports.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/booking.tests.js" afterPath="$PROJECT_DIR$/test/booking.tests.js" />
     </list>
     <ignored path="CCIS_SPACE.iws" />
@@ -37,8 +38,8 @@
       <file leaf-file-name="booking.tests.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/booking.tests.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.54332554">
-              <caret line="79" column="20" selection-start-line="79" selection-start-column="20" selection-end-line="79" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.6487119">
+              <caret line="82" column="18" selection-start-line="82" selection-start-column="18" selection-end-line="82" selection-end-column="18" />
               <folding>
                 <element signature="e#0#39#0" expanded="false" />
               </folding>
@@ -805,8 +806,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/booking.tests.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54332554">
-          <caret line="79" column="20" selection-start-line="79" selection-start-column="20" selection-end-line="79" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.6487119">
+          <caret line="82" column="18" selection-start-line="82" selection-start-column="18" selection-end-line="82" selection-end-column="18" />
           <folding>
             <element signature="e#0#39#0" expanded="false" />
           </folding>

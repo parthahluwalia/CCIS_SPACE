@@ -1,0 +1,7 @@
+Express server listening on port 3000
+Looking for room number : 111
+Can't  find room!!!
+Error while saving n booking records: Room 111 not found in the database
+<testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Sat, 26 Mar 2016 22:50:32 GMT" time="0.058">
+<testcase classname="Booking Tests" name="A Booking should be made on api/booking/ POST" time="0.046"/>
+</testsuite>
