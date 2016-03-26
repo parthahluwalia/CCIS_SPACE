@@ -1,5 +1,0 @@
-<testsuite name="Mocha Tests" tests="3" failures="0" errors="0" skipped="0" timestamp="Fri, 25 Mar 2016 23:14:06 GMT" time="0.069">
-<testcase classname="Booking Tests" name="Booking Dummy Test" time="0.001"/>
-<testcase classname="Booking Tests" name="A server should create booking and return with newly added booking on /api/booking POST" time="0"/>
-<testcase classname="Booking Tests" name="A Booking should be made on api/booking/ POST" time="0.046"/>
-</testsuite>
