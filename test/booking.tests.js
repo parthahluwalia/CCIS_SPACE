@@ -22,11 +22,11 @@ describe("Booking Tests", function(){
     //
     //});
     //
-    it("A server should create booking and return with newly added booking on /api/booking POST", function(){
-        //TO-DO
-        expect(true).to.be.true;
-
-    });
+    //it("A server should create booking and return with newly added booking on /api/booking POST", function(){
+    //    //TO-DO
+    //    expect(true).to.be.true;
+    //
+    //});
 
     //it("A server should respond with status 200 on /api/booking GET", function(){
     //    chai.request(server)
@@ -77,10 +77,10 @@ describe("Booking Tests", function(){
                     //console.log("Response : ");
                     //console.log(res);
                     //res.should.have.status(200);
-                    //res.should.be.json;
+                    res.should.be.json;
                     //console.log(res.body);
                     done();
-                })
+                });
         });
 
 })
