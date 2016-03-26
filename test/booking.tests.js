@@ -87,7 +87,7 @@ describe("Booking Tests", function(){
                     //res.should.have.status(200);
                     res.should.be.json;
                     //console.log(res.body);
-                    return done();
+                    done();
                 });
         });
 
