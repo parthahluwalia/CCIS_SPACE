@@ -81,7 +81,7 @@ describe("Booking Tests", function(){
 
     it("A Booking should be made on api/booking/ POST", function(done){
         console.log("Called ");
-            return chai.request(server)
+             chai.request(server)
                 .post('/api/booking')
                 .send({"purpose": "Purpose 4", "startDate": "2016-03-20", "endDate": "2016-03-22", "startTime": "01:30", "endTime": "03:30", "requestor": { "email": "jannunzi@gmail.com" }, "roomNumber": "111"})
                 .end(function(err, res){
@@ -89,7 +89,9 @@ describe("Booking Tests", function(){
                     res.should.be.json;
                     //console.log(res.body);
                     done();
+                    return;
                 });
+        return;
         });
 
 });
