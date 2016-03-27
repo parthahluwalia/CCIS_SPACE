@@ -101,9 +101,9 @@ module.exports = function (ccisroomDb) {
 
     BookingService.prototype.getRoomId = function (roomNumber) {
 
-        console.log('finding room');
+        console.log('Looking for room number : ' + roomNumber);
         if (!roomNumber) {
-            return Promise.reject({ err: 'Not found: Booking request should contain a room number' });
+            return Promise.reject('Not found: Booking request should contain a room number');
         }
 
         return this.RoomModel

@@ -19,14 +19,16 @@
         <script src="js/config.js"></script>
         <script src="js/main.controller.js"></script>
         <script src="views/header/header.controller.js"></script>
+        <script src="views/booking/booking.controller.js"></script>
+        <script src="views/booking/cancel-booking.controller.js"></script>
 
 	</head>
 
-    <body ng-controller="MainController">
-    <div ng-include src="'views/header/header.view.html'"></div>
-    <div ng-view>
-    </div>
+    <body class="container" ng-controller="MainController">
+    <div class="container" ng-include src="'views/header/header.view.html'"></div>
 
-    <div ng-include src="'views/footer/footer.view.html'"></div>
+    <div class="container" ng-view></div>
+
+    <div class="container" ng-include src="'views/footer/footer.view.html'"></div>
     </body>
 </html>

@@ -11,13 +11,20 @@
                     templateUrl: "views/home/home.view.html"
                 })
                 .when("/booking",{
-                    templateUrl: "views/booking/booking.view.html"
+                    templateUrl: "views/booking/booking.view.html",
+                    controller: "BookingController",
+                    controllerAs:"model"
                 })
                 .when("/login",{
                     templateUrl: "views/user/login.view.html"
                 })
                 .when("/room",{
                     templateUrl: "views/room/room.view.html"
+                })
+                .when("/cancel-booking",{
+                    templateUrl: "views/booking/cancel-booking.view.html",
+                    controller: "CancelBookingController",
+                    controllerAs:"model"
                 })
                 .otherwise({
                 redirectTo: "/home"
