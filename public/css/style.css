@@ -2,9 +2,9 @@
  * Base structure
  */
 
-/* Move down content because we have a fixed navbar that is 50px tall */
+/* Move down content because we have a fixed navbar that is 20px tall */
 body {
-    padding-top: 50px;
+    padding-top: 20px;
 }
 
 h1 {
@@ -25,13 +25,38 @@ p {
 }
 
 /*
- * Top navigation
- * Hide default border to remove 1px line.
+ * Footer
  */
-.navbar-fixed-top {
-    border: 0;
+.footer {
+    background: black;
+    color: white;
+    clear: both;
 }
 
+/*
+ * Navbar
+ */
+.navbar {
+    color: white;
+    background-color: #d02021;
+    border-color:  white;                 
+    font-size:      1.5em;
+    clear: both;
+}
+/* Adjust Menu colors - Normal */
+.navbar .nav > li > a, .navbar .nav > li > a:first-letter {
+    color:          white;
+    text-shadow:    none;
+}
+/* Adjust Menu colors - Hover */
+.navbar .nav > li > a:hover, .navbar .nav > li > a:hover:first-letter { 
+    color:          red;
+    background-color: white;
+    border-color: red;                      
+    text-shadow:    none;
+}
+
+*/
 /*
  * Sidebar
  */
@@ -130,4 +155,10 @@ hr {
 
 .icons {
     padding: 5px;
+}
+html {
+    height: 100%;
+}
+body { 
+    margin-bottom: 90px;
 }
