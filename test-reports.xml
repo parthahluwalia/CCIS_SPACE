@@ -1,3 +1,5 @@
-<testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Sun, 27 Mar 2016 00:50:45 GMT" time="0.056">
-<testcase classname="Booking Tests" name="A Booking should be made on api/booking/ POST" time="0.006"/>
+Express server listening on port 3000
+Called 
+<testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Sun, 27 Mar 2016 04:57:50 GMT" time="0.045">
+<testcase classname="Booking Tests" name="A Booking should be made on api/booking/ POST" time="0.032"/>
 </testsuite>
