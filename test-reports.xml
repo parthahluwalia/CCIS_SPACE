@@ -1,9 +1,0 @@
-Express server listening on port 8888
-{ [Error: cannot POST /api/booking (404)]
-  status: 404,
-  text: 'Cannot POST /api/booking\n',
-  method: 'POST',
-  path: '/api/booking' }
-<testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Sun, 27 Mar 2016 05:10:12 GMT" time="0.056">
-<testcase classname="Booking Tests" name="A Booking should be made on api/booking/ POST" time="0.041"/>
-</testsuite>
