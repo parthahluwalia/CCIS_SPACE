@@ -21,10 +21,10 @@ describe("Booking Tests", function(){
     //    done();
     //});
 
-    afterEach(function(done){
-        done();
-        //server.close();
-        return;
+    afterEach(function(){
+        //done();
+        server.close();
+        //return;
     });
 
 
@@ -95,5 +95,35 @@ describe("Booking Tests", function(){
                 });
         //return;
         });
+
+    it("A Booking should be made on api/booking/ POST1", function(){
+        console.log("Called ");
+        chai.request(server)
+            .post('/api/booking')
+            .send({"purpose": "Purpose 4", "startDate": "2016-03-20", "endDate": "2016-03-22", "startTime": "01:30", "endTime": "03:30", "requestor": { "email": "jannunzi@gmail.com" }, "roomNumber": "111"})
+            .end(function(err, res){
+                //res.should.have.status(200);
+                res.should.be.json;
+                //console.log(res.body);
+                //done();
+                // return;
+            });
+        //return;
+    });
+
+    it("A Booking should be made on api/booking/ POST2", function(){
+        console.log("Called ");
+        chai.request(server)
+            .post('/api/booking')
+            .send({"purpose": "Purpose 4", "startDate": "2016-03-20", "endDate": "2016-03-22", "startTime": "01:30", "endTime": "03:30", "requestor": { "email": "jannunzi@gmail.com" }, "roomNumber": "111"})
+            .end(function(err, res){
+                //res.should.have.status(200);
+                res.should.be.json;
+                //console.log(res.body);
+                //done();
+                // return;
+            });
+        //return;
+    });
 
 });
