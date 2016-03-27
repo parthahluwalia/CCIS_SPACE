@@ -96,6 +96,7 @@ module.exports = function (ccisroomDb) {
             });
 
             // We also need to close the db connection
+            // ccisroomDb.close();
     };
 
     BookingService.prototype.getRoomId = function (roomNumber) {
