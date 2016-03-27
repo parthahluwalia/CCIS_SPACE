@@ -23,6 +23,8 @@ describe("Booking Tests", function(){
 
     afterEach(function(done){
         done();
+        server.close();
+        return;
     });
 
 
