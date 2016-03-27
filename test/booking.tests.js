@@ -21,9 +21,9 @@ describe("Booking Tests", function(){
     //    done();
     //});
 
-    //afterEach(function(done){
-    //    done();
-    //});
+    afterEach(function(done){
+        done();
+    });
 
 
 
@@ -79,7 +79,7 @@ describe("Booking Tests", function(){
 
 
 
-    it("A Booking should be made on api/booking/ POST", function(done){
+    it("A Booking should be made on api/booking/ POST", function(){
         console.log("Called ");
              chai.request(server)
                 .post('/api/booking')
@@ -88,7 +88,7 @@ describe("Booking Tests", function(){
                     //res.should.have.status(200);
                     res.should.be.json;
                     //console.log(res.body);
-                    done();
+                    //done();
                     return;
                 });
         return;
