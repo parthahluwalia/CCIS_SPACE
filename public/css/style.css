@@ -4,7 +4,7 @@
 
 /* Move down content because we have a fixed navbar that is 20px tall */
 body {
-    padding-top: 20px;
+    padding-top: 15px;
 }
 
 h1 {
@@ -28,9 +28,14 @@ p {
  * Footer
  */
 .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     background: black;
     color: white;
-    clear: both;
+}
+.nav{           
+    font-size:      1.5em; 
 }
 
 /*
@@ -40,22 +45,35 @@ p {
     color: white;
     background-color: #d02021;
     border-color:  white;                 
-    font-size:      1.5em;
     clear: both;
 }
 /* Adjust Menu colors - Normal */
-.navbar .nav > li > a, .navbar .nav > li > a:first-letter {
+.navbar .nav > li > a, .navbar .nav > li > a{
     color:          white;
     text-shadow:    none;
 }
 /* Adjust Menu colors - Hover */
-.navbar .nav > li > a:hover, .navbar .nav > li > a:hover:first-letter { 
+.navbar .nav > li > a:hover, .navbar .nav > li > a:hover { 
     color:          red;
     background-color: white;
     border-color: red;                      
     text-shadow:    none;
 }
-
+/* Adjust Menu colors - Active */
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: #d02021;
+    background-color: white;
+    text-shadow:    none;
+}
+/* Adjust dropdown Menu items (blue) text color, (yellow) shading and (green) border */
+.dropdown-menu > li > a {
+    color:          black;
+    background:     white;
+    border-color:   black;
+    font-size:      1.5em;
+}
 /*
 * btn-primary color
 */
@@ -63,7 +81,6 @@ p {
     background: #9d9d9d;
 
 }
-
 
 
 /*
@@ -169,7 +186,7 @@ html {
     height: 100%;
 }
 body { 
-    margin-bottom: 90px;
+    margin-bottom: 50px;
 }
 .form-signin {
     max-width: 330px;
