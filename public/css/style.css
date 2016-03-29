@@ -2,9 +2,9 @@
  * Base structure
  */
 
-/* Move down content because we have a fixed navbar that is 50px tall */
+/* Move down content because we have a fixed navbar that is 20px tall */
 body {
-    padding-top: 50px;
+    padding-top: 20px;
 }
 
 h1 {
@@ -25,12 +25,46 @@ p {
 }
 
 /*
- * Top navigation
- * Hide default border to remove 1px line.
+ * Footer
  */
-.navbar-fixed-top {
-    border: 0;
+.footer {
+    background: black;
+    color: white;
+    clear: both;
 }
+
+/*
+ * Navbar
+ */
+.navbar {
+    color: white;
+    background-color: #d02021;
+    border-color:  white;                 
+    font-size:      1.5em;
+    clear: both;
+}
+/* Adjust Menu colors - Normal */
+.navbar .nav > li > a, .navbar .nav > li > a:first-letter {
+    color:          white;
+    text-shadow:    none;
+}
+/* Adjust Menu colors - Hover */
+.navbar .nav > li > a:hover, .navbar .nav > li > a:hover:first-letter { 
+    color:          red;
+    background-color: white;
+    border-color: red;                      
+    text-shadow:    none;
+}
+
+/*
+* btn-primary color
+*/
+.btn-primary {
+    background: #9d9d9d;
+
+}
+
+
 
 /*
  * Sidebar
@@ -130,4 +164,44 @@ hr {
 
 .icons {
     padding: 5px;
+}
+html {
+    height: 100%;
+}
+body { 
+    margin-bottom: 90px;
+}
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
