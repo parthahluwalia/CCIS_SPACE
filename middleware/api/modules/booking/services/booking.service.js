@@ -30,7 +30,6 @@ module.exports = function (ccisroomDb) {
      * @param: {bookingDetails}
      * @returns: {bookingQuery}
      */
-
     function getBookingCriteria (bookingDetails) {
         var bookingCriteria = {},
             startDate = _.has(bookingDetails, 'startDate') ? getStartDate(bookingDetails.startDate) : null,
