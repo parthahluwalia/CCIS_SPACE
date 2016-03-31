@@ -1,8 +1,21 @@
 Express server listening on port 3000
-Looking for room number : 111
-false
-Can't  find room!!!
-Error while saving n booking records: Room 111 not found in the database
-<testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Tue, 29 Mar 2016 03:01:14 GMT" time="0.06">
-<testcase classname="Booking Tests" name="A Booking should be made on api/booking/ POST" time="0.046"/>
+<testsuite name="Mocha Tests" tests="13" failures="1" errors="1" skipped="-1" timestamp="Thu, 31 Mar 2016 20:22:06 GMT" time="0.014">
+<testcase classname="Booking Tests" name="Uncaught error outside test suite" time="0"><failure><![CDATA[connect ECONNREFUSED 127.0.0.1:27017
+Error: connect ECONNREFUSED 127.0.0.1:27017
+    at Object.exports._errnoException (util.js:870:11)
+    at exports._exceptionWithHostPort (util.js:893:20)
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1063:14)]]></failure></testcase>
+<testcase classname="Booking Tests" name="Booking Test GET - should return JSON" time="0"/>
+<testcase classname="Booking Tests" name="Booking Test GET - should return status code 200" time="0"/>
+<testcase classname="Booking Tests" name="Booking Test GET - should return JSON with all fields in Booking Schema" time="0"/>
+<testcase classname="Booking Tests" name="Booking Test POST - should return JSON with all success/failure message" time="0"/>
+<testcase classname="Booking Tests" name="Booking Test POST - response should be JSON" time="0"/>
+<testcase classname="Booking Tests" name="Booking Test PUT - response should be JSON with updated Booking" time="0"/>
+<testcase classname="Booking Tests" name="Booking Test DELETE - response should be JSON with delete message" time="0"/>
+<testcase classname="Space Tests" name="Space Test GET - should return JSON" time="0"/>
+<testcase classname="Space Tests" name="Space Test GET - should return status code 200" time="0"/>
+<testcase classname="Space Tests" name="Space Test GET - should return JSON with all fields in Space Schema" time="0"/>
+<testcase classname="Space Tests" name="Space Test POST - should return JSON with new Space added" time="0"/>
+<testcase classname="Space Tests" name="Space Test PUT - response should be JSON with updated Space" time="0"/>
+<testcase classname="Space Tests" name="Space Test DELETE - response should be JSON with delete message" time="0"/>
 </testsuite>
