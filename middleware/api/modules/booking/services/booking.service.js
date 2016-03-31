@@ -13,37 +13,6 @@ module.exports = function (ccisroomDb) {
         this.RoomModel = require('../../../database/models/room.model.js')(ccisroomDb);
     }
 
-    function getBookingCriteria (startDate, endDate) {
-        var bookingCriteria = {};
-        if (startDate) {
-            bookingCriteria.startDate = startDate;
-        }
-
-        if (endDate) {
-            bookingCriteria.endDate = endDate;
-        }
-
-        return bookingCriteria;
-    }
-
-    // Get a booking -- placeholder!
-    BookingService.prototype.getBooking = function (bookingDetails) {
-        var self = this,
-            startDate = _.has(bookingDetails, 'startDate') ? bookingDetails.startDate : null,
-            endDate = _.has(bookingDetails, 'endDate') ? bookingDetails.endDate : null;
-
-        var bookingCriteria = getBookingCriteria(startDate, endDate);
-
-        return self.BookingModel.find(bookingCriteria, function (err, bookings) {
-            if (err) {
-                console.log('Found Error');
-                console.log(err);
-            }
-            console.log('Found bookings: ', bookings, null, 2);
-            return bookings;
-        });
-    };
-
     // Helper function to get the start date
     // Takes a date string in format: YYYY-mm-dd
     function getStartDate (dateStr) {
@@ -57,6 +26,168 @@ module.exports = function (ccisroomDb) {
     }
 
     /**
+     * Helper to find prepare a query to get the bookings
+     * @param: {bookingDetails}
+     * @returns: {bookingQuery}
+     */
+    function getBookingCriteria (bookingDetails) {
+        var bookingCriteria = {},
+            startDate = _.has(bookingDetails, 'startDate') ? getStartDate(bookingDetails.startDate) : null,
+            endDate = _.has(bookingDetails, 'endDate') ? getEndDate(bookingDetails.endDate) : null;
+
+        if (startDate) {
+            bookingCriteria.startTime = { $gt: startDate };
+        }
+
+        if (endDate) {
+            bookingCriteria.endTime = { $lt: endDate };
+        }
+
+        if (_.has(bookingDetails, 'priority')) {
+            bookingCriteria.priority = bookingDetails.priority;
+        }
+
+        if (_.has(bookingDetails, 'status')) {
+            bookingCriteria.status = bookingDetails.status;
+        }
+
+        return bookingCriteria;
+    }
+
+    /**
+     * Get the bookings, based on the booking criteria specified in the request
+     * @param: {bookingDetails}
+     * returns [{nBookingInstances}]
+     */
+    BookingService.prototype.getBooking = function (bookingDetails) {
+        var self = this,
+            bookingCriteria = getBookingCriteria(bookingDetails),
+            // How to take the requestor here? --> Maybe a stringified object!
+            requestor = _.has(bookingDetails, 'requestor') ? bookingDetails.requestor : null,
+            roomNumber = _.has(bookingDetails, 'roomNumber') ? bookingDetails.roomNumber : null;
+
+        // First look for a filtering criteria, to build the results, which may be the following:
+        //  - roomNumber
+        //  - requestor
+        // and then search for the respective bookings
+        return self.getRoomIdByNumber(roomNumber)
+            .then(function (roomId) {
+                if (roomId) {
+                    bookingCriteria.room = roomId;
+                }
+                return self.getRequestorIds(requestor)     
+            })
+            .then(function (requestorIds) {
+                if (_.size(requestorIds) > 0) {
+                    bookingCriteria.requestor = { $in: requestorIds };
+                }
+
+                return self.BookingModel
+                    .find(bookingCriteria)
+                    .exec();
+            })
+            .then(function (bookings) {
+                console.log('Got bookings in Service: ', bookings.length, null, 2);
+                return Promise.resolve(bookings);
+            })
+            .catch(function (err) {
+                console.log('Error while fetching booking records: ', err);
+                return Promise.reject(err);
+            });
+    };
+
+    // Helper function to build the query to get the requestor(s)
+    // We can get a requestor by email and by name (first and last)
+    function getRequestorCriteria (bookingRequestor) {
+        bookingRequestor = typeof bookingRequestor === 'string' ? JSON.parse(bookingRequestor) : bookingRequestor;
+        var requestorCriteria = {};
+
+        if (_.has(bookingRequestor, 'email')) {
+            requestorCriteria.email = bookingRequestor.email;
+        }
+
+        if (_.has(bookingRequestor, 'name.first')) {
+            requestorCriteria["name.first"] = bookingRequestor.name.first;
+        }
+
+        if (_.has(bookingRequestor, 'name.last')) {
+            requestorCriteria["name.last"] = bookingRequestor.name.last;
+        }
+
+        return requestorCriteria;
+    }
+
+    /**
+     * Returns a list of requestor ids
+     * @param: requestor (stringified object)
+     * @returns: [requestorIds]
+     */
+    BookingService.prototype.getRequestorIds = function (bookingRequestor) {
+        var requestorCriteria;
+
+        if (!bookingRequestor) {
+            return Promise.resolve(null);
+        }
+
+        requestorCriteria = getRequestorCriteria(bookingRequestor);
+
+        return this.RequestorModel
+            .find(requestorCriteria)
+            .exec()
+            .then(function (requestorList) {
+                console.log('Requestor List: ', requestorList, null, 2);
+
+                var requestorIds = _.map(requestorList, '_id');
+                return Promise.resolve(requestorIds);
+            })
+            .catch(function (err) {
+                console.log('Error while getting requestor(s): ', err, null, 2);
+                return Promise.reject(err);
+            });
+    };
+
+    /**
+     * Helper function to get a room id
+     * @param: roomNumber
+     */
+    BookingService.prototype.getRoomId = function (roomNumber) {
+        return this.RoomModel
+            .findOne({ roomNumber: roomNumber })
+            .exec()
+            .then(function (room) {
+                if (!room) {
+                    // @To-Do: Graceful handling of rooms not found!
+                    return Promise.reject('Room ' + roomNumber + ' not found in the database');
+                }
+
+                console.log('Room found: ', room);
+
+                return Promise.resolve(room._id);
+            })
+            .catch(function (err) {
+                return Promise.reject(err);
+            });
+    }
+
+    /**
+     * Get Room Id for a specified room number : GET Request Handler
+     * @param: roomNumber
+     */
+    BookingService.prototype.getRoomIdByNumber = function (roomNumber) {
+        if (!roomNumber) {
+            return Promise.resolve(null);
+        }
+
+        return this.getRoomId(roomNumber)
+            .then(function (roomId) {
+                return Promise.resolve(roomId);
+            })
+            .catch(function (err) {
+                return Promise.reject(roomId);
+            });
+    };
+
+    /**
      * Create a booking, spliting a booking request to n booking records
      * @param: {bookingDetails}
      * returns [{nBookingInstances}]
@@ -67,7 +198,7 @@ module.exports = function (ccisroomDb) {
             bookingDetails = typeof bookingDetails === 'string' ? JSON.parse(bookingDetails) : bookingDetails,
             roomId;
 
-        return self.getRoomId(bookingDetails.roomNumber)
+        return self.getRoomIdForBooking(bookingDetails.roomNumber)
             .then(function (bookingRoomId) {
                 roomId = bookingRoomId;
                 console.log('Room Id: ', roomId);
@@ -96,17 +227,22 @@ module.exports = function (ccisroomDb) {
             });
 
             // We also need to close the db connection
-            // ccisroomDb.close();
     };
 
-    BookingService.prototype.getRoomId = function (roomNumber) {
-
-        console.log('Looking for room number : ' + roomNumber);
+    BookingService.prototype.getRoomIdForBooking = function (roomNumber) {
         if (!roomNumber) {
-            return Promise.reject('Not found: Booking request should contain a room number');
+            return Promise.reject({ err: 'Not found: Booking request should contain a room number' });
         }
 
-        return this.RoomModel
+        return this.getRoomId(roomNumber)
+            .then(function (roomId) {
+                return Promise.resolve(roomId);
+            })
+            .catch(function (err) {
+                return Promise.reject(roomId);
+            });
+
+        /*return this.RoomModel
             .findOne({ roomNumber: roomNumber })
             .exec()
             .then(function (room) {
@@ -117,9 +253,8 @@ module.exports = function (ccisroomDb) {
                 return Promise.resolve(room._id);
             })
             .catch(function (err) {
-                console.log('Can\'t  find room!!!');
                 return Promise.reject(err);
-            });
+            });*/
     };
 
     /**
