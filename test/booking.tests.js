@@ -37,9 +37,72 @@ describe("Booking Tests", function(){
         expect(true).to.be.true;
 
     });
-    it("Booking Test GET - should return JSON with all fields in Booking Schema", function(){
-        expect(true).to.be.true;
-
+    //it("Booking Test GET - should return JSON with all fields in Booking Schema", function(){
+    //    expect(true).to.be.true;
+    //
+    //});
+    it("Booking Test GET - should return JSON with _id field", function(){
+          chai.request(server)
+                .get('/api/booking')
+                .end(function(err, res){
+                    res.body.should.have.property("_id");
+                    done();
+    });
+    it("Booking Test GET - should return JSON with _id field", function(){
+            chai.request(server)
+                .get('/api/booking')
+                .end(function(err, res){
+                    res.body.should.have.property("startTime");
+                    done();
+    });
+    it("Booking Test GET - should return JSON with _id field", function(){
+            chai.request(server)
+                .get('/api/booking')
+                .end(function(err, res){
+                    res.body.should.have.property("endTime");
+                    done();
+    });
+    it("Booking Test GET - should return JSON with _id field", function(){
+            chai.request(server)
+                .get('/api/booking')
+                .end(function(err, res){
+                    res.body.should.have.property("purpose");
+                    done();
+    });
+    it("Booking Test GET - should return JSON with _id field", function(){
+            chai.request(server)
+                .get('/api/booking')
+                .end(function(err, res){
+                    res.body.should.have.property("status");
+                    done();
+    });
+    it("Booking Test GET - should return JSON with _id field", function(){
+            chai.request(server)
+                .get('/api/booking')
+                .end(function(err, res){
+                    res.body.should.have.property("priority");
+                    done();
+    });
+    it("Booking Test GET - should return JSON with _id field", function(){
+            chai.request(server)
+                .get('/api/booking')
+                .end(function(err, res){
+                    res.body.should.have.property("createDate");
+                    done();
+    });
+    it("Booking Test GET - should return JSON with _id field", function(){
+            chai.request(server)
+                .get('/api/booking')
+                .end(function(err, res){
+                    res.body.should.have.property("room");
+                    done();
+    });
+    it("Booking Test GET - should return JSON with _id field", function(){
+            chai.request(server)
+                .get('/api/booking')
+                .end(function(err, res){
+                    res.body.should.have.property("requestor");
+                    done();
     });
     it("Booking Test POST - should return JSON with all success/failure message", function(){
         expect(true).to.be.true;

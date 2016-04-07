@@ -47,7 +47,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "./node_modules/.bin/mocha --recursive -R xunit test/ > test-reports.xml"
+    "test": "./node_modules/.bin/mocha --recursive -R xunit node_debug/ > test-reports.xml"
   },
   "bugs": {
     "url": "https://github.com/openshift/origin-server/issues"

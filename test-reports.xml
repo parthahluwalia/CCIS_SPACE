@@ -1,21 +1,27 @@
 Express server listening on port 3000
-<testsuite name="Mocha Tests" tests="13" failures="1" errors="1" skipped="-1" timestamp="Thu, 31 Mar 2016 20:22:06 GMT" time="0.014">
-<testcase classname="Booking Tests" name="Uncaught error outside test suite" time="0"><failure><![CDATA[connect ECONNREFUSED 127.0.0.1:27017
-Error: connect ECONNREFUSED 127.0.0.1:27017
-    at Object.exports._errnoException (util.js:870:11)
-    at exports._exceptionWithHostPort (util.js:893:20)
-    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1063:14)]]></failure></testcase>
-<testcase classname="Booking Tests" name="Booking Test GET - should return JSON" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test GET - should return status code 200" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test GET - should return JSON with all fields in Booking Schema" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test POST - should return JSON with all success/failure message" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test POST - response should be JSON" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test PUT - response should be JSON with updated Booking" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test DELETE - response should be JSON with delete message" time="0"/>
-<testcase classname="Space Tests" name="Space Test GET - should return JSON" time="0"/>
-<testcase classname="Space Tests" name="Space Test GET - should return status code 200" time="0"/>
-<testcase classname="Space Tests" name="Space Test GET - should return JSON with all fields in Space Schema" time="0"/>
-<testcase classname="Space Tests" name="Space Test POST - should return JSON with new Space added" time="0"/>
-<testcase classname="Space Tests" name="Space Test PUT - response should be JSON with updated Space" time="0"/>
-<testcase classname="Space Tests" name="Space Test DELETE - response should be JSON with delete message" time="0"/>
+<testsuite name="Mocha Tests" tests="13" failures="11" errors="11" skipped="0" timestamp="Thu, 07 Apr 2016 01:27:23 GMT" time="22.083">
+<testcase classname="Booking Tests" name="Booking Dummy Test" time="0.001"/>
+<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A server should respond with JSON Object on /api/booking GET" time="2.005"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A booking should contain _id" time="2.006"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A booking should contain startTime" time="2.001"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A booking should contain endTime" time="2.005"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A booking should contain purpose" time="2.004"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A booking should contain status" time="2.001"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A booking should contain priority" time="2.006"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A booking should contain createDate" time="2.005"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A booking should contain room " time="2.004"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A booking should contain requestor" time="2.003"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testcase classname="Booking Tests" name="A Booking should be made on api/booking/ POST" time="2.004"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
+Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
 </testsuite>
