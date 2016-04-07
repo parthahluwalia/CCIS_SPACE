@@ -4,7 +4,7 @@
 
 'use strict';
 
-module.exports = function (moduleRoutes, bookingService) {
+module.exports = function (moduleRoutes, memberService) {
 
     var memberController = require('../controllers/member.controller.js')(memberService);
 

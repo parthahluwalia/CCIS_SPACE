@@ -6,35 +6,37 @@
 
 var Promise = require('bluebird');
 
-module.exports = function (bookingService) {
+module.exports = function (memberService) {
     // Booking Controller Constructor
     function MemberController () {
-
     }
 
-    // function
-
     MemberController.prototype.getMember = function(req, res, next) {
-        // console.log('In Booking controller');
-        var memberCrtiteria = req.query;
-        var members = memberService.getMember(memberCrtiteria);
-        res.status(200).send(members);
+        console.log('In Member controller');
+        var memberCriteria = req.query;
+        memberService.getMember(spaceCriteria)
+            .then(function (members) {
+                return res.status(200).send(members);
+            })
+            .catch(function (err) {
+                console.log('Error while geting spaces: ', err);
+                return res.status(400).send(err);
+            });
     };
 
-    MemberController.prototype.createMember = function (req, res, next) {
+    MemberController.prototype.createMember = function(req,res,next) {
         var memberDetails = req.body;
-        var member = memberService.createMember(memberDetails)
-            .then(function (members) {
-                console.log('Members in member controller');
-                console.log(members, null, 2);
-                return members;
+        console.log('Creating members');
+        return memberService.createMember(memberDetails)
+            .then(function (member){
+                return res.status(200).send(member);
             })
             .catch(function (error) {
                 // Should trigger error here...
-                return error;
+                console.log('Got error: ', error, null, 2);
+                return res.status(400).send(error);
             });
 
-        res.status(200).send(member);
     };
 
     return new MemberController();
