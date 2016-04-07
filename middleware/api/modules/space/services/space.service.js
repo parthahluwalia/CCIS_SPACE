@@ -60,8 +60,8 @@ module.exports = function (ccisroomDb) {
         var roomNumber=_.has(spaceDetails, 'roomNumber')? spaceDetails.roomNumber :null,
             description= _.has(spaceDetails, 'description')?spaceDetails.description :null,
             capacity = _.has(spaceDetails, 'capacity')?spaceDetails.capacity:null,
-            blueJeans = _.has(spaceDetails, 'blueJeans')?spaceDetails.blueJeans:null,
-            projector = _.has(spaceDetails, 'projector')?spaceDetails.projector:null,
+            blueJeans = _.has(spaceDetails, 'blueJeans')?spaceDetails.blueJeans:true,
+            projector = _.has(spaceDetails, 'projector')?spaceDetails.projector:true,
             spaceRecord;
 
         spaceRecord = new this.RoomModel();
@@ -110,7 +110,7 @@ module.exports = function (ccisroomDb) {
                   _.set(space,'details.blueJeans',spaceDetails.blueJeans);
               }
 
-                space.save()
+              return space.save()
                     .then(function (updatedSpace) {
                         console.log('Space Updated: ', updatedSpace, null, 2);
                         return Promise.resolve(updatedSpace);
@@ -118,7 +118,7 @@ module.exports = function (ccisroomDb) {
                     .catch(function (err) {
                         console.log('Error while saving updated space', err);
                         return Promise.reject(err);
-                    })
+                    });
             })
 
     };

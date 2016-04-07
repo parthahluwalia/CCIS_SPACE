@@ -10,4 +10,5 @@ module.exports = function (moduleRoutes, memberService) {
 
     moduleRoutes.get('/', memberController.getMember);
     moduleRoutes.post('/', memberController.createMember);
+    moduleRoutes.put('/', memberController.updateMember);
 };
