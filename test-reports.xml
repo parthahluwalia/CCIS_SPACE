@@ -1,27 +1,31 @@
 Express server listening on port 3000
-<testsuite name="Mocha Tests" tests="13" failures="11" errors="11" skipped="0" timestamp="Thu, 07 Apr 2016 01:27:23 GMT" time="22.083">
-<testcase classname="Booking Tests" name="Booking Dummy Test" time="0.001"/>
-<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0"/>
-<testcase classname="Booking Tests" name="A server should respond with JSON Object on /api/booking GET" time="2.005"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A booking should contain _id" time="2.006"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A booking should contain startTime" time="2.001"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A booking should contain endTime" time="2.005"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A booking should contain purpose" time="2.004"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A booking should contain status" time="2.001"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A booking should contain priority" time="2.006"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A booking should contain createDate" time="2.005"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A booking should contain room " time="2.004"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A booking should contain requestor" time="2.003"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
-<testcase classname="Booking Tests" name="A Booking should be made on api/booking/ POST" time="2.004"><failure><![CDATA[timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.
-Error: timeout of 2000ms exceeded. Ensure the done() callback is being called in this test.]]></failure></testcase>
+<testsuite name="Mocha Tests" tests="28" failures="0" errors="0" skipped="0" timestamp="Thu, 07 Apr 2016 03:59:26 GMT" time="0.152">
+<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.006"/>
+<testcase classname="Booking Tests" name="A server should respond with JSON Object on /api/booking GET" time="0.002"/>
+<testcase classname="Booking Tests" name="A booking should contain purpose on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain status on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain lastModified on /api/booking GET" time="0.001"/>
+<testcase classname="Booking Tests" name="A booking should contain _id on /api/booking GET" time="0.001"/>
+<testcase classname="Booking Tests" name="A booking should contain startTime on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain endTime on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain createDate on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain requestor on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should have status 200" time="0.002"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should be json" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain __v property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain roomNumber property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain _id property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain lastModified property" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain description property" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain active property" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.projector" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.capacity" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.blueJeans" time="0"/>
+<testcase classname="Space Tests" name="Space Test GET - should return JSON" time="0"/>
+<testcase classname="Space Tests" name="Space Test GET - should return status code 200" time="0"/>
+<testcase classname="Space Tests" name="Space Test GET - should return JSON with all fields in Space Schema" time="0"/>
+<testcase classname="Space Tests" name="Space Test POST - should return JSON with new Space added" time="0"/>
+<testcase classname="Space Tests" name="Space Test PUT - response should be JSON with updated Space" time="0"/>
+<testcase classname="Space Tests" name="Space Test DELETE - response should be JSON with delete message" time="0"/>
 </testsuite>
