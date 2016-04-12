@@ -1,7 +1,7 @@
 /**
  * Created by Rishi on 3/24/16.
  */
-"use strict";
+/*"use strict";
 (function () {
     angular
         .module("CcisSpaceApp")
@@ -30,5 +30,5 @@
                 redirectTo: "/home"
             });
         }]);
-})();
+})();*/
 //# sourceMappingURL=config.js.map

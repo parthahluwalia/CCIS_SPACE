@@ -17,17 +17,19 @@ app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var port = process.env.OPENSHIFT_NODEJS_PORT || 3000; //6969;
+var port = process.env.OPENSHIFT_NODEJS_PORT || 3000; //6969 --> WTF?
 
-// Ummm, we need to get services based off of some config, how about creating a global service module like the one holding et.js, ses.js!
+// We need to get services based off of some config, how about creating a global service module like the one holding et.js, ses.js!?
 var services = {},
     config = require('./middleware/api/config')(process.env);
+
+// console.log('Config in server.js: ', config, null, 2);
 
 // Load Middleware API modules
 require('./middleware/api')(app, services, config);
 
 // Start the server
-//console.log('Express server listening on port ' + port);
+console.log('Express server listening on port ' + port);
 var server = app.listen(port, ipaddress);
 
 // Commenting! -- Why the hell are we exporting server 

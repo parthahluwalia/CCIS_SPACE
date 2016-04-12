@@ -6,9 +6,12 @@ gulp.task('bower', function() {
   return bower();
 });
 
+// Build your scripts in app.js file in ./public/js folder
 gulp.task('scripts', function () {
     gulp.src([
-        './bower_components/angular/angular.min.js'
+        './public/config.js',
+        './public/application.js',
+        './public/modules/**/*.js'
     ])
     .pipe(concat('app.js'))
     .pipe(gulp.dest('./public/js'));
@@ -29,4 +32,4 @@ gulp.task('styles', function () {
     gulp.watch('');
 });
 */
-gulp.task('default', ['styles', 'scripts']);
+gulp.task('default', ['scripts']);
