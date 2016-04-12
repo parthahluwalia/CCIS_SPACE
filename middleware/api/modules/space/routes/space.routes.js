@@ -9,4 +9,5 @@ module.exports = function (moduleRoutes, spaceService) {
 
     moduleRoutes.get('/', spaceController.getSpace);
     moduleRoutes.post('/', spaceController.createSpace);
+    moduleRoutes.put('/', spaceController.updateSpace);
 };

@@ -13,7 +13,8 @@ module.exports = function (services, config) {
         modulePath = '/api/space';
 
     // Connect to ccisroom database
-    var ccisroomDb = mongoose.connect(config.db.ccisroom);
+    // var ccisroomDb = mongoose.connect(config.db.ccisroom);
+    var ccisroomDb = config.db.ccisroom;
 
     // Load module services
     services.space = require('./services/space.service.js')(ccisroomDb);

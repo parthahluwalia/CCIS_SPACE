@@ -11,22 +11,184 @@ chai.use(chaiHttp);
 chai.should();
 
 describe("Space Tests", function(){
-    it("Space Test GET - should return JSON", function(){
-        expect(true).to.be.true;
-
+    it("An /api/space GET response should return JSON", function(){
+        chai.request(server)
+            .get('/api/booking')
+            .end(function(err, res){
+                res.should.be.json;
+        });
     });
-    it("Space Test GET - should return status code 200", function(){
-        expect(true).to.be.true;
-
+    it("An /api/space GET response should return status code 200", function(){
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.should.have.status(200);
+        });
     });
-    it("Space Test GET - should return JSON with all fields in Space Schema", function(){
-        expect(true).to.be.true;
-
+    it("An /api/space GET response should contain _id field", function () {
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.body.should.have.property("_id");
+        });
     });
-    it("Space Test POST - should return JSON with new Space added", function(){
-        expect(true).to.be.true;
-
+    it("An /api/space GET response should contain roomNumber field", function () {
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.body.should.have.property("roomNumber");
+         });
     });
+    it("An /api/space GET response should contain lastModified field", function () {
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.body.should.have.property("lastModified");
+        });
+    });
+    it("An /api/space GET response should contain description field", function () {
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.body.should.have.property("description");
+        });
+    });
+    it("An /api/space GET response should contain active field", function () {
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.body.should.have.property("active");
+        });
+    });
+    it("An /api/space GET response should contain details field", function () {
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.body.should.have.property("details");
+         });
+    });
+    it("An /api/space GET response should contain details.capacity field", function () {
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.body.details.should.have.property("capacity");
+        });
+    });
+    it("An /api/space GET response should contain details.blueJeans field", function () {
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.body.details.should.have.property("blueJeans");
+        });
+    });
+    it("An /api/space GET response should contain details.projector field", function () {
+        chai.request(server)
+            .get('/api/space')
+            .end(function(err, res){
+                res.body.details.should.have.property("projector");
+        });
+    });
+    // POST
+    it("An /api/space POST response should be json", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.should.be.json;
+                done();
+            });
+    });
+    it("An /api/space POST response should have status 200", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.should.have.status(200);
+                done();
+        });
+    });
+    it("An /api/space POST response should have roomNumber field", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.body.should.have.property("roomNumber");
+                done();
+        });
+    });
+    it("An /api/space POST response should have _id field", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.body.should.have.property("_id");
+                done();
+            });
+    });
+    it("An /api/space POST response should have lastModified field", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.body.should.have.property("lastModified");
+                done();
+            });
+    });
+    it("An /api/space POST response should have description field", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.body.should.have.property("description");
+                done();
+            });
+    });
+    it("An /api/space POST response should have active field", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.body.should.have.property("active");
+                done();
+            });
+    });
+    it("An /api/space POST response should have details field", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.body.should.have.property("details");
+                done();
+            });
+    });
+    it("An /api/space POST response should have details.projector field", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.body.details.should.have.property("projector");
+                done();
+            });
+    });
+    it("An /api/space POST response should have details.capacity field", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.body.details.should.have.property("capacity");
+                done();
+            });
+    });
+    it("An /api/space POST response should have details.blueJeans field", function(){
+        chai.request(server)
+            .post('/api/booking')
+            .send({"roomNumber": "109A", "capacity": 100 , "description": "Lecture Room" })
+            .end(function(err, res){
+                res.body.details.should.have.property("blueJeans");
+                done();
+            });
+    });
+    // PUT
     it("Space Test PUT - response should be JSON with updated Space", function(){
         expect(true).to.be.true;
 

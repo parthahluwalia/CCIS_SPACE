@@ -1,21 +1,71 @@
 Express server listening on port 3000
-<testsuite name="Mocha Tests" tests="13" failures="1" errors="1" skipped="-1" timestamp="Thu, 31 Mar 2016 20:22:06 GMT" time="0.014">
-<testcase classname="Booking Tests" name="Uncaught error outside test suite" time="0"><failure><![CDATA[connect ECONNREFUSED 127.0.0.1:27017
-Error: connect ECONNREFUSED 127.0.0.1:27017
-    at Object.exports._errnoException (util.js:870:11)
-    at exports._exceptionWithHostPort (util.js:893:20)
-    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1063:14)]]></failure></testcase>
-<testcase classname="Booking Tests" name="Booking Test GET - should return JSON" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test GET - should return status code 200" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test GET - should return JSON with all fields in Booking Schema" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test POST - should return JSON with all success/failure message" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test POST - response should be JSON" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test PUT - response should be JSON with updated Booking" time="0"/>
-<testcase classname="Booking Tests" name="Booking Test DELETE - response should be JSON with delete message" time="0"/>
-<testcase classname="Space Tests" name="Space Test GET - should return JSON" time="0"/>
-<testcase classname="Space Tests" name="Space Test GET - should return status code 200" time="0"/>
-<testcase classname="Space Tests" name="Space Test GET - should return JSON with all fields in Space Schema" time="0"/>
-<testcase classname="Space Tests" name="Space Test POST - should return JSON with new Space added" time="0"/>
+In Member controller
+In Member controller
+In Member controller
+In Member controller
+In Member controller
+In Member controller
+In Member controller
+In Member controller
+In Member controller
+In Member controller
+In Member controller
+<testsuite name="Mocha Tests" tests="57" failures="0" errors="0" skipped="0" timestamp="Sun, 10 Apr 2016 18:39:38 GMT" time="0.282">
+<testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.007"/>
+<testcase classname="Booking Tests" name="A server should respond with JSON Object on /api/booking GET" time="0.002"/>
+<testcase classname="Booking Tests" name="A booking should contain purpose on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain status on /api/booking GET" time="0.001"/>
+<testcase classname="Booking Tests" name="A booking should contain lastModified on /api/booking GET" time="0.001"/>
+<testcase classname="Booking Tests" name="A booking should contain _id on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain startTime on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain endTime on /api/booking GET" time="0.001"/>
+<testcase classname="Booking Tests" name="A booking should contain createDate on /api/booking GET" time="0.001"/>
+<testcase classname="Booking Tests" name="A booking should contain requestor on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should have status 200" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should be json" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain __v property" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain roomNumber property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain _id property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain lastModified property" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain description property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain active property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.projector" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.capacity" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.blueJeans" time="0"/>
+<testcase classname="Space Tests" name="An /api/member GET response should return JSON" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/member GET response should return status code 200" time="0"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain _id field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain phone field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain password field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain email field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain lastModified field" time="0"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain tags field" time="0"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain name field" time="0"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain name.first field" time="0"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain name.last field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should return JSON" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/space GET response should return status code 200" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain _id field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain roomNumber field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain lastModified field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain description field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain active field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain details field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain details.capacity field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain details.blueJeans field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain details.projector field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should be json" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have status 200" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have roomNumber field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have _id field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have lastModified field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have description field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have active field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have details field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have details.projector field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have details.capacity field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have details.blueJeans field" time="0"/>
 <testcase classname="Space Tests" name="Space Test PUT - response should be JSON with updated Space" time="0"/>
 <testcase classname="Space Tests" name="Space Test DELETE - response should be JSON with delete message" time="0"/>
 </testsuite>

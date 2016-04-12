@@ -1,0 +1,22 @@
+<testsuite name="Mocha Tests" tests="20" failures="0" errors="0" skipped="0" timestamp="Thu, 07 Apr 2016 03:07:05 GMT" time="0.117">
+<testcase classname="Booking Tests" name="Booking Test GET - should return JSON" time="0"/>
+<testcase classname="Booking Tests" name="Booking Test GET - should return status code 200" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should have status 200" time="0.01"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should be json" time="0.002"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain __v property" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain roomNumber property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain _id property" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain lastModified property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain description property" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain active property" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.projector" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.capacity" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.blueJeans" time="0"/>
+<testcase classname="Space Tests" name="Space Test GET - should return JSON" time="0"/>
+<testcase classname="Space Tests" name="Space Test GET - should return status code 200" time="0"/>
+<testcase classname="Space Tests" name="Space Test GET - should return JSON with all fields in Space Schema" time="0"/>
+<testcase classname="Space Tests" name="Space Test POST - should return JSON with new Space added" time="0"/>
+<testcase classname="Space Tests" name="Space Test PUT - response should be JSON with updated Space" time="0"/>
+<testcase classname="Space Tests" name="Space Test DELETE - response should be JSON with delete message" time="0"/>
+</testsuite>

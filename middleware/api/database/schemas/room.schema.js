@@ -20,7 +20,13 @@ var Schema = new mongoose.Schema({
             type: Boolean,
             default: false
         },
-        capacity: Number
+        capacity: {
+            type: Number
+        }
+    },
+    active:{
+        type:Boolean,
+        default:true
     },
     description: {
         type: String,
@@ -30,6 +36,7 @@ var Schema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     }
+
 }, { collection: 'room' });
 
 module.exports = Schema;

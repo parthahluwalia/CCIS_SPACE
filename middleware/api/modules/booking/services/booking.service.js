@@ -66,6 +66,7 @@ module.exports = function (ccisroomDb) {
             requestor = _.has(bookingDetails, 'requestor') ? bookingDetails.requestor : null,
             roomNumber = _.has(bookingDetails, 'roomNumber') ? bookingDetails.roomNumber : null;
 
+
         // First look for a filtering criteria, to build the results, which may be the following:
         //  - roomNumber
         //  - requestor
@@ -239,7 +240,7 @@ module.exports = function (ccisroomDb) {
                 return Promise.resolve(roomId);
             })
             .catch(function (err) {
-                return Promise.reject(roomId);
+                return Promise.reject(err);
             });
 
         /*return this.RoomModel

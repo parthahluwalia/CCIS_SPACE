@@ -10,7 +10,8 @@ module.exports = function (services, config) {
         modulePath = '/api/booking';
 
     // Connect to ccisroom database
-    var ccisroomDb = mongoose.connect(config.db.ccisroom);
+    // var ccisroomDb = mongoose.connect(config.db.ccisroom);
+    var ccisroomDb = config.db.ccisroom;
 
     // Load module services
     services.booking = require('./services/booking.service.js')(ccisroomDb);

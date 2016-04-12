@@ -30,6 +30,7 @@ module.exports = function (ccisroomDb) {
         return spaceCriteria;
     }
 
+
     /**
      *
      * @param spaceDetails
@@ -55,14 +56,13 @@ module.exports = function (ccisroomDb) {
             });
     };
 
-
     SpaceService.prototype.createSpace = function(spaceDetails){
         var roomNumber=_.has(spaceDetails, 'roomNumber')? spaceDetails.roomNumber :null,
             description= _.has(spaceDetails, 'description')?spaceDetails.description :null,
             capacity = _.has(spaceDetails, 'capacity')?spaceDetails.capacity:null,
-            blueJeans = _.has(spaceDetails, 'blueJeans')?spaceDetails.blueJeans:null,
-            projector = _.has(spaceDetails, 'projector')?spaceDetails.projector:null,
-        spaceRecord;
+            blueJeans = _.has(spaceDetails, 'blueJeans')?spaceDetails.blueJeans:true,
+            projector = _.has(spaceDetails, 'projector')?spaceDetails.projector:true,
+            spaceRecord;
 
         spaceRecord = new this.RoomModel();
         spaceRecord.roomNumber=roomNumber;
@@ -72,7 +72,8 @@ module.exports = function (ccisroomDb) {
             blueJeans: blueJeans
         };
         spaceRecord.description=description;
-
+        console.log('room number is ',roomNumber);
+        console.log(typeof(spaceRecord));
         return spaceRecord.save()
             .then(function (spaceCreated) {
                 return Promise.resolve(spaceCreated);
@@ -83,6 +84,57 @@ module.exports = function (ccisroomDb) {
             });
     };
 
-    return new SpaceService();
 
+    SpaceService.prototype.updateSpace = function (spaceDetails) {
+        console.log('Space Details: ', spaceDetails);
+
+        spaceDetails = typeof spaceDetails === 'string' ? JSON.parse(spaceDetails) : spaceDetails;
+
+        var self=this,
+            roomNumber=_.has(spaceDetails, 'roomNumber')? spaceDetails.roomNumber :null;
+        return this.RoomModel
+           .findOne({ roomNumber: roomNumber })
+            .exec()
+            .then(function (space){
+                var tempDetails = {"projector" : false, "capacity": 0, "blueJeans" : false};
+               if(_.has(spaceDetails,'description')){
+                   _.set(space, 'description', spaceDetails.description);
+               }
+               if(_.has(spaceDetails,'capacity')){
+                   _.set(space, 'details.capacity', spaceDetails.capacity);
+               }
+               if(_.has(spaceDetails,'projector')){
+                   _.set(space,'details.projector',spaceDetails.projector) ;
+               }
+              if(_.has(spaceDetails,'blueJeans')){
+                  _.set(space,'details.blueJeans',spaceDetails.blueJeans);
+              }
+
+              return space.save()
+                    .then(function (updatedSpace) {
+                        console.log('Space Updated: ', updatedSpace, null, 2);
+                        return Promise.resolve(updatedSpace);
+                    })
+                    .catch(function (err) {
+                        console.log('Error while saving updated space', err);
+                        return Promise.reject(err);
+                    });
+            })
+
+    };
+
+    SpaceService.prototype.saveSpaceUp = function (space) {
+        console.log("In Save Space UP ::: " + space);
+        return space.save()
+            .then(function (space) {
+                console.log('record updated: ', space, null, 2);
+                return Promise.resolve(space);
+            })
+            .catch(function (err) {
+                console.log('Error while getting spaces: ', err);
+                return Promise.reject(err);
+            });
+    };
+
+    return new SpaceService();
 };
