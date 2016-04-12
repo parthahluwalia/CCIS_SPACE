@@ -9,6 +9,7 @@ var Promise = require('bluebird'),
 
 //START
 module.exports = function (ccisroomDb) {
+
     function SpaceService () {
         this.RoomModel = require('../../../database/models/room.model.js')(ccisroomDb);
     }

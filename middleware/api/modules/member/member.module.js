@@ -12,9 +12,10 @@ var express = require('express'),
 module.exports = function (services, config) {
     var moduleApp = express(),
         moduleRoutes = express.Router(),
-        modulePath = '/api/member';
+        modulePath = '/api/member',
+        ccisroomDb = config.db.ccisroom;
 
-    var ccisroomDb = mongoose.connect(config.db.ccisroom);
+    // var ccisroomDb = mongoose.connect(config.db.ccisroom);
     services.member = require('./services/member.service.js')(ccisroomDb);
     require('./routes/member.routes.js')(moduleRoutes, services.member);
     moduleApp.use(modulePath, moduleRoutes);
