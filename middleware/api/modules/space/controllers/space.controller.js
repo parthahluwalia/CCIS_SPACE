@@ -12,7 +12,7 @@ module.exports = function (spaceService) {
     }
 
    SpaceController.prototype.getSpace = function(req, res, next) {
-         console.log('In Space controller');
+        // console.log('In Space controller');
         var spaceCriteria = req.query;
         spaceService.getSpace(spaceCriteria)
             .then(function (spaces) {
@@ -26,7 +26,6 @@ module.exports = function (spaceService) {
 
     SpaceController.prototype.createSpace = function(req,res,next) {
         var spaceDetails = req.body;
-        console.log('Creating spaces');
         return spaceService.createSpace(spaceDetails)
             .then(function (space){
                 return res.status(200).send(space);

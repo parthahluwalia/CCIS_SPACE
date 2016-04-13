@@ -76,6 +76,9 @@ ApplicationConfiguration.registerModule('core');
 // Use application configuration module to register a new module
 ApplicationConfiguration.registerModule('home');
 'use strict';
+// Use application configuration module to register a new module
+ApplicationConfiguration.registerModule('space');
+'use strict';
 
 // Setting up route
 angular
@@ -126,7 +129,7 @@ angular
                 $state.go(route);
             };
         }
-    ])
+    ]);
 
 'use strict';
 
@@ -186,6 +189,16 @@ angular
     ]);
 'use strict';
 
+// Factory Service to use Lodash in the browser
+angular
+    .module('core')
+    .factory('lodash', ['$window',
+        function ($window) {
+            return $window._;
+        }
+    ]);
+'use strict';
+
 // Setting up route
 angular
     .module('home')
@@ -197,5 +210,73 @@ angular
                     url: '/',
                     templateUrl: 'modules/home/views/home.client.view.html'
                 });
+        }
+    ]);
+// Setting up route
+angular
+    .module('space')
+    .config(['$stateProvider',
+        function($stateProvider) {
+            // Booking state routing
+            $stateProvider
+                .state('space', {
+                    url: '/space',
+                    templateUrl: 'modules/space/views/space.client.view.html',
+                    controller: 'SpaceController'
+                });
+        }
+    ]);
+'use strict';
+
+angular
+    .module('space')
+    .controller('SpaceController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', 'lodash', 'SpaceService', '$q',
+        function ($rootScope, $scope, $state, $http, $stateParams, _, SpaceService, $q) {
+            
+            // Find the space
+            $scope.findSpace = function () {
+                var spaceDetails = {},
+                    roomNumber = $scope.roomNumber,
+                    capacity = $scope.capacity;
+
+                if (roomNumber && roomNumber.length > 0) {
+                    spaceDetails.roomNumber = roomNumber;
+                }
+
+                if (capacity) {
+                    spaceDetails.capacity = capacity;
+                }
+
+                SpaceService.getSpace(spaceDetails)
+                    .then(
+                        function (spaces) {
+                            console.log('Spaces: ', spaces, null, 2);
+                            $scope.spaces = spaces;
+                        },
+                        function (err) {
+                            console.log('Error while getting spaces');
+                        });
+            };
+            
+        }
+    ])
+'use strict';
+
+// Service that provides helper functions for Space Controller
+angular
+    .module('space')
+    .factory('SpaceService', ['$http', '$q',
+        function ($http, $q) {
+            // Provide service functions as closure
+            return {
+                getSpace: getSpace
+            };
+
+            // Get space based on the space details
+            function getSpace (spaceDetails) {
+                return $http.get('/api/space', { params: spaceDetails });
+            }
+
+            
         }
     ]);

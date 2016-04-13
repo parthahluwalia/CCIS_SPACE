@@ -18,4 +18,4 @@ angular
                 $state.go(route);
             };
         }
-    ])
+    ]);

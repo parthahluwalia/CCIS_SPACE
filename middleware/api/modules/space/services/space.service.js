@@ -45,10 +45,12 @@ module.exports = function (ccisroomDb) {
             projector = _.has(spaceDetails, 'projector')?spaceDetails.projector:null;
 
         var spaceCriteria = getSpaceCriteria(roomNumber,capacity, blueJeans, projector);
+
         return self.RoomModel
             .find(spaceCriteria)
             .exec()
             .then(function (spaces) {
+                console.log('Spaces: ', spaces);
                 return Promise.resolve(spaces);
             })
             .catch(function (err) {
@@ -61,8 +63,8 @@ module.exports = function (ccisroomDb) {
         var roomNumber=_.has(spaceDetails, 'roomNumber')? spaceDetails.roomNumber :null,
             description= _.has(spaceDetails, 'description')?spaceDetails.description :null,
             capacity = _.has(spaceDetails, 'capacity')?spaceDetails.capacity:null,
-            blueJeans = _.has(spaceDetails, 'blueJeans')?spaceDetails.blueJeans:true,
-            projector = _.has(spaceDetails, 'projector')?spaceDetails.projector:true,
+            blueJeans = _.has(spaceDetails, 'blueJeans')?spaceDetails.blueJeans:false,
+            projector = _.has(spaceDetails, 'projector')?spaceDetails.projector:false,
             spaceRecord;
 
         spaceRecord = new this.RoomModel();
@@ -73,8 +75,7 @@ module.exports = function (ccisroomDb) {
             blueJeans: blueJeans
         };
         spaceRecord.description=description;
-        console.log('room number is ',roomNumber);
-        console.log(typeof(spaceRecord));
+
         return spaceRecord.save()
             .then(function (spaceCreated) {
                 return Promise.resolve(spaceCreated);
