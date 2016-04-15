@@ -1,82 +1,422 @@
 Express server listening on port 3000
-In Space controller
-In Space controller
-In Space controller
-In Space controller
-In Space controller
-In Space controller
-In Space controller
-In Space controller
-In Space controller
-In Space controller
-<testsuite name="Mocha Tests" tests="69" failures="0" errors="0" skipped="0" timestamp="Tue, 12 Apr 2016 23:46:04 GMT" time="0.339">
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+Spaces:  [ { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:35:36 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705b968aa5d02d00e84dbd8 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 21:48:05 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705bc55b38fa6050ff0a6e3 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Wed Apr 06 2016 22:13:34 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5705c24eb38fa6050ff0a6e4 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:28:24 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '109A',
+    _id: 570d88834d8d0a7f2b343d18 },
+  { details: { projector: true, blueJeans: true, capacity: 75 },
+    active: true,
+    description: 'Our fourth room',
+    lastModified: Fri Apr 15 2016 13:26:54 GMT-0400 (EDT),
+    __v: 0,
+    roomNumber: '124',
+    _id: 5711245e8d422fc0356f318b } ]
+<testsuite name="Mocha Tests" tests="69" failures="0" errors="0" skipped="0" timestamp="Fri, 15 Apr 2016 17:36:55 GMT" time="0.364">
 <testcase classname="Booking Tests" name="A server should respond with status 200 on /api/booking GET" time="0.007"/>
-<testcase classname="Booking Tests" name="A server should respond with JSON Object on /api/booking GET" time="0.001"/>
+<testcase classname="Booking Tests" name="A server should respond with JSON Object on /api/booking GET" time="0.003"/>
 <testcase classname="Booking Tests" name="A booking should contain purpose on /api/booking GET" time="0"/>
 <testcase classname="Booking Tests" name="A booking should contain status on /api/booking GET" time="0"/>
 <testcase classname="Booking Tests" name="A booking should contain lastModified on /api/booking GET" time="0"/>
-<testcase classname="Booking Tests" name="A booking should contain _id on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain _id on /api/booking GET" time="0.001"/>
 <testcase classname="Booking Tests" name="A booking should contain startTime on /api/booking GET" time="0"/>
 <testcase classname="Booking Tests" name="A booking should contain endTime on /api/booking GET" time="0"/>
-<testcase classname="Booking Tests" name="A booking should contain createDate on /api/booking GET" time="0"/>
+<testcase classname="Booking Tests" name="A booking should contain createDate on /api/booking GET" time="0.001"/>
 <testcase classname="Booking Tests" name="A booking should contain requestor on /api/booking GET" time="0"/>
-<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should have status 200" time="0.002"/>
-<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should be json" time="0"/>
-<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain __v property" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should have status 200" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should be json" time="0.001"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain __v property" time="0"/>
 <testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain roomNumber property" time="0"/>
 <testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain _id property" time="0"/>
 <testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain lastModified property" time="0"/>
 <testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain description property" time="0"/>
 <testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain active property" time="0"/>
 <testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details" time="0"/>
-<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.projector" time="0.001"/>
-<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.capacity" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.projector" time="0"/>
+<testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.capacity" time="0.001"/>
 <testcase classname="Booking Tests" name="A response on Booking on api/booking POST should contain details.blueJeans" time="0.001"/>
-<testcase classname="Space Tests" name="An /api/member GET response should return JSON" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/member GET response should return JSON" time="0"/>
 <testcase classname="Space Tests" name="An /api/member GET response should return status code 200" time="0"/>
-<testcase classname="Space Tests" name="An /api/member GET response should contain _id field" time="0"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain _id field" time="0.001"/>
 <testcase classname="Space Tests" name="An /api/member GET response should contain phone field" time="0.001"/>
 <testcase classname="Space Tests" name="An /api/member GET response should contain password field" time="0"/>
-<testcase classname="Space Tests" name="An /api/member GET response should contain email field" time="0.001"/>
-<testcase classname="Space Tests" name="An /api/member GET response should contain lastModified field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain email field" time="0"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain lastModified field" time="0"/>
 <testcase classname="Space Tests" name="An /api/member GET response should contain tags field" time="0.001"/>
-<testcase classname="Space Tests" name="An /api/member GET response should contain name field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain name field" time="0"/>
 <testcase classname="Space Tests" name="An /api/member GET response should contain name.first field" time="0"/>
-<testcase classname="Space Tests" name="An /api/member GET response should contain name.last field" time="0"/>
+<testcase classname="Space Tests" name="An /api/member GET response should contain name.last field" time="0.001"/>
 <testcase classname="Space Tests" name="A response on api/member POST should have status 200" time="0.001"/>
 <testcase classname="Space Tests" name="A response on api/member POST should be json" time="0.002"/>
-<testcase classname="Space Tests" name="A response on api/member POST should contain phone property" time="0"/>
+<testcase classname="Space Tests" name="A response on api/member POST should contain phone property" time="0.001"/>
 <testcase classname="Space Tests" name="A response on api/member POST should contain password property" time="0"/>
 <testcase classname="Space Tests" name="A response on api/member POST should contain email property" time="0"/>
 <testcase classname="Space Tests" name="A response on api/member POST should contain _id property" time="0"/>
 <testcase classname="Space Tests" name="A response on api/member POST should contain lastModified property" time="0"/>
 <testcase classname="Space Tests" name="A response on api/member POST should contain tags property" time="0.001"/>
 <testcase classname="Space Tests" name="A response on api/member POST should contain tags.admin property" time="0"/>
-<testcase classname="Space Tests" name="A response on api/member POST should contain name property" time="0.001"/>
+<testcase classname="Space Tests" name="A response on api/member POST should contain name property" time="0"/>
 <testcase classname="Space Tests" name="A response on api/member POST should contain name.first property" time="0"/>
 <testcase classname="Space Tests" name="A response on api/member POST should contain name.last property" time="0"/>
 <testcase classname="Space Tests" name="An /api/space GET response should return JSON" time="0"/>
-<testcase classname="Space Tests" name="An /api/space GET response should return status code 200" time="0.001"/>
-<testcase classname="Space Tests" name="An /api/space GET response should contain _id field" time="0"/>
-<testcase classname="Space Tests" name="An /api/space GET response should contain roomNumber field" time="0.001"/>
-<testcase classname="Space Tests" name="An /api/space GET response should contain lastModified field" time="0.001"/>
-<testcase classname="Space Tests" name="An /api/space GET response should contain description field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should return status code 200" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain _id field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain roomNumber field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain lastModified field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain description field" time="0.001"/>
 <testcase classname="Space Tests" name="An /api/space GET response should contain active field" time="0"/>
 <testcase classname="Space Tests" name="An /api/space GET response should contain details field" time="0"/>
 <testcase classname="Space Tests" name="An /api/space GET response should contain details.capacity field" time="0.001"/>
-<testcase classname="Space Tests" name="An /api/space GET response should contain details.blueJeans field" time="0"/>
-<testcase classname="Space Tests" name="An /api/space GET response should contain details.projector field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain details.blueJeans field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/space GET response should contain details.projector field" time="0.001"/>
 <testcase classname="Space Tests" name="An /api/space POST response should be json" time="0.001"/>
 <testcase classname="Space Tests" name="An /api/space POST response should have status 200" time="0"/>
-<testcase classname="Space Tests" name="An /api/space POST response should have roomNumber field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have roomNumber field" time="0.001"/>
 <testcase classname="Space Tests" name="An /api/space POST response should have _id field" time="0"/>
 <testcase classname="Space Tests" name="An /api/space POST response should have lastModified field" time="0"/>
-<testcase classname="Space Tests" name="An /api/space POST response should have description field" time="0.001"/>
-<testcase classname="Space Tests" name="An /api/space POST response should have active field" time="0"/>
-<testcase classname="Space Tests" name="An /api/space POST response should have details field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have description field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have active field" time="0.001"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have details field" time="0.001"/>
 <testcase classname="Space Tests" name="An /api/space POST response should have details.projector field" time="0"/>
-<testcase classname="Space Tests" name="An /api/space POST response should have details.capacity field" time="0.001"/>
-<testcase classname="Space Tests" name="An /api/space POST response should have details.blueJeans field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have details.capacity field" time="0"/>
+<testcase classname="Space Tests" name="An /api/space POST response should have details.blueJeans field" time="0.001"/>
 <testcase classname="Space Tests" name="Space Test PUT - response should be JSON with updated Space" time="0"/>
 <testcase classname="Space Tests" name="Space Test DELETE - response should be JSON with delete message" time="0"/>
 </testsuite>
