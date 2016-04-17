@@ -113,8 +113,8 @@ angular
 
 angular
     .module('booking')
-    .controller('BookingController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', '$filter', 'BookingService', '$location', 'Flash',
-        function ($rootScope, $scope, $state, $http, $stateParams, $filter, BookingService, $location, Flash) {
+    .controller('BookingController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', '$filter', 'BookingService', '$location', 'Flash', 'lodash',
+        function ($rootScope, $scope, $state, $http, $stateParams, $filter, BookingService, $location, Flash, _) {
 
             $scope.isCreateBookingState = function () {
                 return $state.current.name === 'booking.create';
@@ -190,12 +190,17 @@ angular
 
             // Check if booking details entered are sufficient to create a new booking
             function requiredDetailsMissing (bookingDetails) {
-                var message = '<strong>Booking Details Missing! </strong> Enter Required Fields: ',
+                var message = '<strong>Enter Required Fields for Booking: </strong>',
                     detailsMissing = false;
 
                 if (!bookingDetails.startTime || !bookingDetails.endTime) {
                     detailsMissing = true;
-                    message += 'Start Time, End Time';
+                    message += "'Start Time' 'End Time'";
+                }
+
+                if (!_.has(bookingDetails, 'requestor.email')) {
+                    detailsMissing = true;
+                    message += " 'Requestor Email'";
                 }
 
                 if (detailsMissing) {

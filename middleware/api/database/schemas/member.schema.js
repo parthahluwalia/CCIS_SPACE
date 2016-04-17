@@ -1,6 +1,7 @@
 'use strict';
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    bcrypt   = require('bcrypt-nodejs');
 
 // Define member tags
 var TAG_USER = 'user',
@@ -27,5 +28,15 @@ var Schema = new mongoose.Schema({
         default: Date.now()
     }
 }, { collection: 'member' });
+
+// generating a hash
+Schema.methods.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+// checking if password is valid
+Schema.methods.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.local.password);
+};
 
 module.exports = Schema;
