@@ -2,7 +2,7 @@
 
 // Setting up route
 angular
-    .module('booking')
+    .module('booking', ['ngFlash'])
     .config(['$stateProvider',
         function($stateProvider) {
             // Booking state routing

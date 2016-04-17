@@ -59,22 +59,31 @@ module.exports = function (ccisroomDb) {
             });
     };
 
-    SpaceService.prototype.createSpace = function(spaceDetails){
-        var roomNumber=_.has(spaceDetails, 'roomNumber')? spaceDetails.roomNumber :null,
-            description= _.has(spaceDetails, 'description')?spaceDetails.description :null,
-            capacity = _.has(spaceDetails, 'capacity')?spaceDetails.capacity:null,
-            blueJeans = _.has(spaceDetails, 'blueJeans')?spaceDetails.blueJeans:false,
-            projector = _.has(spaceDetails, 'projector')?spaceDetails.projector:false,
-            spaceRecord;
+    SpaceService.prototype.createSpace = function(spaceDetails) {
+        var spaceRecord;
+
+        if (!_.has(spaceDetails, 'roomNumber')) {
+            return Promise.reject('You must specify a room number');
+        }
 
         spaceRecord = new this.RoomModel();
-        spaceRecord.roomNumber=roomNumber;
-        spaceRecord.details = {
-            projector: projector,
-            capacity: capacity,
-            blueJeans: blueJeans
-        };
-        spaceRecord.description=description;
+        spaceRecord.roomNumber = spaceDetails.roomNumber;
+
+        if (_.has(spaceDetails, 'description')) {
+            spaceRecord.description = spaceDetails.description;
+        }
+
+        if (_.has(spaceDetails, 'capacity')) {
+            _.set(spaceRecord, 'details.capacity', spaceDetails.capacity);
+        }
+
+        if (_.has(spaceDetails, 'blueJeans')) {
+            _.set(spaceRecord, 'details.blueJeans', spaceDetails.blueJeans);
+        }
+
+        if (_.has(spaceDetails, 'projector')) {
+            _.set(spaceRecord, 'details.projector', spaceDetails.projector);
+        }
 
         return spaceRecord.save()
             .then(function (spaceCreated) {
@@ -84,8 +93,8 @@ module.exports = function (ccisroomDb) {
                 console.log('Error while creating spaces: ', err);
                 return Promise.reject(err);
             });
-    };
 
+    };
 
     SpaceService.prototype.updateSpace = function (spaceDetails) {
         console.log('Space Details: ', spaceDetails);
@@ -136,6 +145,23 @@ module.exports = function (ccisroomDb) {
                 console.log('Error while getting spaces: ', err);
                 return Promise.reject(err);
             });
+    };
+
+    /*
+     * Get all spaces
+     * returns: [spaces]
+     */
+    SpaceService.prototype.getAllActiveSpaces = function () {
+        return this.RoomModel
+            .find({ active: true })
+            .exec()
+            .then(function (spaces) {
+                return Promise.resolve(spaces);
+            })
+            .catch(function (err) {
+                console.log('Error while getting all spaces: ', err, null, 2);
+                return Promise.reject(err);
+            })
     };
 
     return new SpaceService();

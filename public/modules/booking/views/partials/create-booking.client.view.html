@@ -1,5 +1,49 @@
-<div class="container" >
-        <div class="col-md-12 col-md-offset-9">
-        <button class="btn btn-primary btn-space">Create Booking</button>
+<section>    
+    <div class="col-md-8 col-md-offset-2">
+        <button type="submit" class="btn btn-primary btn-space btn-block">Find Rooms</button>
     </div>
-</div>
+
+    <div ng-if="availableSpaces && availableSpaces.length > 0">
+        <table class="table table-striped table-responsive space-results">
+            <thead>
+                <th>Select</th>
+                <th>Room Number</th>
+                <th>Capacity</th>
+                <th>Utilities</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="space in availableSpaces">
+                    <td>
+                        <input type="radio" name="spaceSelector" ng-click="selectSpace(space)">
+                    </td>
+                    <td><b>{{space.roomNumber}}</b></td>
+                    <td>{{space.capacity}}</td>
+                    <td>
+                        <span class="fa fa-p" ng-if="space.projector"></span>
+                        <span class="fa fa-b" ng-if="space.blueJeans"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="form-group" ng-if="selectedSpace">
+            <label for="requestorEmail" class="col-sm-2 control-label">Requestor Details: </label>
+            <div class="col-sm-2">
+              <input type="email" class="form-control" id="requestorEmail" placeholder="Email" ng-model="requestorEmail">
+            </div>
+            <div class="col-sm-2">
+              <input type="email" class="form-control" id="requestorEmail" placeholder="Phone" ng-model="requestorPhone">
+            </div>
+            <div class="col-sm-2">
+              <input type="email" class="form-control" id="requestorEmail" placeholder="First Name" ng-model="requestorFirstName">
+            </div>
+            <div class="col-sm-2">
+              <input type="email" class="form-control" id="requestorEmail" placeholder="Last Name" ng-model="requestorLastName">
+            </div>
+        </div>
+
+        <flash-message duration="10000"></flash-message>
+        
+        <button class="btn btn-primary btn-space" ng-click="createBooking()">Book Room</button>
+    </div>
+</section>

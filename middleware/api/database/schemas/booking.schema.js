@@ -8,7 +8,7 @@ var BOOKING_CONFIRMED = 'confirmed',
     PRIORITY_MIN = 1,
     PRIORITY_MAX = 5,
     PRIORITY_DEFAULT = 3,
-    PURPOSE_DEFAULT = 'Will add later Traitors!';
+    PURPOSE_DEFAULT = 'Not Specified';
 
 // Define schema types
 var ObjectId = mongoose.Schema.Types.ObjectId;

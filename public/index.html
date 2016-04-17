@@ -8,7 +8,12 @@
         
         <!-- bootstrap libraries-->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <!-- Local CSS  -->
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/app.css" rel="stylesheet">
         
         <!-- AngularJS libraries-->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
@@ -19,9 +24,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-resource.js"></script>
         <script src="https://cdn.jsdelivr.net/lodash/4.10.0/lodash.min.js"></script>
-        
-        <!-- Local CSS  -->
-        <link href="css/style.css" rel="stylesheet">
+        <script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+        <script src="./js/angular-flash.min.js"></script>
 
         <!-- Include compiled app's js scripts -->
         <script src="./js/app.js"></script>
@@ -35,12 +39,14 @@
 
     </head>
 
-    <body  ng-controller="MainController">
-        <div  ng-include src="'modules/core/views/header.client.view.html'"></div>
+    <body ng-controller="MainController">
+        <div ng-include src="'modules/core/views/header.client.view.html'"></div>
 
-        <div class="container" ui-view>
+        <div class="container">
+            <div ui-view>
+            </div>
         </div>
 
-        <div  ng-include src="'modules/core/views/footer.client.view.html'"></div>
+        <div ng-include src="'modules/core/views/footer.client.view.html'"></div>
     </body>
 </html>

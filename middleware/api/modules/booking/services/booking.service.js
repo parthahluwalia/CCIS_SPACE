@@ -11,6 +11,7 @@ module.exports = function (ccisroomDb) {
         this.BookingModel = require('../../../database/models/booking.model.js')(ccisroomDb);
         this.RequestorModel = require('../../../database/models/requestor.model.js')(ccisroomDb);
         this.RoomModel = require('../../../database/models/room.model.js')(ccisroomDb);
+        this.SpaceService = require('../../space/services/space.service.js')(ccisroomDb);
     }
 
     // Helper function to get the start date
@@ -57,7 +58,7 @@ module.exports = function (ccisroomDb) {
     /**
      * Get the bookings, based on the booking criteria specified in the request
      * @param: {bookingDetails}
-     * returns [{nBookingInstances}]
+     * returns [{booking}]
      */
     BookingService.prototype.getBooking = function (bookingDetails) {
         var self = this,
@@ -219,11 +220,12 @@ module.exports = function (ccisroomDb) {
                     return Promise.resolve(bookingRecords);
                 })
                 .catch(function (error) {
+                    console.log('Error while creating booking: ', error, null, 2);
                     return Promise.reject(error);
                 });
             })
             .catch(function (error) {
-                console.log('Error while saving n booking records: ' + error);
+                console.log('Error while saving n booking records: ', error, null, 2);
                 return Promise.reject(error);
             });
 
@@ -242,20 +244,6 @@ module.exports = function (ccisroomDb) {
             .catch(function (err) {
                 return Promise.reject(err);
             });
-
-        /*return this.RoomModel
-            .findOne({ roomNumber: roomNumber })
-            .exec()
-            .then(function (room) {
-                if (!room) {
-                    return Promise.reject('Room ' + roomNumber + ' not found in the database');
-                }
-
-                return Promise.resolve(room._id);
-            })
-            .catch(function (err) {
-                return Promise.reject(err);
-            });*/
     };
 
     /**
@@ -384,6 +372,54 @@ module.exports = function (ccisroomDb) {
                 console.log('Err: ', err, null, 2);
                 return Promise.reject(err);
             });
+    };
+
+
+    /**
+     * Get the available spaces based on the specified booking criteria
+     * @param: {bookingCriteria}
+     * returns: Promise[avaibleSpaces]
+     */
+    BookingService.prototype.getAvailableSpaces = function (bookingDetails) {
+        var bookingCriteria = getBookingCriteria(bookingDetails),
+            self = this,
+            allSpaces;
+
+        return self.SpaceService.getAllActiveSpaces()
+            .then(function (spaces) {
+                allSpaces = spaces;
+                return self.getBooking(bookingDetails);
+            })
+            .then(function (bookings) {
+                var occupiedSpaceIds = _.filter(_.map(bookings, 'room'), function (spaceId) {
+                    return spaceId;
+                });
+
+                var spaceInstances = _.filter(allSpaces, function (space) {
+                    return !_.find(occupiedSpaceIds, function (occupiedSpaceId) {
+                        return occupiedSpaceId.equals(space._id);
+                    });
+                });
+
+                var availableSpaces =  [];
+                _.each(spaceInstances, function (spaceInstance) {
+                    availableSpaces.push({
+                        roomNumber: spaceInstance.roomNumber,
+                        description: spaceInstance.description,
+                        capacity: spaceInstance.details.capacity,
+                        blueJeans: spaceInstance.details.blueJeans,
+                        projector: spaceInstance.details.projector
+
+                    });
+                });
+
+                return Promise.resolve(availableSpaces);
+            })
+            .catch(function (err) {
+                console.log('Error while getting Available Spaces: ', err, null, 2);
+                return Promise.reject(err);
+            });
+
     };
 
     return new BookingService();

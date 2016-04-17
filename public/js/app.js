@@ -82,7 +82,7 @@ ApplicationConfiguration.registerModule('space');
 
 // Setting up route
 angular
-    .module('booking')
+    .module('booking', ['ngFlash'])
     .config(['$stateProvider',
         function($stateProvider) {
             // Booking state routing
@@ -113,11 +113,122 @@ angular
 
 angular
     .module('booking')
-    .controller('BookingController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', 
-        function ($rootScope, $scope, $state, $http, $stateParams) {
-            
+    .controller('BookingController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', '$filter', 'BookingService', '$location', 'Flash',
+        function ($rootScope, $scope, $state, $http, $stateParams, $filter, BookingService, $location, Flash) {
+
             $scope.isCreateBookingState = function () {
                 return $state.current.name === 'booking.create';
+            };
+
+            // Helper function to filter the date based on a particular format
+            function getFormattedDate(date) {
+                return $filter('date')(date, 'yyyy-MM-dd');
+            }
+
+            function getBookingCriteria() {
+                var bookingCriteria = {};
+
+                if ($scope.startDate) {
+                    bookingCriteria.startDate = getFormattedDate($scope.startDate);
+                }
+
+                if ($scope.endDate) {
+                    bookingCriteria.endDate = getFormattedDate($scope.endDate);
+                }
+
+                return bookingCriteria;
+            }
+
+            // Gets the booking data and calls the respective function based on the location path.
+            // Clicking "Find Rooms" submit button => Get the available spaces
+            // Clicking "Find Bookings" submit button
+            $scope.getRespectiveBookingData = function () {
+                var path = $location.path(),
+                    bookingDetails = getBookingCriteria();
+
+                if (path == '/booking/create') {
+                    $scope.getAvailableSpaces(bookingDetails);
+                } else if (path == '/booking/cancel') {
+                    console.log('Get Cancel Booking data');
+                }
+            };
+
+            // Get Bookings based on the booking criteria
+            $scope.getBookings = function (bookingDetails) {
+
+                BookingService.getBookings(bookingDetails)
+                    .then(
+                        function (bookings) {
+                            console.log('Bookings: ', bookings);
+                            $scope.bookings = bookings;
+                        },
+                        function (err) {
+                            console.log('Error while getting spaces: ', err, null, 2);
+                            // Redirect to a dedicated Error page!
+                        });
+            };
+
+            // Get the available spaces based on the booking criteria
+            $scope.getAvailableSpaces = function (bookingDetails) {
+
+                BookingService.getAvailableSpaces(bookingDetails)
+                    .then(
+                        function (availableSpaceRes) {
+                            console.log('Available spaces: ', availableSpaceRes);
+                            $scope.availableSpaces = availableSpaceRes.data;
+                        },
+                        function (err) {
+                            console.log('Error while getting available spaces: ', err, null, 2);
+                        });
+            };
+
+            // Populate the booking scope with the selected space
+            $scope.selectSpace = function (space) {
+                console.log('Selected Space: ', space, null, 2);
+                $scope.selectedSpace = space;
+            };
+
+            // Check if booking details entered are sufficient to create a new booking
+            function requiredDetailsMissing (bookingDetails) {
+                var message = '<strong>Booking Details Missing! </strong> Enter Required Fields: ',
+                    detailsMissing = false;
+
+                if (!bookingDetails.startTime || !bookingDetails.endTime) {
+                    detailsMissing = true;
+                    message += 'Start Time, End Time';
+                }
+
+                if (detailsMissing) {
+                    Flash.create('danger', message);
+                }
+
+                return detailsMissing;
+            };
+
+            // Create a new booking
+            $scope.createBooking = function () {
+                var bookingDetails = getBookingCriteria();
+                bookingDetails.roomNumber = $scope.selectedSpace.roomNumber;
+
+                if (requiredDetailsMissing(bookingDetails)) {
+                    return;
+                }
+
+                bookingDetails.requestor = { "email": "jannunzi@gmail.com", "first": "Josela" };
+                bookingDetails.startTime = "18:00";
+                bookingDetails.endTime = "21:00";
+                
+                console.log('Booking Details POST: ', bookingDetails, null, 2);
+
+                BookingService.createBooking(bookingDetails)
+                    .then(
+                        function (newBookingRes) {
+                            console.log('Booking Created: ', newBookingRes);
+                            $scope.newBooking = newBookingRes.data;
+                        },
+                        function (err) {
+                            console.log('Error while creating a new booking: ', err, null, 2);
+                        });
             };
 
             /**
@@ -131,6 +242,103 @@ angular
         }
     ]);
 
+'use strict';
+
+// Service that provides helper functions for Space Controller
+angular
+    .module('booking')
+    .factory('BookingService', ['$http', '$q', 'lodash',
+        function ($http, $q, _) {
+            var weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            // Provide service functions as closure
+            return {
+                getBookings: getBookings,
+                getAvailableSpaces: getAvailableSpaces,
+                createBooking: createBooking
+            };
+
+            // Get space based on the space details
+            function getBookings (bookingDetails) {
+                var deferred = $q.defer();
+
+                $http.get('/api/booking', { params: bookingDetails })
+                    .then (
+                        function (bookingsRes) {
+                            var bookings = bookingsRes.data;
+                            // console.log('Service: ', bookings);
+                            deferred.resolve(bookings);
+                        }, 
+                        function (err) {
+                            // Trigger Error
+                            console.log('Error while getting bookings', err, null, 2);
+                            deferred.reject(err);
+                        });
+
+                return deferred.promise;
+            }
+
+            // Get the available spaces based on the booking criteria
+            function getAvailableSpaces (bookingDetails) {
+                return $http.get('/api/booking/available-space', { params: bookingDetails });
+            }
+
+            // Helper function to get the created booking (with proper start and end dates)
+            function getCreatedBooking (bookings) {
+                var newBooking = {},
+                    startBooking = _.minBy(bookings, 'startTime'),
+                    minStartTimeStr = startBooking.startTime,
+                    maxEndTimeStr = _.maxBy(bookings, 'endTime').endTime,
+                    startTime = moment(minStartTimeStr, moment.ISO_8601),
+                    endTime = moment(maxEndTimeStr, moment.ISO_8601),
+                    multipleDayBooking = true,
+                    startDate = startTime.format('ll'),
+                    endDate = endTime.format('ll'),
+                    day = startTime.format('dddd');
+
+                if (bookings.length === 1) {
+                    multipleDayBooking = false;
+                }
+
+                if (multipleDayBooking) {
+                    day = day + 's';
+                }
+
+                newBooking.multipleDayBooking = multipleDayBooking;
+                newBooking.day = day;
+                newBooking.startDate = startDate;
+                newBooking.endDate = endDate;
+                newBooking.purpose = startBooking.purpose;
+                newBooking.priority = startBooking.priority;
+
+                newBooking.nBookings = bookings;
+
+                return newBooking;
+            }
+
+            // Create a new booking
+            function createBooking (bookingDetails) {
+                var deferred = $q.defer();
+                $http.post('/api/booking', bookingDetails)
+                    .then (
+                        function (bookingRes) {
+                            var bookings = bookingRes.data,
+                                newBooking = getCreatedBooking(bookings);
+
+                            console.log('New Booking: ', newBooking, null, 2);
+
+                            deferred.resolve(newBooking);
+                        },
+                        function (err) {
+                            // Trigger Error
+                            console.log('Error while creating a new booking', err, null, 2);
+                            deferred.reject(err);
+                        });
+                return deferred.promise;
+            }
+            
+        }
+    ]);
 'use strict';
 
 //Setting up route
