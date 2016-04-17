@@ -1,0 +1,22 @@
+<section>
+	<table class="table table-striped table-responsive space-results">
+        <thead>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Tags</th>
+            <th>Operation</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in nonAdminUsers">
+                <td><b>{{user.email}}</b></td>
+                <td>{{user.name.first}} {{user.name.last}}</td>
+                <td>
+                	[ <span ng-repeat="tag in user.tags">'{{tag}}' </span>]
+                </td>
+                <td>
+                    Update / Delete Buttons
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>

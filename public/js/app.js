@@ -77,6 +77,9 @@ ApplicationConfiguration.registerModule('core');
 ApplicationConfiguration.registerModule('home');
 'use strict';
 // Use application configuration module to register a new module
+ApplicationConfiguration.registerModule('user');
+'use strict';
+// Use application configuration module to register a new module
 ApplicationConfiguration.registerModule('space');
 'use strict';
 
@@ -254,8 +257,6 @@ angular
     .module('booking')
     .factory('BookingService', ['$http', '$q', 'lodash',
         function ($http, $q, _) {
-            var weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
             // Provide service functions as closure
             return {
                 getBookings: getBookings,
@@ -424,6 +425,55 @@ angular
                     templateUrl: 'modules/home/views/home.client.view.html'
                 });
         }
+    ]);
+// Setting up route
+angular
+    .module('user')
+    .config(['$stateProvider',
+        function($stateProvider) {
+            // Booking state routing
+            $stateProvider
+                .state('user', {
+                    url: '/users',
+                    templateUrl: 'modules/member/views/user.client.view.html',
+                    controller: 'UserController'
+                });
+        }
+    ]);
+'use strict';
+
+angular
+    .module('user')
+    .controller('UserController', ['$scope', '$http', 'UserService',
+    	function ($scope, $http, UserService) {
+    		// Get the non-admin users when controller loads
+    		UserService.getNonAdminUsers()
+    			.then (
+    				function (userRes) {
+    					console.log('Non-admin user in User Controller: ', userRes, null, 2);
+    					$scope.nonAdminUsers = userRes.data;
+    				},
+    				function (err) {
+    					console.log('Error while getting users: ', err, null, 2);
+    				});
+    	}
+    ]);
+'use strict';
+
+// Service that provides helper functions for User Controller
+angular
+    .module('user')
+    .factory('UserService', ['$http', 
+    	function ($http) {
+    		// Provide service functions as closure
+            return {
+                getNonAdminUsers: getNonAdminUsers
+            };
+
+            function getNonAdminUsers () {
+            	return $http.get('/api/member/non-admin');
+            }
+    	}
     ]);
 // Setting up route
 angular

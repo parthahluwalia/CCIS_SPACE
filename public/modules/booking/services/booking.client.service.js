@@ -5,8 +5,6 @@ angular
     .module('booking')
     .factory('BookingService', ['$http', '$q', 'lodash',
         function ($http, $q, _) {
-            var weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
             // Provide service functions as closure
             return {
                 getBookings: getBookings,

@@ -4,11 +4,13 @@
 
 'use strict';
 
-var Promise = require('bluebird');
+var Promise = require('bluebird'),
+    _ = require('lodash');
 
-module.exports = function (memberService) {
-    // Booking Controller Constructor
+module.exports = function (memberService, passport) {
+
     function MemberController () {
+
     }
 
     MemberController.prototype.getMember = function(req, res, next) {
@@ -24,19 +26,39 @@ module.exports = function (memberService) {
             });
     };
 
-    MemberController.prototype.createMember = function(req,res,next) {
+    /**
+     * Creates a new member
+     */
+    MemberController.prototype.createMember = function (req, res, next) {
         var memberDetails = req.body;
-        console.log('Creating members');
-        return memberService.createMember(memberDetails)
-            .then(function (member){
-                return res.status(200).send(member);
-            })
-            .catch(function (error) {
-                // Should trigger error here...
-                console.log('Got error: ', error, null, 2);
-                return res.status(400).send(error);
-            });
+        console.log('Creating member with details: ', memberDetails, null, 2);
 
+        if (!_.has(memberDetails, 'email') || !_.has(memberDetails, 'password')) {
+            return res.status(400).send({ message: 'Email / Password must be specified' });
+        }
+
+        return memberService.createMember(memberDetails)
+            .then(function (user) {
+                console.log('new user in controller: ', user, null, 2);
+                return res.status(200).send(user);
+            })
+            .catch(function (err) {
+                return res.status(400).send(err);
+            });
+    };
+
+    /*
+     * Finds and returns all the general (not admin) users of the system
+     */
+    MemberController.prototype.getNonAdminUsers = function (req, res, next) {
+        return memberService.getNonAdminUsers()
+            .then (function (users) {
+                console.log('Non Admin users in Member Controller: ', users, null, 2);
+                return res.status(200).send(users);
+            })
+            .catch(function (err) {
+                return res.status(400).send(err);
+            });
     };
 
 
