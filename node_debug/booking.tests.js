@@ -11,6 +11,7 @@ chai.use(chaiHttp);
 chai.should();
 
 describe("Booking Tests", function() {
+    
 
     it("A server should respond with status 200 on /api/booking GET", function () {
         expect(true).to.be.true;
