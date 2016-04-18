@@ -375,8 +375,8 @@ angular
 
 angular
     .module('core')
-    .controller('MainController', ['$scope', '$rootScope', '$controller', '$location', '$window', '$anchorScroll', '$state', 'lodash',
-        function ($scope, $rootScope, $controller, $location, $window, $anchorScroll, $state, _) {
+    .controller('MainController', ['$scope', '$rootScope', '$controller', '$location', '$window', '$anchorScroll', '$state', 'lodash', 'UserService',
+        function ($scope, $rootScope, $controller, $location, $window, $anchorScroll, $state, _, UserService) {
 
             // Check if a user is an admin
             $scope.isAdmin = function (user) {
@@ -390,6 +390,22 @@ angular
                 }
 
                 return true;
+            };
+
+            // Log a user out
+            $scope.logout = function () {
+                UserService.logout()
+                    .then (
+                        function (logoutRes) {
+                            console.log('Logout successful: ', logoutRes, null, 2);
+                            $rootScope.user = null;
+
+                            // Redirect to 'home' state
+                            $state.go('home');
+                        },
+                        function (err) {
+                            console.log('Error while log out: ', err, null, 2);
+                        });
             };
 
             /**
@@ -530,6 +546,7 @@ angular
     		// Provide service functions as closure
             return {
                 login: login,
+                logout: logout,
                 getNonAdminUsers: getNonAdminUsers
             };
 
@@ -540,6 +557,10 @@ angular
                 };
 
                 return $http.post('/api/member/login', loginDetails);
+            }
+
+            function logout () {
+                return $http.get('/api/member/logout');
             }
 
             function getNonAdminUsers () {

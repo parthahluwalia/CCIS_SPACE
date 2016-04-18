@@ -8,6 +8,7 @@ angular
     		// Provide service functions as closure
             return {
                 login: login,
+                logout: logout,
                 getNonAdminUsers: getNonAdminUsers
             };
 
@@ -18,6 +19,10 @@ angular
                 };
 
                 return $http.post('/api/member/login', loginDetails);
+            }
+
+            function logout () {
+                return $http.get('/api/member/logout');
             }
 
             function getNonAdminUsers () {

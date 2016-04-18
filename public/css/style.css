@@ -51,6 +51,8 @@ body {
 .navbar .nav > li > a, .navbar .nav > li > a{
     color:          white;
     text-shadow:    none;
+    cursor: pointer;
+    cursor: hand;
 }
 /* Adjust Menu colors - Hover */
 .navbar .nav > li > a:hover, .navbar .nav > li > a:hover { 
@@ -58,6 +60,8 @@ body {
     background-color: white;
     border-color: red;                      
     text-shadow:    none;
+    cursor: pointer;
+    cursor: hand;
 }
 /* Adjust Menu colors - Active */
 .nav-tabs > li.active > a,
@@ -66,6 +70,8 @@ body {
     color: #d02021;
     background-color: white;
     text-shadow:    none;
+    cursor: pointer;
+    cursor: hand;
 }
 /* Adjust dropdown Menu items (blue) text color, (yellow) shading and (green) border */
 .dropdown-menu > li > a {
@@ -73,6 +79,8 @@ body {
     background:     white;
     border-color:   black;
     font-size:      1.5em;
+    cursor: pointer;
+    cursor: hand;
 }
 /*
 * btn-primary color
@@ -116,6 +124,8 @@ body {
 .nav-sidebar > li > a {
     padding-right: 20px;
     padding-left: 20px;
+    cursor: pointer;
+    cursor: hand;
 }
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,

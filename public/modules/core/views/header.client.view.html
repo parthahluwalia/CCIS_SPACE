@@ -3,9 +3,9 @@
         <img class="second-slide" src="http://www.ccs.neu.edu/wp-content/uploads/northeastern-logo.png" alt="Northeastern University College of Computer and Information Science">
     </div>
 </div>
-<div class="container" >
-                <h4> </h4>              
-            </div>
+<div class="container">
+    <h4> </h4>      
+</div>
 <nav class="navbar navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -24,6 +24,7 @@
                 <li><a ui-sref="space">Space</a></li>
                 <li ng-if="user"><a ui-sref="booking">Booking</a></li>
                 <li ng-if="user && isAdmin(user)"><a ui-sref="user">Users</a></li>
+                <li ng-if="user"><a ng-click="logout()">Logout</a></li>
             </ul>
         </div>
         </div>

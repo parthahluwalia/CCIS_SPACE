@@ -15,6 +15,7 @@ module.exports = function (moduleRoutes, memberService, passport) {
     }));*/
 
     moduleRoutes.post('/login', passport.authenticate('local-login', { failureRedirect: '/api/member/loginFailiure', failureFlash : true }), memberController.memberLogin);
+    moduleRoutes.get('/logout', memberController.memberLogout);
 
     moduleRoutes.post('/signup', memberController.createMember);
     moduleRoutes.get('/non-admin', memberController.getNonAdminUsers);

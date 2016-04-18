@@ -31,6 +31,14 @@ module.exports = function (memberService, passport) {
         return res.status(200).send(userDetails);
     };
 
+    /**
+     * Log a user out
+     */
+    MemberController.prototype.memberLogout = function (req, res, next) {
+        req.logout();
+        return res.status(200).send({ message: 'User logged out' });
+    };
+
     MemberController.prototype.getMember = function(req, res, next) {
         
         var memberCriteria = req.query;
