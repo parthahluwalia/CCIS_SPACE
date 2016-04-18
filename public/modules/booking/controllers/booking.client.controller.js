@@ -5,6 +5,11 @@ angular
     .controller('BookingController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', '$filter', 'BookingService', '$location', 'Flash', 'lodash',
         function ($rootScope, $scope, $state, $http, $stateParams, $filter, BookingService, $location, Flash, _) {
 
+            // We are working with nested (ui-view) scopes, so intitialize the requestor object, so that 
+            // the respective (requestor) ng-model will first read and then write the property on it. 
+            $scope.requestor = {};
+            $scope.newBooking = null;
+
             $scope.isCreateBookingState = function () {
                 return $state.current.name === 'booking.create';
             };
@@ -14,18 +19,63 @@ angular
                 return $filter('date')(date, 'yyyy-MM-dd');
             }
 
-            function getBookingCriteria() {
-                var bookingCriteria = {};
+            // Get hh:mm time from a date
+            function getHHMM (date) {
+                var dateMoment = moment(date);
+                return dateMoment.hour() + ':' + dateMoment.minute();
+            }
+
+            // Prepares a booking criteria to find bookings / available spaces
+            function getBookingDetails() {
+                var bookingDetails = {};
 
                 if ($scope.startDate) {
-                    bookingCriteria.startDate = getFormattedDate($scope.startDate);
+                    bookingDetails.startDate = getFormattedDate($scope.startDate);
                 }
 
                 if ($scope.endDate) {
-                    bookingCriteria.endDate = getFormattedDate($scope.endDate);
+                    bookingDetails.endDate = getFormattedDate($scope.endDate);
                 }
 
-                return bookingCriteria;
+                if ($scope.fromTime) {
+                    bookingDetails.startTime = getHHMM($scope.fromTime);
+                }
+
+                if ($scope.toTime) {
+                    bookingDetails.endTime = getHHMM($scope.toTime);
+                }
+
+                if ($scope.roomCapacity) {
+                    bookingDetails.roomCapacity = $scope.roomCapacity;
+                }
+
+                if ($scope.projector) {
+                    bookingDetails.projector = true;
+                }
+
+                if ($scope.blueJeans) {
+                    bookingDetails.blueJeans = true;
+                }
+
+                if ($scope.requestor.email) {
+                    _.set(bookingDetails, 'requestor.email', $scope.requestor.email);
+                }
+
+                if ($scope.requestor.phone) {
+                    _.set(bookingDetails, 'requestor.phone', $scope.requestor.phone);
+                }
+
+                if($scope.requestor.first) {
+                    _.set(bookingDetails, 'requestor.first', $scope.requestor.first);
+                }
+
+                if ($scope.requestor.last) {
+                    _.set(bookingDetails, 'requestor.last', $scope.requestor.last);
+                }
+
+                // console.log('Booking Details: ', bookingDetails, null, 2);
+
+                return bookingDetails;
             }
 
             // Gets the booking data and calls the respective function based on the location path.
@@ -33,7 +83,7 @@ angular
             // Clicking "Find Bookings" submit button
             $scope.getRespectiveBookingData = function () {
                 var path = $location.path(),
-                    bookingDetails = getBookingCriteria();
+                    bookingDetails = getBookingDetails();
 
                 if (path == '/booking/create') {
                     $scope.getAvailableSpaces(bookingDetails);
@@ -63,8 +113,12 @@ angular
                 BookingService.getAvailableSpaces(bookingDetails)
                     .then(
                         function (availableSpaceRes) {
-                            console.log('Available spaces: ', availableSpaceRes);
+                            console.log('Available space Res: ', availableSpaceRes);
                             $scope.availableSpaces = availableSpaceRes.data;
+
+                            if ($scope.availableSpaces.length < 1) {
+                                Flash.create('warning', "No space is available for the specified times.");
+                            }
                         },
                         function (err) {
                             console.log('Error while getting available spaces: ', err, null, 2);
@@ -101,24 +155,28 @@ angular
 
             // Create a new booking
             $scope.createBooking = function () {
-                var bookingDetails = getBookingCriteria();
+                var bookingDetails = getBookingDetails();
                 bookingDetails.roomNumber = $scope.selectedSpace.roomNumber;
 
                 if (requiredDetailsMissing(bookingDetails)) {
                     return;
                 }
-
-                bookingDetails.requestor = { "email": "jannunzi@gmail.com", "first": "Josela" };
-                bookingDetails.startTime = "18:00";
-                bookingDetails.endTime = "21:00";
                 
-                console.log('Booking Details POST: ', bookingDetails, null, 2);
-
                 BookingService.createBooking(bookingDetails)
-                    .then(
-                        function (newBookingRes) {
-                            console.log('Booking Created: ', newBookingRes);
-                            $scope.newBooking = newBookingRes.data;
+                    .then (
+                        function (newBooking) {
+                            console.log('Booking Created: ', newBooking);
+                            $scope.newBooking = newBooking;
+
+                            BookingService.getAvailableSpaces(bookingDetails)
+                                .then (
+                                    function (availableSpaceRes) {
+                                        console.log('Available space Res: ', availableSpaceRes);
+                                        $scope.availableSpaces = availableSpaceRes.data;
+                                    },
+                                    function (err) {
+                                        console.log('Error while getting available spaces: ', err, null, 2);
+                                    });
                         },
                         function (err) {
                             console.log('Error while creating a new booking: ', err, null, 2);
@@ -130,7 +188,6 @@ angular
              * @param route
              */
             $scope.go = function (route) {
-                // console.log('Going to route: ' + route);
                 $state.go(route);
             };
         }

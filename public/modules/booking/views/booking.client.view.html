@@ -7,87 +7,80 @@
 
 <div class="booking-top-margin">
 
-    <form class="form-horizontal" ng-submit="getRespectiveBookingData()">
-        <!-- <div ng-include src="'modules/booking/views/partials/booking-fields.client.view.html'"></div> -->
+    <div class="row">
+        <form class="form-horizontal" ng-submit="getRespectiveBookingData()">
+            <!-- <div ng-include src="'modules/booking/views/partials/booking-fields.client.view.html'"></div> -->
 
-        <div class="form-group">
-            <label for="fromDate" class="col-sm-2 control-label">Start Date </label>
-            <div class="col-sm-3">
-              <input type="date" class="form-control" id="fromDate" required ng-model="startDate">
-            </div>
+            <div class="form-group">
+                <label for="fromDate" class="col-sm-2 control-label">Start Date </label>
+                <div class="col-sm-3">
+                  <input type="date" class="form-control" id="fromDate" required ng-model="startDate">
+                </div>
 
-            <label for="endDate" class="col-sm-2 control-label">End Date </label>
-            <div class="col-sm-3">
-              <input type="date" class="form-control" id="endDate" required ng-model="endDate">
-            </div>
-            
-            <div class="col-sm-2">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Repeat
-                <span class="caret"></span></button>
+                <label for="endDate" class="col-sm-2 control-label">End Date </label>
+                <div class="col-sm-3">
+                  <input type="date" class="form-control" id="endDate" required ng-model="endDate">
+                </div>
+                
+                <div class="col-sm-2">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Repeat
+                    <span class="caret"></span></button>
 
-                <ul class="dropdown-menu">
-                    <li><a href="#">Daily</a></li>
-                    <li><a href="#">Weekly</a></li>
-                    <li><a href="#">Biweekly</a></li>
-                    <li><a href="#">Monthly</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="fromTime" class="col-sm-2 control-label">Start Time </label>
-            <div class="col-sm-3">
-              <input type="time" class="form-control" id="fromTime" ng-model="fromTime">
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Daily</a></li>
+                        <li><a href="#">Weekly</a></li>
+                        <li><a href="#">Biweekly</a></li>
+                        <li><a href="#">Monthly</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <label for="toTime" class="col-sm-2 control-label">End Time </label>
-            <div class="col-sm-3">
-              <input type="time" class="form-control" id="toTime" ng-model="toTime">
-            </div>
-        </div>
+            <div class="form-group">
+                <label for="fromTime" class="col-sm-2 control-label">Start Time </label>
+                <div class="col-sm-3">
+                  <input type="time" class="form-control" id="fromTime" ng-model="fromTime">
+                </div>
 
-        <!-- <div class="form-group">
-            <label for="requestorEmail" class="col-sm-2 control-label">Requestor Details: </label>
-            <div class="col-sm-2">
-              <input type="email" class="form-control" id="requestorEmail" placeholder="Email" ng-model="requestorEmail">
+                <label for="toTime" class="col-sm-2 control-label">End Time </label>
+                <div class="col-sm-3">
+                  <input type="time" class="form-control" id="toTime" ng-model="toTime">
+                </div>
             </div>
-            <div class="col-sm-2">
-              <input type="email" class="form-control" id="requestorEmail" placeholder="Phone" ng-model="requestorPhone">
-            </div>
-            <div class="col-sm-2">
-              <input type="email" class="form-control" id="requestorEmail" placeholder="First Name" ng-model="requestorFirstName">
-            </div>
-            <div class="col-sm-2">
-              <input type="email" class="form-control" id="requestorEmail" placeholder="Last Name" ng-model="requestorLastName">
-            </div>
-        </div> -->
 
-        <div class="form-group">
-            <label for="capacity" class="col-sm-2 control-label">Room Details: </label>
-            <div class="col-sm-2">
-              <input type="number" class="form-control" id="capacity" placeholder="Capacity" ng-model="capacity">
+            <div class="form-group">
+                <label for="capacity" class="col-sm-2 control-label">Room Details: </label>
+                <div class="col-sm-2">
+                  <input type="number" class="form-control" id="capacity" placeholder="Capacity" ng-model="roomCapacity">
+                </div>
+                <div class="col-sm-2">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="projector"> Projector
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="blueJeans"> Blue Jeans
+                    </label>
+                  </div>
+                </div>
             </div>
-            <div class="col-sm-1">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" ng-model="projector"> Projector
-                </label>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" ng-model="blueJeans"> Blue Jeans
-                </label>
-              </div>
-            </div>
-        </div>
 
-        <!-- UI View to include sub-states (partials) of 'booking' state -->
-        <div ui-view>
-        </div>
+            <div class="col-md-8 col-md-offset-2">
+                <button type="submit" class="btn btn-primary btn-space btn-block">Find Rooms</button>
+            </div>
+        </form>
+    </div>
 
-    </form>
+    <!-- UI View to include sub-states (partials) of 'booking' state -->
+    <div ui-view>
+    </div>
+
+    <div class="row flash-top-pad">
+        <flash-message duration="10000"></flash-message>
+    </div>
 
 </div>
 

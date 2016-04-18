@@ -79,8 +79,6 @@ angular
                             var bookings = bookingRes.data,
                                 newBooking = getCreatedBooking(bookings);
 
-                            console.log('New Booking: ', newBooking, null, 2);
-
                             deferred.resolve(newBooking);
                         },
                         function (err) {

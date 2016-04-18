@@ -34,7 +34,21 @@ module.exports = function (ccisroomDb) {
     function getBookingCriteria (bookingDetails) {
         var bookingCriteria = {},
             startDate = _.has(bookingDetails, 'startDate') ? getStartDate(bookingDetails.startDate) : null,
-            endDate = _.has(bookingDetails, 'endDate') ? getEndDate(bookingDetails.endDate) : null;
+            endDate = _.has(bookingDetails, 'endDate') ? getEndDate(bookingDetails.endDate) : null,
+            startTime = bookingDetails.startTime,
+            endTime = bookingDetails.endTime;
+
+        if (startTime) {
+            startTime = startTime.split(':');
+            startDate.hour(startTime[0]);
+            startDate.minute(startTime[1]);
+        }
+
+        if (endTime) {
+            endTime = endTime.split(':');
+            endDate.hour(endTime[0]);
+            endDate.minute(endTime[1]);
+        }
 
         if (startDate) {
             bookingCriteria.startTime = { $gt: startDate };
@@ -55,12 +69,14 @@ module.exports = function (ccisroomDb) {
         return bookingCriteria;
     }
 
+
+    // WE WILL NEED THIS AT SOME POINT OF TIME!!!
     /**
      * Get the bookings, based on the booking criteria specified in the request
      * @param: {bookingDetails}
      * returns [{booking}]
      */
-    BookingService.prototype.getBooking = function (bookingDetails) {
+    /*BookingService.prototype.getBooking = function (bookingDetails) {
         var self = this,
             bookingCriteria = getBookingCriteria(bookingDetails),
             // How to take the requestor here? --> Maybe a stringified object!
@@ -96,7 +112,31 @@ module.exports = function (ccisroomDb) {
                 console.log('Error while fetching booking records: ', err);
                 return Promise.reject(err);
             });
-    };
+    };*/
+
+    /*
+     * Get all the bookings based on the specified booking criteria
+     */
+    BookingService.prototype.getBookings = function (bookingDetails) {
+        var self = this,
+            bookingCriteria = getBookingCriteria(bookingDetails);
+
+        // First look for a filtering criteria, to build the results, which may be the following:
+        //  - roomNumber
+        //  - requestor
+        // and then search for the respective bookings
+        return self.BookingModel
+            .find(bookingCriteria)
+            .exec()
+            .then(function (bookings) {
+                // console.log('Got bookings in Service: ', bookings, null, 2);
+                return Promise.resolve(bookings);
+            })
+            .catch(function (err) {
+                console.log('Error while fetching booking records: ', err);
+                return Promise.reject(err);
+            });
+    };    
 
     // Helper function to build the query to get the requestor(s)
     // We can get a requestor by email and by name (first and last)
@@ -388,13 +428,19 @@ module.exports = function (ccisroomDb) {
         return self.SpaceService.getAllActiveSpaces()
             .then(function (spaces) {
                 allSpaces = spaces;
-                return self.getBooking(bookingDetails);
+
+                console.log('Finding bookings based on details: ', bookingDetails, null, 2);
+                // Get the current bookings
+                return self.getBookings(bookingDetails);
             })
             .then(function (bookings) {
-                var occupiedSpaceIds = _.filter(_.map(bookings, 'room'), function (spaceId) {
-                    return spaceId;
-                });
+                var occupiedSpaceIds = _.filter (
+                    _.map(bookings, 'room'), 
+                    function (spaceId) {
+                        return spaceId;
+                    });
 
+                // Filter the spaces, removing the occupied spaces for the specified booking time
                 var spaceInstances = _.filter(allSpaces, function (space) {
                     return !_.find(occupiedSpaceIds, function (occupiedSpaceId) {
                         return occupiedSpaceId.equals(space._id);
