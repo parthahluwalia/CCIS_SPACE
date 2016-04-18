@@ -13,8 +13,26 @@ module.exports = function (memberService, passport) {
 
     }
 
+    /**
+     * After a user is authenticated, set the user details to be sent as a response to the frontend
+     */
+    MemberController.prototype.memberLogin = function (req, res, next) {
+        var reqUser = req.user,
+            userDetails = {
+                email: reqUser.email,
+                name: reqUser.name,
+                tags: reqUser.tags
+            };
+
+        console.log('Logged a user in, Id: ', reqUser._id, null, 2);
+
+        res.locals.memberId = reqUser._id;
+
+        return res.status(200).send(userDetails);
+    };
+
     MemberController.prototype.getMember = function(req, res, next) {
-        console.log('In Member controller');
+        
         var memberCriteria = req.query;
         memberService.getMember(memberCriteria)
             .then(function (members) {

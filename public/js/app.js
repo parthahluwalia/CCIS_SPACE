@@ -375,10 +375,22 @@ angular
 
 angular
     .module('core')
-    .controller('MainController', ['$scope', '$rootScope', '$controller', '$location', '$window', '$anchorScroll', '$state', 
-        function ($scope, $rootScope, $controller, $location, $window, $anchorScroll, $state) {
+    .controller('MainController', ['$scope', '$rootScope', '$controller', '$location', '$window', '$anchorScroll', '$state', 'lodash',
+        function ($scope, $rootScope, $controller, $location, $window, $anchorScroll, $state, _) {
 
-            // console.log('In Main controller');
+            // Check if a user is an admin
+            $scope.isAdmin = function (user) {
+                // console.log('RootScope User: ', $rootScope.user, null, 2);
+                var adminTag = _.find(user.tags, function (tag) {
+                    return tag === "admin";
+                });
+                
+                if (!adminTag) {
+                    return false;
+                }
+
+                return true;
+            };
 
             /**
              * Go to url-hash
@@ -437,8 +449,48 @@ angular
                     url: '/users',
                     templateUrl: 'modules/member/views/user.client.view.html',
                     controller: 'UserController'
+                })
+                .state('login', {
+                    url: '/login',
+                    templateUrl: 'modules/member/views/login.client.view.html',
+                    controller: 'LoginController'
                 });
         }
+    ]);
+'use strict';
+
+angular
+    .module('user')
+    .controller('LoginController', ['$scope', '$http', 'UserService', '$rootScope', 'Flash', '$state',
+    	function ($scope, $http, UserService, $rootScope, Flash, $state) {
+
+    		// Function to log a user in
+    		// If credentials legit, redirect to state 'booking'
+    		// Display a flash message otherwise
+    		$scope.login = function () {
+    			UserService.login($scope.userEmail, $scope.userPassword)
+    				.then (
+    					function (userRes) {
+    						console.log('Logged in: ', userRes, null, 2);
+    						// Populate the user in the rootScope --> Bad practice, I know, but we gotta speed up!
+    						$rootScope.user = userRes.data;
+
+    						// Redirect to booking state
+    						$state.go('booking');
+    					},
+    					function (err) {
+    						// console.log('Errored user: ', err, null, 2);
+    						var message = "<strong>" + err.statusText + "! </strong>";
+
+    						if (err.status === 401) {
+    							message += err.data.message;
+    						}
+
+    						Flash.create('danger', message);
+    					});
+    		};
+
+    	}
     ]);
 'use strict';
 
@@ -450,7 +502,7 @@ angular
     		UserService.getNonAdminUsers()
     			.then (
     				function (userRes) {
-    					console.log('Non-admin user in User Controller: ', userRes, null, 2);
+    					// console.log('Non-admin user in User Controller: ', userRes, null, 2);
     					$scope.nonAdminUsers = userRes.data;
     				},
     				function (err) {
@@ -460,6 +512,16 @@ angular
     ]);
 'use strict';
 
+// Authentication service for user variables
+angular
+	.module('user')
+	.service('Authentication', [ '$scope', '$http',
+		function ($scope, $http) {
+			
+		}
+	]);
+'use strict';
+
 // Service that provides helper functions for User Controller
 angular
     .module('user')
@@ -467,8 +529,18 @@ angular
     	function ($http) {
     		// Provide service functions as closure
             return {
+                login: login,
                 getNonAdminUsers: getNonAdminUsers
             };
+
+            function login (email, password) {
+                var loginDetails = {
+                    email: email,
+                    password: password
+                };
+
+                return $http.post('/api/member/login', loginDetails);
+            }
 
             function getNonAdminUsers () {
             	return $http.get('/api/member/non-admin');

@@ -9,6 +9,11 @@ angular
                     url: '/users',
                     templateUrl: 'modules/member/views/user.client.view.html',
                     controller: 'UserController'
+                })
+                .state('login', {
+                    url: '/login',
+                    templateUrl: 'modules/member/views/login.client.view.html',
+                    controller: 'LoginController'
                 });
         }
     ]);

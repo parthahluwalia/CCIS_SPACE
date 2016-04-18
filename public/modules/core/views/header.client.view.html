@@ -20,10 +20,10 @@
         <div class="col-md -12 col-md-offset-1">
             <ul class="nav navbar-nav">
                 <li><a ui-sref="home">Home</a></li>
-                <li><a ui-sref="login">Login</a></li>
+                <li ng-if="!user"><a ui-sref="login">Login</a></li>
                 <li><a ui-sref="space">Space</a></li>
-                <li><a ui-sref="booking">Booking</a></li>
-                <li><a ui-sref="user">Users</a></li>
+                <li ng-if="user"><a ui-sref="booking">Booking</a></li>
+                <li ng-if="user && isAdmin(user)"><a ui-sref="user">Users</a></li>
             </ul>
         </div>
         </div>

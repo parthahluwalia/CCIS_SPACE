@@ -7,8 +7,18 @@ angular
     	function ($http) {
     		// Provide service functions as closure
             return {
+                login: login,
                 getNonAdminUsers: getNonAdminUsers
             };
+
+            function login (email, password) {
+                var loginDetails = {
+                    email: email,
+                    password: password
+                };
+
+                return $http.post('/api/member/login', loginDetails);
+            }
 
             function getNonAdminUsers () {
             	return $http.get('/api/member/non-admin');

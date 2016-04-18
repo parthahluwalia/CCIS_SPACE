@@ -2,10 +2,22 @@
 
 angular
     .module('core')
-    .controller('MainController', ['$scope', '$rootScope', '$controller', '$location', '$window', '$anchorScroll', '$state', 
-        function ($scope, $rootScope, $controller, $location, $window, $anchorScroll, $state) {
+    .controller('MainController', ['$scope', '$rootScope', '$controller', '$location', '$window', '$anchorScroll', '$state', 'lodash',
+        function ($scope, $rootScope, $controller, $location, $window, $anchorScroll, $state, _) {
 
-            // console.log('In Main controller');
+            // Check if a user is an admin
+            $scope.isAdmin = function (user) {
+                // console.log('RootScope User: ', $rootScope.user, null, 2);
+                var adminTag = _.find(user.tags, function (tag) {
+                    return tag === "admin";
+                });
+                
+                if (!adminTag) {
+                    return false;
+                }
+
+                return true;
+            };
 
             /**
              * Go to url-hash
