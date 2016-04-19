@@ -6,6 +6,6 @@ module.exports = function (moduleRoutes, bookingService, memberService) {
     	memberController = require('../../member/controllers/member.controller.js')(memberService);
     
     moduleRoutes.get('/', memberController.isAuthenticated, bookingController.getBookings);
-    moduleRoutes.post('/', bookingController.createBooking);
+    moduleRoutes.post('/', memberController.isAuthenticated, bookingController.createBooking);
     moduleRoutes.get('/available-space', memberController.isAuthenticated, bookingController.getAvailableSpaces);
 };
