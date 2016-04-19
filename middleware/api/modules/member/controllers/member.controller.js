@@ -39,6 +39,21 @@ module.exports = function (memberService, passport) {
         return res.status(200).send({ message: 'User logged out' });
     };
 
+    /*
+     * Ensure if a user is authenticated
+     */
+    MemberController.prototype.isAuthenticated = function (req, res, next) {
+        console.log('Passport Req: ', req.user, null, 2);
+        if (req.isAuthenticated()) {
+            console.log('Is Authenticted!');
+            return next();
+        }
+
+        console.log('Is NOT Authenticted');
+
+        return res.status(401).send({ message: 'You are not authorized to access this route.' });
+    };
+
     MemberController.prototype.getMember = function(req, res, next) {
         
         var memberCriteria = req.query;

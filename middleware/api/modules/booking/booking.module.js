@@ -14,10 +14,11 @@ module.exports = function (services, config) {
     var ccisroomDb = config.db.ccisroom;
 
     // Load module services
-    services.booking = require('./services/booking.service.js')(ccisroomDb);
+    services.booking = require('./services/booking.service.js')(ccisroomDb)
+    services.member = require('../member/services/member.service.js')(ccisroomDb);
 
     // Load routes
-    require('./routes/booking.routes.js')(moduleRoutes, services.booking);
+    require('./routes/booking.routes.js')(moduleRoutes, services.booking, services.member);
 
     // Attach routes
     moduleApp.use(modulePath, moduleRoutes);

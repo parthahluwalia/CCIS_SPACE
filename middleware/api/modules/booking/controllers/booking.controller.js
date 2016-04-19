@@ -19,7 +19,7 @@ module.exports = function (bookingService) {
 
         return bookingService.getBookings(bookingDetails)
             .then(function (bookingList) {
-                console.log('Bookings in controller: ' + bookingList, null, 2);
+                // console.log('Bookings in controller: ', bookingList, null, 2);
                 res.status(200).send(bookingList);
             })
             .catch(function (err) {

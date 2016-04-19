@@ -26,19 +26,29 @@ module.exports = function (ccisroomDb) {
         return moment(dateStr + "T23:59:59", moment.ISO_8601);
     }
 
+    // Helper to get the timed date (i.e. time added in the date)
+    function addTimeToDate (date, time) {
+        time = time.split(':');
+        date.hour(time[0]);
+        date.minute(time[1]);
+    }
+
     /**
      * Helper to find prepare a query to get the bookings
      * @param: {bookingDetails}
+     * @param: Moment wrapped date object
+     * @param: fromTime
+     * @param: toTime
      * @returns: {bookingQuery}
      */
-    function getBookingCriteria (bookingDetails) {
-        var bookingCriteria = {}, // Should be $and
+    function getBookingCriteria (bookingDetails, date, fromTime, toTime) {
+        var bookingCriteria = {}/*, 
             startDate = _.has(bookingDetails, 'startDate') ? getStartDate(bookingDetails.startDate) : null,
             endDate = _.has(bookingDetails, 'endDate') ? getEndDate(bookingDetails.endDate) : null,
             startTime = bookingDetails.startTime,
-            endTime = bookingDetails.endTime;
+            endTime = bookingDetails.endTime*/;
 
-        if (startTime) {
+        /*if (startTime) {
             startTime = startTime.split(':');
             startDate.hour(startTime[0]);
             startDate.minute(startTime[1]);
@@ -60,7 +70,37 @@ module.exports = function (ccisroomDb) {
             // Convert moment wrapped date to JavaScript date
             endDate = endDate.toDate();
             bookingCriteria.endTime = { $lt: endDate };
-        }
+        }*/
+
+        var startTime = date.clone(),
+            endTime = date.clone();
+
+        addTimeToDate(startTime, fromTime);
+        addTimeToDate(endTime, toTime);
+
+        // Convert the moment wrapped date object to JavaScript date
+        startTime = startTime.toDate();
+        endTime = endTime.toDate();
+
+        bookingCriteria = {
+            '$or': [
+                { 
+                    '$and': [
+                        { 'startTime': { '$gte': startTime } },
+                        { 'startTime': { '$lte': endTime } }
+                    ] 
+                },
+                {
+                    '$and': [
+                        { 'endTime': { '$lte': endTime } },
+                        { 'endTime': { '$gte': startTime } }
+                    ]
+                }
+            ]
+        };
+
+        console.log("Times:: ", startTime, endTime, null, 2);
+
 
         if (_.has(bookingDetails, 'priority')) {
             bookingCriteria.priority = bookingDetails.priority;
@@ -118,19 +158,68 @@ module.exports = function (ccisroomDb) {
             });
     };*/
 
+    // Get a list of booking criteria
+    function forkBookingDetailsByRepeatCriteria (bookingDetails) {
+         
+        var fromDate = getStartDate(bookingDetails.startDate),
+            toDate = getEndDate(bookingDetails.endDate),
+            fromTime = bookingDetails.startTime,
+            toTime = bookingDetails.endTime,
+            repeatCriteria = bookingDetails.repeatCriteria ? parseInt(bookingDetails.repeatCriteria) : 1,
+            date = fromDate,
+            bookingCriteriaList = [],
+            bookingCriteria;
+
+        while (date <= toDate) {
+            bookingCriteria = getBookingCriteria(bookingDetails, date, fromTime, toTime);
+            bookingCriteriaList.push(bookingCriteria);
+
+            // Increment date
+            date.add(repeatCriteria, 'days');
+        }
+
+        return bookingCriteriaList;
+    }
+
     /*
      * Get all the bookings based on the specified booking criteria
      */
     BookingService.prototype.getBookings = function (bookingDetails) {
         var self = this,
-            bookingCriteria = getBookingCriteria(bookingDetails);
+            bookingCriteriaList = forkBookingDetailsByRepeatCriteria(bookingDetails);
+            //bookingCriteria = getBookingCriteria(bookingDetails);
 
-        console.log('Booking Criteria: ', bookingCriteria, null, 2);
+        // console.log('Booking Criteria: ', bookingCriteria, null, 2);
 
-        // First look for a filtering criteria, to build the results, which may be the following:
-        //  - roomNumber
-        //  - requestor
-        // and then search for the respective bookings
+        return Promise.map(bookingCriteriaList, function (bookingCriteria) {
+
+            // Search for the respective bookings
+            return self.BookingModel
+                .find(bookingCriteria)
+                .exec()
+                .then(function (bookings) {
+                    /*console.log('Or Condition 1: ', bookingCriteria['$or'][0]['$and'][0], null, 2);
+                    console.log('Or Condition 2: ', bookingCriteria['$or'][1]["$and"][1], null, 2);
+                    console.log('Got bookings in Service: ', bookings, null, 2);*/
+                    return Promise.resolve(bookings);
+                })
+                .catch(function (err) {
+                    console.log('Error while fetching booking records: ', err);
+                    return Promise.reject(err);
+                });
+        }, { concurrency: 1 })
+        .then (function (bookingList) {
+            // console.log('Booking List: ', bookingList);
+            // Flatten the list of lists of bookings
+            var flattenedBookingList = _.flatten(bookingList);
+            console.log('Found bookings List: ', flattenedBookingList, null, 2);
+            return Promise.resolve(flattenedBookingList);
+        })
+        .catch(function (err) {
+            console.log('Error while fetching bookings: ', err, null, 2);
+        });
+
+        /*// Search for the respective bookings
         return self.BookingModel
             .find(bookingCriteria)
             .exec()
@@ -141,7 +230,7 @@ module.exports = function (ccisroomDb) {
             .catch(function (err) {
                 console.log('Error while fetching booking records: ', err);
                 return Promise.reject(err);
-            });
+            });*/
     };    
 
     // Helper function to build the query to get the requestor(s)
@@ -429,8 +518,7 @@ module.exports = function (ccisroomDb) {
      * returns: Promise[avaibleSpaces]
      */
     BookingService.prototype.getAvailableSpaces = function (bookingDetails) {
-        var bookingCriteria = getBookingCriteria(bookingDetails),
-            self = this,
+        var self = this,
             allSpaces;
 
         return self.SpaceService.getAllActiveSpaces()
