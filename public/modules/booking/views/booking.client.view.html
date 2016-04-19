@@ -23,7 +23,7 @@
                 </div>
                 
                 <div class="col-sm-2">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Repeat
+                    <!-- <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Repeat
                     <span class="caret"></span></button>
 
                     <ul class="dropdown-menu">
@@ -31,7 +31,13 @@
                         <li><a href="#">Weekly</a></li>
                         <li><a href="#">Biweekly</a></li>
                         <li><a href="#">Monthly</a></li>
-                    </ul>
+                    </ul> -->
+                    <select ng-if="endDate > startDate" class="form-control" ng-model="repeat.value">
+                        <!-- <option>Repeat</option> -->
+                        <option value="1">Daily</option>
+                        <option value="7">Weekly</option>
+                        <option value="14">Biweekly</option>
+                    </select>
                 </div>
             </div>
 

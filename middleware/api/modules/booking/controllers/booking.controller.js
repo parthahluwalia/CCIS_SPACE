@@ -14,10 +14,10 @@ module.exports = function (bookingService) {
      * Sends an errored response with a status code 400, otherwise
      * @param: req, res, next 
      */
-    BookingController.prototype.getBooking = function(req, res, next) {
-        var bookingCriteria = req.query;
+    BookingController.prototype.getBookings = function(req, res, next) {
+        var bookingDetails = req.query;
 
-        return bookingService.getBooking(bookingCriteria)
+        return bookingService.getBookings(bookingDetails)
             .then(function (bookingList) {
                 console.log('Bookings in controller: ' + bookingList, null, 2);
                 res.status(200).send(bookingList);

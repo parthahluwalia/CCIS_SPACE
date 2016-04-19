@@ -50,18 +50,18 @@
             </div>
         </form>
 
-        <div ng-if="newBooking">
-            <h4> Your booking has been confirmed. </h4>
-            <div class="row">
-                Start Date: {{newBooking.startDate}} End Date: {{newBooking.endDate}} Day: {{newBooking.day}}
-            </div>
-            <div class="row">
-                Priority: {{newBooking.priority}} Repeat: {{newBooking.repeatCriteria}}
-            </div>
-            <div class="row">
-                Purpose: {{newBooking.purpose}}
-            </div>
-        </div>
+    </div>
 
+    <div ng-if="newBooking">
+        <h4>Your booking has been confirmed.</h4>
+        <div class="row">
+            Start Date: {{newBooking.startDate}} End Date: {{newBooking.endDate}} Day: {{newBooking.day}}
+        </div>
+        <div class="row">
+            Priority: {{newBooking.priority}} Repeat: {{newBooking.repeatCriteria}}
+        </div>
+        <div class="row">
+            Purpose: {{newBooking.purpose}}
+        </div>
     </div>
 </section>

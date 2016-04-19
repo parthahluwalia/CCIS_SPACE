@@ -32,7 +32,7 @@ module.exports = function (ccisroomDb) {
      * @returns: {bookingQuery}
      */
     function getBookingCriteria (bookingDetails) {
-        var bookingCriteria = {},
+        var bookingCriteria = {}, // Should be $and
             startDate = _.has(bookingDetails, 'startDate') ? getStartDate(bookingDetails.startDate) : null,
             endDate = _.has(bookingDetails, 'endDate') ? getEndDate(bookingDetails.endDate) : null,
             startTime = bookingDetails.startTime,
@@ -51,10 +51,14 @@ module.exports = function (ccisroomDb) {
         }
 
         if (startDate) {
+            // Convert moment wrapped date to JavaScript date
+            startDate = startDate.toDate();
             bookingCriteria.startTime = { $gt: startDate };
         }
 
         if (endDate) {
+            // Convert moment wrapped date to JavaScript date
+            endDate = endDate.toDate();
             bookingCriteria.endTime = { $lt: endDate };
         }
 
@@ -120,6 +124,8 @@ module.exports = function (ccisroomDb) {
     BookingService.prototype.getBookings = function (bookingDetails) {
         var self = this,
             bookingCriteria = getBookingCriteria(bookingDetails);
+
+        console.log('Booking Criteria: ', bookingCriteria, null, 2);
 
         // First look for a filtering criteria, to build the results, which may be the following:
         //  - roomNumber
@@ -342,6 +348,8 @@ module.exports = function (ccisroomDb) {
      * returns: {nbookingRecords}
      */
     BookingService.prototype.forkBookingRecords = function (bookingDetails, roomId, requestorId) {
+        console.log('Booking Details: ', bookingDetails, null, 2);
+
         var nBookingRecords = [],
             createDate = Date.now(),
             purpose = bookingDetails.purpose,
@@ -355,7 +363,7 @@ module.exports = function (ccisroomDb) {
             startMin = parseInt(startTime[1]),
             endHour = parseInt(endTime[0]),
             endMin = parseInt(endTime[1]),
-            repeatCritera = _.has(bookingDetails, repeatCritera) ? parseInt(bookingDetails.repeatCritera) : 1,
+            repeatCriteria = bookingDetails.repeatCriteria ? parseInt(bookingDetails.repeatCriteria) : 1,
             bookingRecord;
 
         // @TO-DO:
@@ -391,7 +399,7 @@ module.exports = function (ccisroomDb) {
 
             nBookingRecords.push(bookingRecord);
             // Increment date
-            date.add(repeatCritera, 'days');
+            date.add(repeatCriteria, 'days');
         }
 
         return nBookingRecords;
@@ -439,6 +447,8 @@ module.exports = function (ccisroomDb) {
                     function (spaceId) {
                         return spaceId;
                     });
+
+                console.log('occupied spaces: ', occupiedSpaceIds, null, 2);
 
                 // Filter the spaces, removing the occupied spaces for the specified booking time
                 var spaceInstances = _.filter(allSpaces, function (space) {

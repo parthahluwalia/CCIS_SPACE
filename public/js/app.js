@@ -123,6 +123,7 @@ angular
             // the respective (requestor) ng-model will first read and then write the property on it. 
             $scope.requestor = {};
             $scope.newBooking = null;
+            $scope.repeat = {};
 
             $scope.isCreateBookingState = function () {
                 return $state.current.name === 'booking.create';
@@ -159,6 +160,10 @@ angular
                     bookingDetails.endTime = getHHMM($scope.toTime);
                 }
 
+                if ($scope.repeat.value) {
+                    bookingDetails.repeatCriteria = $scope.repeat.value;
+                }
+
                 if ($scope.roomCapacity) {
                     bookingDetails.roomCapacity = $scope.roomCapacity;
                 }
@@ -187,7 +192,7 @@ angular
                     _.set(bookingDetails, 'requestor.last', $scope.requestor.last);
                 }
 
-                // console.log('Booking Details: ', bookingDetails, null, 2);
+                console.log('Booking Details: ', bookingDetails, null, 2);
 
                 return bookingDetails;
             }
