@@ -163,8 +163,8 @@ module.exports = function (ccisroomDb) {
          
         var fromDate = getStartDate(bookingDetails.startDate),
             toDate = getEndDate(bookingDetails.endDate),
-            fromTime = bookingDetails.startTime,
-            toTime = bookingDetails.endTime,
+            fromTime = bookingDetails.startTime ? bookingDetails.startTime : '00:00',
+            toTime = bookingDetails.endTime ? bookingDetails.endTime : '23:59',
             repeatCriteria = bookingDetails.repeatCriteria ? parseInt(bookingDetails.repeatCriteria) : 1,
             date = fromDate,
             bookingCriteriaList = [],

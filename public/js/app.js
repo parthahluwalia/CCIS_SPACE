@@ -151,6 +151,79 @@ angular
                 return dateMoment.hour() + ':' + dateMoment.minute();
             }
 
+            function isValidBooking () {
+                var nowDateWithoutTime = new Date(),
+                    nowTime = new Date(),
+                    nowHours = nowTime.getHours(),
+                    nowMins = nowTime.getMinutes(),
+                    fromTime = $scope.fromTime,
+                    fromHours = fromTime ? fromTime.getHours() : null,
+                    fromMins = fromTime ? fromTime.getMinutes() : null,
+                    toTime = $scope.toTime,
+                    toHours = toTime ? toTime.getHours() : null,
+                    toMins = toTime ? toTime.getMinutes() : null,
+                    valid = true;
+
+                nowDateWithoutTime.setHours(0,0,0,0);
+
+                if ($scope.startDate < nowDateWithoutTime) {
+                    Flash.create('danger', "<strong>Start Date</strong> should be greater than or equal to <strong>today's date</strong>");
+                    valid = false;
+                }
+
+                if ($scope.endDate < nowDateWithoutTime) {
+                    Flash.create('danger', "<strong>End Date</strong> should be greater than or equal to <strong>today's date</strong>");
+                    valid = false;
+                }
+
+                /*console.log('Start date: ', $scope.startDate, 'Type: ', typeof $scope.startDate);
+                console.log('End date: ', $scope.endDate);
+                console.log('Start Time: ', fromTime);
+                console.log('To Time: ', toTime);
+                console.log('Now Date w/o time: ', nowDateWithoutTime, 'Type: ', typeof nowDateWithoutTime);*/
+
+                if ($scope.startDate.getTime() === nowDateWithoutTime.getTime()
+                    || $scope.endDate.getTime() === nowDateWithoutTime.getTime()) {
+
+                    if (fromHours && fromHours < nowHours) {
+                        Flash.create('danger', "<strong>Start Time</strong> should be greater than the <strong>current time</strong>");
+                        valid = false;
+                    }
+
+                    if (fromHours && fromHours == nowHours && fromMins < nowMins) {
+                        Flash.create('danger', "<strong>Start Time</strong> should be greater than the <strong>current time</strong>");
+                        valid = false;
+                    }
+
+                    if (toHours && toHours < nowHours) {
+                        Flash.create('danger', "<strong>End Time</strong> should be greater than the <strong>current time</strong>");
+                        valid = false;
+                    }
+
+                    if (toHours && toHours == nowHours && toMins && toMins < nowMins) {
+                        Flash.create('danger', "<strong>End Time</strong> should be greater than the <strong>current time</strong>");
+                        valid = false;
+                    }
+                }
+
+                if ($scope.endDate < $scope.startDate) {
+                    Flash.create('danger', "<strong>End Date</strong> should be greater than the <strong>Start Date</strong>");
+                    valid = false;
+                }
+
+                if (toTime && fromTime && toTime < fromTime) {
+                    Flash.create('danger', "<strong>End Time</strong> should be greater than the <strong>Start Time</strong>");
+                    valid = false;
+                }
+
+                /*if (!bookingDetails.startTime || !bookingDetails.endTime) {
+                    message += "'Start Time' 'End Time'";
+                    valid = false;
+                }*/
+
+                return valid;
+            }
+
             // Prepares a booking criteria to find bookings / available spaces
             function getBookingDetails() {
                 var bookingDetails = {};
@@ -214,6 +287,11 @@ angular
                 var path = $scope.getPath(),
                     bookingDetails = getBookingDetails();
 
+                // If booking is invalid, show a Flash message and return
+                if (!isValidBooking()) {
+                    return;
+                }
+
                 if (path == '/booking/create') {
                     $scope.getAvailableSpaces(bookingDetails);
                 } else if (path == '/booking/manage') {
@@ -266,7 +344,7 @@ angular
 
             // Populate the booking scope with the selected space
             $scope.selectSpace = function (space) {
-                console.log('Selected Space: ', space, null, 2);
+                // console.log('Selected Space: ', space, null, 2);
                 $scope.selectedSpace = space;
             };
 
