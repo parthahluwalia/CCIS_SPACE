@@ -8,6 +8,7 @@ angular
             var spaceList = [];
 
             $scope.activeSpaces = [];
+            $scope.room = {};
 
             function getAllActiveSpaces () {
 
@@ -26,14 +27,14 @@ angular
 
             getAllActiveSpaces();
             
-            // Find the space
+            // Find the space -- Deprecated
             $scope.findSpace = function () {
                 var spaceDetails = {},
-                    roomNumber = $scope.roomNumber,
-                    capacity = $scope.capacity;
+                    roomNumber = $scope.room.number,
+                    capacity = $scope.room.capacity;
 
-                if (roomNumber && roomNumber.length > 0) {
-                    spaceDetails.roomNumber = roomNumber;
+                if (room.number && room.number.length > 0) {
+                    spaceDetails.room.number = roomNumber;
                 }
 
                 if (capacity) {
@@ -53,23 +54,23 @@ angular
 
             function getSpaceDetails () {
                 var spaceDetails = {
-                    roomNumber: $scope.roomNumber
+                    roomNumber: $scope.room.number
                 };
 
-                if ($scope.roomDescription) {
-                    spaceDetails.description = $scope.roomDescription;
+                if ($scope.room.description) {
+                    spaceDetails.description = $scope.room.description;
                 }
 
-                if ($scope.roomCapacity) {
-                    spaceDetails.capacity = $scope.roomCapacity;
+                if ($scope.room.capacity) {
+                    spaceDetails.capacity = $scope.room.capacity;
                 }
 
                 if ($scope.projector) {
-                    spaceDetails.projector = $scope.projector;
+                    spaceDetails.projector = $scope.room.projector;
                 }
 
                 if($scope.blueJeans) {
-                    spaceDetails.blueJeans = $scope.blueJeans;
+                    spaceDetails.blueJeans = $scope.room.blueJeans;
                 }
 
                 return spaceDetails;
@@ -78,6 +79,7 @@ angular
             // Add a new space
             $scope.addSpace = function () {
                 var spaceDetails = getSpaceDetails();
+                // console.log('Space Details in controller: ', spaceDetails);
 
                 SpaceService.addSpace(spaceDetails)
                     .then (

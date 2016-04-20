@@ -6,11 +6,11 @@
                 <div class="col-sm-offset-1">
                     <label for="roomNumber" class="col-sm-2">Room Details </label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" id="roomNumber" placeholder="Room Number" required ng-model="roomNumber">
+                        <input type="text" class="form-control" id="roomNumber" placeholder="Room Number" required ng-model="room.number">
                     </div>
                     <!-- <label for="roomDescription" class="col-sm-1">Description </label> -->
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="roomDescription" placeholder="Description" ng-model="roomDescription">
+                        <input type="text" class="form-control" id="roomDescription" placeholder="Description" ng-model="room.description">
                     </div>
                 </div>
             </div>
@@ -20,19 +20,19 @@
                 <div class="col-sm-offset-1">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-2">
-                        <input type="number" class="form-control" id="capacity" placeholder="Capacity" ng-model="roomCapacity">
+                        <input type="number" class="form-control" id="capacity" placeholder="Capacity" ng-model="room.capacity">
                     </div>
                     <div class="col-sm-2">
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" ng-model="projector"> Projector
+                          <input type="checkbox" ng-model="room.projector"> Projector
                         </label>
                       </div>
                     </div>
                     <div class="col-sm-2">
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" ng-model="blueJeans"> Blue Jeans
+                          <input type="checkbox" ng-model="room.blueJeans"> Blue Jeans
                         </label>
                       </div>
                     </div>
