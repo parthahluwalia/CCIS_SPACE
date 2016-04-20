@@ -59,6 +59,22 @@ module.exports = function (ccisroomDb) {
             });
     };
 
+    SpaceService.prototype.getSpaceById = function (spaceId) {
+        return this.RoomModel
+            .findOne({ _id: spaceId })
+            .exec()
+            .then(function (space) {
+                return Promise.resolve({
+                    roomNumber: space.roomNumber,
+                    details: space.details
+                });
+            })
+            .catch (function (err) {
+                console.log('Error while getting space by Id: ', err, null, 2);
+                return Promise.reject(err);
+            });
+    };
+
     SpaceService.prototype.createSpace = function(spaceDetails) {
         var spaceRecord;
 

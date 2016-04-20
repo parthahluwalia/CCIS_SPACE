@@ -20,8 +20,8 @@ angular
                         protected: true
                     }
                 })
-                .state('booking.cancel', {
-                    url: '/cancel',
+                .state('booking.manage', {
+                    url: '/manage',
                     templateUrl: '/modules/booking/views/partials/cancel-booking.client.view.html',
                     params: {
                         protected: true

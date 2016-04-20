@@ -5,6 +5,10 @@ var Promise = require('bluebird'),
     moment = require('moment');
 
 module.exports = function (ccisroomDb) {
+    
+    // Global Variables to be used within the service
+    var BOOKING_CONFIRMED = 'confirmed',
+        BOOKING_CANCELLED = 'cancelled';
 
     // Booking Service Constructor
     function BookingService () {
@@ -99,16 +103,12 @@ module.exports = function (ccisroomDb) {
             ]
         };
 
-        console.log("Times:: ", startTime, endTime, null, 2);
-
-
+        // console.log("Times:: ", startTime, endTime, null, 2);
         if (_.has(bookingDetails, 'priority')) {
             bookingCriteria.priority = bookingDetails.priority;
         }
 
-        if (_.has(bookingDetails, 'status')) {
-            bookingCriteria.status = bookingDetails.status;
-        }
+        bookingCriteria.status = _.has(bookingDetails, 'status') ? bookingDetails.status : 'confirmed';
 
         return bookingCriteria;
     }
@@ -187,9 +187,6 @@ module.exports = function (ccisroomDb) {
     BookingService.prototype.getBookings = function (bookingDetails) {
         var self = this,
             bookingCriteriaList = forkBookingDetailsByRepeatCriteria(bookingDetails);
-            //bookingCriteria = getBookingCriteria(bookingDetails);
-
-        // console.log('Booking Criteria: ', bookingCriteria, null, 2);
 
         return Promise.map(bookingCriteriaList, function (bookingCriteria) {
 
@@ -201,15 +198,35 @@ module.exports = function (ccisroomDb) {
                     /*console.log('Or Condition 1: ', bookingCriteria['$or'][0]['$and'][0], null, 2);
                     console.log('Or Condition 2: ', bookingCriteria['$or'][1]["$and"][1], null, 2);
                     console.log('Got bookings in Service: ', bookings, null, 2);*/
-                    return Promise.resolve(bookings);
+                    // return Promise.resolve(bookings);
+                    return Promise.map(bookings, function (booking) {
+                        var refurbedBooking = {
+                            bookingId: booking._id,
+                            purpose: booking.purpose,
+                            priority: booking.priority,
+                            startTime: booking.startTime,
+                            endTime: booking.endTime
+                        };
+
+                        return self.getRoomAndRequestorDetails(booking)
+                            .then (function (roomAndRequestorDetails) {
+                                refurbedBooking.room = roomAndRequestorDetails.spaceDetails;
+                                refurbedBooking.requestor = roomAndRequestorDetails.requestorDetails;
+
+                                return Promise.resolve(refurbedBooking);
+                            });
+                    }, { concurrency: 1 })
+                    .catch(function (err) {
+                        console.log('Error while fetching room and requestor details: ', err);
+                        return Promise.reject(err);
+                    });
                 })
                 .catch(function (err) {
-                    console.log('Error while fetching booking records: ', err);
+                    console.log('Error while fetching booking details: ', err);
                     return Promise.reject(err);
                 });
         }, { concurrency: 1 })
         .then (function (bookingList) {
-            // console.log('Booking List: ', bookingList);
             // Flatten the list of lists of bookings
             var flattenedBookingList = _.flatten(bookingList);
             console.log('Found bookings List: ', flattenedBookingList, null, 2);
@@ -217,21 +234,82 @@ module.exports = function (ccisroomDb) {
         })
         .catch(function (err) {
             console.log('Error while fetching bookings: ', err, null, 2);
+            return Promise.reject(err);
         });
 
-        /*// Search for the respective bookings
-        return self.BookingModel
-            .find(bookingCriteria)
+    };
+
+    /**
+     * Helper function to get the existing bookings 
+     */
+    BookingService.prototype.getExistingBookingsHelper = function (bookingDetails) {
+        var self = this,
+            bookingCriteriaList = forkBookingDetailsByRepeatCriteria(bookingDetails);
+
+        return Promise.map(bookingCriteriaList, function (bookingCriteria) {
+
+            // Search for the respective bookings
+            return self.BookingModel
+                .find(bookingCriteria)
+                .exec()
+                .then(function (bookings) {
+                    return Promise.resolve(bookings);
+                })
+                .catch(function (err) {
+                    console.log('Error while fetching booking details: ', err);
+                    return Promise.reject(err);
+                });
+        }, { concurrency: 1 })
+        .then (function (bookingList) {
+            // Flatten the list of lists of bookings
+            var flattenedBookingList = _.flatten(bookingList);
+            console.log('Found bookings List: ', flattenedBookingList, null, 2);
+            return Promise.resolve(flattenedBookingList);
+        })
+        .catch(function (err) {
+            console.log('Error while fetching bookings: ', err, null, 2);
+            return Promise.reject(err);
+        });
+    };  
+
+    BookingService.prototype.getRoomAndRequestorDetails = function (booking) {
+        var self = this,
+            reservation = {};
+
+        return new Promise(function (resolve, reject) {
+            return self.SpaceService.getSpaceById(booking.room)
+                .then (function (space) {
+                    reservation.spaceDetails = space;
+                    return self.getRequestorById(booking.requestor);
+                })
+                .then (function (requestor) {
+                    reservation.requestorDetails = requestor;
+                    return resolve(reservation);
+                })
+                .catch(function (err) {
+                    console.log('Error while getting space/requestor by Id: ', err, null, 2);
+                    return reject(err);
+                });
+        });
+    };
+
+    BookingService.prototype.getRequestorById = function (requestorId) {
+        var self = this;
+
+        return self.RequestorModel
+            .findOne({ _id: requestorId })
             .exec()
-            .then(function (bookings) {
-                // console.log('Got bookings in Service: ', bookings, null, 2);
-                return Promise.resolve(bookings);
+            .then (function (requestor) {
+                return Promise.resolve({
+                    email: requestor.email,
+                    name: requestor.name
+                });
             })
-            .catch(function (err) {
-                console.log('Error while fetching booking records: ', err);
+            .catch (function (err) {
+                console.log('Error while getting requestor by Id: ', err, null, 2);
                 return Promise.reject(err);
-            });*/
-    };    
+            });
+    };  
 
     // Helper function to build the query to get the requestor(s)
     // We can get a requestor by email and by name (first and last)
@@ -527,7 +605,7 @@ module.exports = function (ccisroomDb) {
 
                 console.log('Finding bookings based on details: ', bookingDetails, null, 2);
                 // Get the current bookings
-                return self.getBookings(bookingDetails);
+                return self.getExistingBookingsHelper(bookingDetails);
             })
             .then(function (bookings) {
                 var occupiedSpaceIds = _.filter (
@@ -553,7 +631,6 @@ module.exports = function (ccisroomDb) {
                         capacity: spaceInstance.details.capacity,
                         blueJeans: spaceInstance.details.blueJeans,
                         projector: spaceInstance.details.projector
-
                     });
                 });
 
@@ -564,6 +641,28 @@ module.exports = function (ccisroomDb) {
                 return Promise.reject(err);
             });
 
+    };
+
+    BookingService.prototype.cancelBookingById = function (bookingId) {
+        var self = this;
+
+        return self.BookingModel
+            .findById(bookingId)
+            .exec()
+            .then(function (booking) {
+                booking.status = BOOKING_CANCELLED;
+                return booking.save()
+                    .then(function (cancelledBooking) {
+                        return Promise.resolve(booking);
+                    })
+                    .catch(function (err) {
+                        console.log('Error while saving booking: ', err, null, 2);
+                        return Promise.reject(err);
+                    });
+            })
+            .catch(function (err) {
+                return Promise.reject(err);
+            });
     };
 
     return new BookingService();

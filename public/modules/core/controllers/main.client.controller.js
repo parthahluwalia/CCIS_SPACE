@@ -34,6 +34,12 @@ angular
                         });
             };
 
+            // Redirect to login page
+            $scope.loginRedirect = function () {
+                console.log('Redirecting to login state');
+                $state.go('login');
+            };
+
             /**
              * Go to url-hash
              * @param hash
@@ -44,12 +50,12 @@ angular
                 $anchorScroll();
             };
 
-            // Collapsing the menu after navigation -- $scope.on is NOT a function error??? --> WTF!
+            // Collapsing the menu after navigation -- Not working!! Might want to do a $broadcast
+            // Handled at the rootScope for now in core.client.run!
             /*$scope.on('$stateChangeSuccess', function (e, toState) {
-                //For anonymousOnly routes, redirect to home page (for now) 
-                // if ($state.params.anonymousOnly && ($scope.user || $scope.identity)) {
-                if ($state.params.anonymousOnly) {
-                    $location.path('home');
+                //For protected routes, redirect the user to the login page
+                if ($state.params.protected && !$rootScope.user) {
+                    $scope.loginRedirect();
                 }
             });*/
 

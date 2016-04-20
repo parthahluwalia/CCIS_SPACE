@@ -1,7 +1,7 @@
 <ul class="nav nav-tabs">
     <li role="presentation" ng-class="{ 'active': isCreateBookingState() }" ><a ui-sref="booking.create">Booking</a></li>
-    <li role="presentation" ng-class="{ 'active': !isCreateBookingState() }"><a ui-sref="booking.cancel"> <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" -->
-        Cancel Booking<!-- <b class="caret"></b> --></a>
+    <li role="presentation" ng-class="{ 'active': !isCreateBookingState() }">
+    <a ui-sref="booking.manage">Manage Bookings<!-- <b class="caret"></b> --></a>
     </li>
 </ul>
 
@@ -23,15 +23,6 @@
                 </div>
                 
                 <div class="col-sm-2">
-                    <!-- <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Repeat
-                    <span class="caret"></span></button>
-
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Daily</a></li>
-                        <li><a href="#">Weekly</a></li>
-                        <li><a href="#">Biweekly</a></li>
-                        <li><a href="#">Monthly</a></li>
-                    </ul> -->
                     <select ng-if="endDate > startDate" class="form-control" ng-model="repeat.value">
                         <!-- <option>Repeat</option> -->
                         <option value="1">Daily</option>
@@ -75,7 +66,10 @@
             </div>
 
             <div class="col-md-8 col-md-offset-2">
-                <button type="submit" class="btn btn-primary btn-space btn-block">Find Rooms</button>
+                <button type="submit" class="btn btn-primary btn-space btn-block">
+                    <span ng-if="getPath() == '/booking/create'">Find Rooms</span>
+                    <span ng-if="getPath() == '/booking/manage'">Find Bookings</span>
+                </button>
             </div>
         </form>
     </div>

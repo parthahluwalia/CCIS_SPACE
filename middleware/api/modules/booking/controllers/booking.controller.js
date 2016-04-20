@@ -66,5 +66,24 @@ module.exports = function (bookingService) {
             });
     };
 
+    BookingController.prototype.cancelBookingById = function (req, res, next) {
+        var bookingId = req.query.bookingId;
+
+        if (!bookingId) {
+            res.status(400).send({ message: 'No Booking Id specified' });
+        }
+
+        bookingService.cancelBookingById (bookingId)
+            .then (function (cancelledBooking) {
+                console.log('Cancelled Booking: ', cancelledBooking, null, 2);
+                res.status(200).send(cancelledBooking);
+            })
+            .catch(function (err) {
+                console.log('Error while cancelling booking: ', err, null, 2);
+                res.status(400).send(err);
+            });
+
+    };
+
     return new BookingController();
 };

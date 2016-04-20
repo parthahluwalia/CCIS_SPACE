@@ -9,10 +9,14 @@ angular
             return {
                 getBookings: getBookings,
                 getAvailableSpaces: getAvailableSpaces,
-                createBooking: createBooking
+                createBooking: createBooking,
+                groupBookingsByRoom: groupBookingsByRoom,
+                cancelBooking: cancelBooking,
+                getSplicedBookingList: getSplicedBookingList,
+                formatBookingsTimes: formatBookingsTimes
             };
 
-            // Get space based on the space details
+            // Get bookings based on the booking details
             function getBookings (bookingDetails) {
                 var deferred = $q.defer();
 
@@ -20,7 +24,6 @@ angular
                     .then (
                         function (bookingsRes) {
                             var bookings = bookingsRes.data;
-                            // console.log('Service: ', bookings);
                             deferred.resolve(bookings);
                         }, 
                         function (err) {
@@ -30,6 +33,15 @@ angular
                         });
 
                 return deferred.promise;
+            }
+
+            function groupBookingsByRoom (bookings) {
+                var roomBookings = _.groupBy(bookings, function (booking) {
+                    return booking.room.roomNumber;
+                });
+
+                console.log('Grouped Bookings: ', roomBookings, null, 2);
+                return roomBookings;
             }
 
             // Get the available spaces based on the booking criteria
@@ -87,6 +99,42 @@ angular
                             deferred.reject(err);
                         });
                 return deferred.promise;
+            }
+
+            // Cancel a booking
+            function cancelBooking (booking) {
+                var bookingIdParams = { bookingId: booking.bookingId };
+                return $http.delete('/api/booking', { params: bookingIdParams });
+            }
+
+            // Remove a booking from the booking list and returned the spliced list
+            function getSplicedBookingList (bookings, bookingId) {
+                var removedBooking = _.remove(bookings, function (booking) {
+                    return booking.bookingId == bookingId;
+                });
+
+                return bookings;
+            }
+
+            // Helper function to get the date
+            function getFormattedDate(date) {
+                return moment(date).format('ll');
+            }
+
+            // Helper function to get the local time - eg. "11:00 AM"
+            function getLocalTime (date) {
+                return moment(date).format('LT');
+            }
+
+            // Format dates in bookings
+            function formatBookingsTimes (bookings) {
+                _.forEach(bookings, function (booking) {
+                    booking.formattedDate = getFormattedDate(booking.startTime);
+                    booking.formattedFromTime = getLocalTime(booking.startTime);
+                    booking.formattedToTime = getLocalTime(booking.endTime);
+                });
+
+                console.log('Formatted Bookings: ', bookings, null, 2);
             }
             
         }

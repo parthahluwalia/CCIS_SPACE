@@ -71,10 +71,10 @@ angular
 ApplicationConfiguration.registerModule('booking');
 'use strict';
 // Use application configuration module to register a new module
-ApplicationConfiguration.registerModule('core');
+ApplicationConfiguration.registerModule('home');
 'use strict';
 // Use application configuration module to register a new module
-ApplicationConfiguration.registerModule('home');
+ApplicationConfiguration.registerModule('core');
 'use strict';
 // Use application configuration module to register a new module
 ApplicationConfiguration.registerModule('user');
@@ -103,8 +103,8 @@ angular
                         protected: true
                     }
                 })
-                .state('booking.cancel', {
-                    url: '/cancel',
+                .state('booking.manage', {
+                    url: '/manage',
                     templateUrl: '/modules/booking/views/partials/cancel-booking.client.view.html',
                     params: {
                         protected: true
@@ -118,12 +118,23 @@ angular
     .module('booking')
     .controller('BookingController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', '$filter', 'BookingService', '$location', 'Flash', 'lodash',
         function ($rootScope, $scope, $state, $http, $stateParams, $filter, BookingService, $location, Flash, _) {
-
+            // Global list of bookings - Mainly used while managing the bookings
+            var bookingList = [];
+            
             // We are working with nested (ui-view) scopes, so intitialize the requestor object, so that 
             // the respective (requestor) ng-model will first read and then write the property on it. 
             $scope.requestor = {};
             $scope.newBooking = null;
             $scope.repeat = {};
+
+            // Return location path
+            $scope.getPath = function () {
+                return $location.path();
+            };
+
+            if ($scope.getPath() == '/booking/manage') {
+                $scope.roomBookings = null;
+            }
 
             $scope.isCreateBookingState = function () {
                 return $state.current.name === 'booking.create';
@@ -192,8 +203,7 @@ angular
                     _.set(bookingDetails, 'requestor.last', $scope.requestor.last);
                 }
 
-                console.log('Booking Details: ', bookingDetails, null, 2);
-
+                // console.log('Booking Details: ', bookingDetails, null, 2);
                 return bookingDetails;
             }
 
@@ -201,13 +211,14 @@ angular
             // Clicking "Find Rooms" submit button => Get the available spaces
             // Clicking "Find Bookings" submit button
             $scope.getRespectiveBookingData = function () {
-                var path = $location.path(),
+                var path = $scope.getPath(),
                     bookingDetails = getBookingDetails();
 
                 if (path == '/booking/create') {
                     $scope.getAvailableSpaces(bookingDetails);
-                } else if (path == '/booking/cancel') {
-                    console.log('Get Cancel Booking data');
+                } else if (path == '/booking/manage') {
+                    // console.log('Get Cancel Booking data');
+                    $scope.getBookings(bookingDetails);
                 }
             };
 
@@ -217,8 +228,17 @@ angular
                 BookingService.getBookings(bookingDetails)
                     .then(
                         function (bookings) {
-                            console.log('Bookings: ', bookings);
-                            $scope.bookings = bookings;
+                            // console.log('Existing Bookings: ', bookings);
+                            if (bookings.length < 1) {
+                                Flash.create('warning', 'No Bookings found for the specified times');
+                                return;
+                            }
+
+                            BookingService.formatBookingsTimes(bookings);
+
+                            bookingList = bookings;
+                            $scope.roomBookings = BookingService.groupBookingsByRoom(bookings);
+                            // $scope.bookings = bookings;
                         },
                         function (err) {
                             console.log('Error while getting spaces: ', err, null, 2);
@@ -290,7 +310,7 @@ angular
                             BookingService.getAvailableSpaces(bookingDetails)
                                 .then (
                                     function (availableSpaceRes) {
-                                        console.log('Available space Res: ', availableSpaceRes);
+                                        // console.log('Available space Res: ', availableSpaceRes);
                                         $scope.availableSpaces = availableSpaceRes.data;
                                     },
                                     function (err) {
@@ -299,6 +319,21 @@ angular
                         },
                         function (err) {
                             console.log('Error while creating a new booking: ', err, null, 2);
+                        });
+            };
+
+            // Delete a booking
+            $scope.cancelBooking = function (booking) {
+                BookingService.cancelBooking(booking)
+                    .then (
+                        function (cancelledBookingRes) {
+                            var cancelledBookingId = cancelledBookingRes.data._id,
+                                splicedBookingList = BookingService.getSplicedBookingList(bookingList, cancelledBookingId);
+                            
+                            $scope.roomBookings = BookingService.groupBookingsByRoom(splicedBookingList);
+                        },
+                        function (err) {
+                            console.log('Error while cancelling booking: ', err);
                         });
             };
 
@@ -323,10 +358,14 @@ angular
             return {
                 getBookings: getBookings,
                 getAvailableSpaces: getAvailableSpaces,
-                createBooking: createBooking
+                createBooking: createBooking,
+                groupBookingsByRoom: groupBookingsByRoom,
+                cancelBooking: cancelBooking,
+                getSplicedBookingList: getSplicedBookingList,
+                formatBookingsTimes: formatBookingsTimes
             };
 
-            // Get space based on the space details
+            // Get bookings based on the booking details
             function getBookings (bookingDetails) {
                 var deferred = $q.defer();
 
@@ -334,7 +373,6 @@ angular
                     .then (
                         function (bookingsRes) {
                             var bookings = bookingsRes.data;
-                            // console.log('Service: ', bookings);
                             deferred.resolve(bookings);
                         }, 
                         function (err) {
@@ -344,6 +382,15 @@ angular
                         });
 
                 return deferred.promise;
+            }
+
+            function groupBookingsByRoom (bookings) {
+                var roomBookings = _.groupBy(bookings, function (booking) {
+                    return booking.room.roomNumber;
+                });
+
+                console.log('Grouped Bookings: ', roomBookings, null, 2);
+                return roomBookings;
             }
 
             // Get the available spaces based on the booking criteria
@@ -402,7 +449,58 @@ angular
                         });
                 return deferred.promise;
             }
+
+            // Cancel a booking
+            function cancelBooking (booking) {
+                var bookingIdParams = { bookingId: booking.bookingId };
+                return $http.delete('/api/booking', { params: bookingIdParams });
+            }
+
+            // Remove a booking from the booking list and returned the spliced list
+            function getSplicedBookingList (bookings, bookingId) {
+                var removedBooking = _.remove(bookings, function (booking) {
+                    return booking.bookingId == bookingId;
+                });
+
+                return bookings;
+            }
+
+            // Helper function to get the date
+            function getFormattedDate(date) {
+                return moment(date).format('ll');
+            }
+
+            // Helper function to get the local time - eg. "11:00 AM"
+            function getLocalTime (date) {
+                return moment(date).format('LT');
+            }
+
+            // Format dates in bookings
+            function formatBookingsTimes (bookings) {
+                _.forEach(bookings, function (booking) {
+                    booking.formattedDate = getFormattedDate(booking.startTime);
+                    booking.formattedFromTime = getLocalTime(booking.startTime);
+                    booking.formattedToTime = getLocalTime(booking.endTime);
+                });
+
+                console.log('Formatted Bookings: ', bookings, null, 2);
+            }
             
+        }
+    ]);
+'use strict';
+
+// Setting up route
+angular
+    .module('home')
+    .config(['$stateProvider',
+        function($stateProvider) {
+            // Home state routing
+            $stateProvider
+                .state('home', {
+                    url: '/',
+                    templateUrl: 'modules/home/views/home.client.view.html'
+                });
         }
     ]);
 'use strict';
@@ -427,6 +525,18 @@ angular
                 if (toState.redirectTo) {
                     event.preventDefault();
                     $state.go(toState.redirectTo, stateParams);
+                }
+            });
+
+            // Redirect to login state
+            $rootScope.loginRedirect = function () {
+                $state.go('login');
+            };
+
+            // On state change, check if a route is protected and user is not logged in, redirect to login, if yes
+            $rootScope.$on('$stateChangeSuccess', function(event, toState, toStateParams, fromState, fromStateParams) {
+                if (toStateParams.protected && !$rootScope.user) {
+                    $rootScope.loginRedirect();           
                 }
             });
         }
@@ -467,6 +577,12 @@ angular
                         });
             };
 
+            // Redirect to login page
+            $scope.loginRedirect = function () {
+                console.log('Redirecting to login state');
+                $state.go('login');
+            };
+
             /**
              * Go to url-hash
              * @param hash
@@ -477,12 +593,12 @@ angular
                 $anchorScroll();
             };
 
-            // Collapsing the menu after navigation -- $scope.on is NOT a function error??? --> WTF!
+            // Collapsing the menu after navigation -- Not working!! Might want to do a $broadcast
+            // Handled at the rootScope for now in core.client.run!
             /*$scope.on('$stateChangeSuccess', function (e, toState) {
-                //For anonymousOnly routes, redirect to home page (for now) 
-                // if ($state.params.anonymousOnly && ($scope.user || $scope.identity)) {
-                if ($state.params.anonymousOnly) {
-                    $location.path('home');
+                //For protected routes, redirect the user to the login page
+                if ($state.params.protected && !$rootScope.user) {
+                    $scope.loginRedirect();
                 }
             });*/
 
@@ -496,21 +612,6 @@ angular
     .factory('lodash', ['$window',
         function ($window) {
             return $window._;
-        }
-    ]);
-'use strict';
-
-// Setting up route
-angular
-    .module('home')
-    .config(['$stateProvider',
-        function($stateProvider) {
-            // Home state routing
-            $stateProvider
-                .state('home', {
-                    url: '/',
-                    templateUrl: 'modules/home/views/home.client.view.html'
-                });
         }
     ]);
 // Setting up route

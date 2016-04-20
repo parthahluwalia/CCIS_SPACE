@@ -4,12 +4,23 @@ angular
     .module('booking')
     .controller('BookingController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', '$filter', 'BookingService', '$location', 'Flash', 'lodash',
         function ($rootScope, $scope, $state, $http, $stateParams, $filter, BookingService, $location, Flash, _) {
-
+            // Global list of bookings - Mainly used while managing the bookings
+            var bookingList = [];
+            
             // We are working with nested (ui-view) scopes, so intitialize the requestor object, so that 
             // the respective (requestor) ng-model will first read and then write the property on it. 
             $scope.requestor = {};
             $scope.newBooking = null;
             $scope.repeat = {};
+
+            // Return location path
+            $scope.getPath = function () {
+                return $location.path();
+            };
+
+            if ($scope.getPath() == '/booking/manage') {
+                $scope.roomBookings = null;
+            }
 
             $scope.isCreateBookingState = function () {
                 return $state.current.name === 'booking.create';
@@ -78,8 +89,7 @@ angular
                     _.set(bookingDetails, 'requestor.last', $scope.requestor.last);
                 }
 
-                console.log('Booking Details: ', bookingDetails, null, 2);
-
+                // console.log('Booking Details: ', bookingDetails, null, 2);
                 return bookingDetails;
             }
 
@@ -87,13 +97,14 @@ angular
             // Clicking "Find Rooms" submit button => Get the available spaces
             // Clicking "Find Bookings" submit button
             $scope.getRespectiveBookingData = function () {
-                var path = $location.path(),
+                var path = $scope.getPath(),
                     bookingDetails = getBookingDetails();
 
                 if (path == '/booking/create') {
                     $scope.getAvailableSpaces(bookingDetails);
-                } else if (path == '/booking/cancel') {
-                    console.log('Get Cancel Booking data');
+                } else if (path == '/booking/manage') {
+                    // console.log('Get Cancel Booking data');
+                    $scope.getBookings(bookingDetails);
                 }
             };
 
@@ -103,8 +114,17 @@ angular
                 BookingService.getBookings(bookingDetails)
                     .then(
                         function (bookings) {
-                            console.log('Bookings: ', bookings);
-                            $scope.bookings = bookings;
+                            // console.log('Existing Bookings: ', bookings);
+                            if (bookings.length < 1) {
+                                Flash.create('warning', 'No Bookings found for the specified times');
+                                return;
+                            }
+
+                            BookingService.formatBookingsTimes(bookings);
+
+                            bookingList = bookings;
+                            $scope.roomBookings = BookingService.groupBookingsByRoom(bookings);
+                            // $scope.bookings = bookings;
                         },
                         function (err) {
                             console.log('Error while getting spaces: ', err, null, 2);
@@ -176,7 +196,7 @@ angular
                             BookingService.getAvailableSpaces(bookingDetails)
                                 .then (
                                     function (availableSpaceRes) {
-                                        console.log('Available space Res: ', availableSpaceRes);
+                                        // console.log('Available space Res: ', availableSpaceRes);
                                         $scope.availableSpaces = availableSpaceRes.data;
                                     },
                                     function (err) {
@@ -185,6 +205,21 @@ angular
                         },
                         function (err) {
                             console.log('Error while creating a new booking: ', err, null, 2);
+                        });
+            };
+
+            // Delete a booking
+            $scope.cancelBooking = function (booking) {
+                BookingService.cancelBooking(booking)
+                    .then (
+                        function (cancelledBookingRes) {
+                            var cancelledBookingId = cancelledBookingRes.data._id,
+                                splicedBookingList = BookingService.getSplicedBookingList(bookingList, cancelledBookingId);
+                            
+                            $scope.roomBookings = BookingService.groupBookingsByRoom(splicedBookingList);
+                        },
+                        function (err) {
+                            console.log('Error while cancelling booking: ', err);
                         });
             };
 
