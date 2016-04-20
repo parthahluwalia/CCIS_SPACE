@@ -71,10 +71,10 @@ angular
 ApplicationConfiguration.registerModule('booking');
 'use strict';
 // Use application configuration module to register a new module
-ApplicationConfiguration.registerModule('home');
+ApplicationConfiguration.registerModule('core');
 'use strict';
 // Use application configuration module to register a new module
-ApplicationConfiguration.registerModule('core');
+ApplicationConfiguration.registerModule('home');
 'use strict';
 // Use application configuration module to register a new module
 ApplicationConfiguration.registerModule('user');
@@ -110,6 +110,147 @@ angular
                         protected: true
                     }
                 });
+        }
+    ]);
+'use strict';
+
+// Service that provides helper functions for Space Controller
+angular
+    .module('booking')
+    .factory('BookingService', ['$http', '$q', 'lodash',
+        function ($http, $q, _) {
+            // Provide service functions as closure
+            return {
+                getBookings: getBookings,
+                getAvailableSpaces: getAvailableSpaces,
+                createBooking: createBooking,
+                groupBookingsByRoom: groupBookingsByRoom,
+                cancelBooking: cancelBooking,
+                getSplicedBookingList: getSplicedBookingList,
+                formatBookingsTimes: formatBookingsTimes
+            };
+
+            // Get bookings based on the booking details
+            function getBookings (bookingDetails) {
+                var deferred = $q.defer();
+
+                $http.get('/api/booking', { params: bookingDetails })
+                    .then (
+                        function (bookingsRes) {
+                            var bookings = bookingsRes.data;
+                            deferred.resolve(bookings);
+                        }, 
+                        function (err) {
+                            // Trigger Error
+                            console.log('Error while getting bookings', err, null, 2);
+                            deferred.reject(err);
+                        });
+
+                return deferred.promise;
+            }
+
+            function groupBookingsByRoom (bookings) {
+                var roomBookings = _.groupBy(bookings, function (booking) {
+                    return booking.room.roomNumber;
+                });
+
+                console.log('Grouped Bookings: ', roomBookings, null, 2);
+                return roomBookings;
+            }
+
+            // Get the available spaces based on the booking criteria
+            function getAvailableSpaces (bookingDetails) {
+                return $http.get('/api/booking/available-space', { params: bookingDetails });
+            }
+
+            // Helper function to get the created booking (with proper start and end dates)
+            function getCreatedBooking (bookings) {
+                var newBooking = {},
+                    startBooking = _.minBy(bookings, 'startTime'),
+                    minStartTimeStr = startBooking.startTime,
+                    maxEndTimeStr = _.maxBy(bookings, 'endTime').endTime,
+                    startTime = moment(minStartTimeStr, moment.ISO_8601),
+                    endTime = moment(maxEndTimeStr, moment.ISO_8601),
+                    multipleDayBooking = true,
+                    startDate = startTime.format('ll'),
+                    endDate = endTime.format('ll'),
+                    day = startTime.format('dddd');
+
+                if (bookings.length === 1) {
+                    multipleDayBooking = false;
+                }
+
+                if (multipleDayBooking) {
+                    day = day + 's';
+                }
+
+                newBooking.multipleDayBooking = multipleDayBooking;
+                newBooking.day = day;
+                newBooking.startDate = startDate;
+                newBooking.endDate = endDate;
+                newBooking.purpose = startBooking.purpose;
+                newBooking.priority = startBooking.priority;
+
+                newBooking.nBookings = bookings;
+
+                return newBooking;
+            }
+
+            // Create a new booking
+            function createBooking (bookingDetails) {
+                var deferred = $q.defer();
+                $http.post('/api/booking', bookingDetails)
+                    .then (
+                        function (bookingRes) {
+                            var bookings = bookingRes.data,
+                                newBooking = getCreatedBooking(bookings);
+
+                            deferred.resolve(newBooking);
+                        },
+                        function (err) {
+                            // Trigger Error
+                            console.log('Error while creating a new booking', err, null, 2);
+                            deferred.reject(err);
+                        });
+                return deferred.promise;
+            }
+
+            // Cancel a booking
+            function cancelBooking (booking) {
+                var bookingIdParams = { bookingId: booking.bookingId };
+                return $http.delete('/api/booking', { params: bookingIdParams });
+            }
+
+            // Remove a booking from the booking list and return the spliced list
+            function getSplicedBookingList (bookings, bookingId) {
+                var removedBooking = _.remove(bookings, function (booking) {
+                    return booking.bookingId == bookingId;
+                });
+
+                return bookings;
+            }
+
+            // Helper function to get the date
+            function getFormattedDate(date) {
+                return moment(date).format('ll');
+            }
+
+            // Helper function to get the local time - eg. "11:00 AM"
+            function getLocalTime (date) {
+                return moment(date).format('LT');
+            }
+
+            // Format dates in bookings
+            function formatBookingsTimes (bookings) {
+                _.forEach(bookings, function (booking) {
+                    booking.formattedDate = getFormattedDate(booking.startTime);
+                    booking.formattedFromTime = getLocalTime(booking.startTime);
+                    booking.formattedToTime = getLocalTime(booking.endTime);
+                });
+
+                console.log('Formatted Bookings: ', bookings, null, 2);
+            }
+            
         }
     ]);
 'use strict';
@@ -349,162 +490,6 @@ angular
 
 'use strict';
 
-// Service that provides helper functions for Space Controller
-angular
-    .module('booking')
-    .factory('BookingService', ['$http', '$q', 'lodash',
-        function ($http, $q, _) {
-            // Provide service functions as closure
-            return {
-                getBookings: getBookings,
-                getAvailableSpaces: getAvailableSpaces,
-                createBooking: createBooking,
-                groupBookingsByRoom: groupBookingsByRoom,
-                cancelBooking: cancelBooking,
-                getSplicedBookingList: getSplicedBookingList,
-                formatBookingsTimes: formatBookingsTimes
-            };
-
-            // Get bookings based on the booking details
-            function getBookings (bookingDetails) {
-                var deferred = $q.defer();
-
-                $http.get('/api/booking', { params: bookingDetails })
-                    .then (
-                        function (bookingsRes) {
-                            var bookings = bookingsRes.data;
-                            deferred.resolve(bookings);
-                        }, 
-                        function (err) {
-                            // Trigger Error
-                            console.log('Error while getting bookings', err, null, 2);
-                            deferred.reject(err);
-                        });
-
-                return deferred.promise;
-            }
-
-            function groupBookingsByRoom (bookings) {
-                var roomBookings = _.groupBy(bookings, function (booking) {
-                    return booking.room.roomNumber;
-                });
-
-                console.log('Grouped Bookings: ', roomBookings, null, 2);
-                return roomBookings;
-            }
-
-            // Get the available spaces based on the booking criteria
-            function getAvailableSpaces (bookingDetails) {
-                return $http.get('/api/booking/available-space', { params: bookingDetails });
-            }
-
-            // Helper function to get the created booking (with proper start and end dates)
-            function getCreatedBooking (bookings) {
-                var newBooking = {},
-                    startBooking = _.minBy(bookings, 'startTime'),
-                    minStartTimeStr = startBooking.startTime,
-                    maxEndTimeStr = _.maxBy(bookings, 'endTime').endTime,
-                    startTime = moment(minStartTimeStr, moment.ISO_8601),
-                    endTime = moment(maxEndTimeStr, moment.ISO_8601),
-                    multipleDayBooking = true,
-                    startDate = startTime.format('ll'),
-                    endDate = endTime.format('ll'),
-                    day = startTime.format('dddd');
-
-                if (bookings.length === 1) {
-                    multipleDayBooking = false;
-                }
-
-                if (multipleDayBooking) {
-                    day = day + 's';
-                }
-
-                newBooking.multipleDayBooking = multipleDayBooking;
-                newBooking.day = day;
-                newBooking.startDate = startDate;
-                newBooking.endDate = endDate;
-                newBooking.purpose = startBooking.purpose;
-                newBooking.priority = startBooking.priority;
-
-                newBooking.nBookings = bookings;
-
-                return newBooking;
-            }
-
-            // Create a new booking
-            function createBooking (bookingDetails) {
-                var deferred = $q.defer();
-                $http.post('/api/booking', bookingDetails)
-                    .then (
-                        function (bookingRes) {
-                            var bookings = bookingRes.data,
-                                newBooking = getCreatedBooking(bookings);
-
-                            deferred.resolve(newBooking);
-                        },
-                        function (err) {
-                            // Trigger Error
-                            console.log('Error while creating a new booking', err, null, 2);
-                            deferred.reject(err);
-                        });
-                return deferred.promise;
-            }
-
-            // Cancel a booking
-            function cancelBooking (booking) {
-                var bookingIdParams = { bookingId: booking.bookingId };
-                return $http.delete('/api/booking', { params: bookingIdParams });
-            }
-
-            // Remove a booking from the booking list and returned the spliced list
-            function getSplicedBookingList (bookings, bookingId) {
-                var removedBooking = _.remove(bookings, function (booking) {
-                    return booking.bookingId == bookingId;
-                });
-
-                return bookings;
-            }
-
-            // Helper function to get the date
-            function getFormattedDate(date) {
-                return moment(date).format('ll');
-            }
-
-            // Helper function to get the local time - eg. "11:00 AM"
-            function getLocalTime (date) {
-                return moment(date).format('LT');
-            }
-
-            // Format dates in bookings
-            function formatBookingsTimes (bookings) {
-                _.forEach(bookings, function (booking) {
-                    booking.formattedDate = getFormattedDate(booking.startTime);
-                    booking.formattedFromTime = getLocalTime(booking.startTime);
-                    booking.formattedToTime = getLocalTime(booking.endTime);
-                });
-
-                console.log('Formatted Bookings: ', bookings, null, 2);
-            }
-            
-        }
-    ]);
-'use strict';
-
-// Setting up route
-angular
-    .module('home')
-    .config(['$stateProvider',
-        function($stateProvider) {
-            // Home state routing
-            $stateProvider
-                .state('home', {
-                    url: '/',
-                    templateUrl: 'modules/home/views/home.client.view.html'
-                });
-        }
-    ]);
-'use strict';
-
 //Setting up route
 angular
     .module('core')
@@ -612,6 +597,21 @@ angular
     .factory('lodash', ['$window',
         function ($window) {
             return $window._;
+        }
+    ]);
+'use strict';
+
+// Setting up route
+angular
+    .module('home')
+    .config(['$stateProvider',
+        function($stateProvider) {
+            // Home state routing
+            $stateProvider
+                .state('home', {
+                    url: '/',
+                    templateUrl: 'modules/home/views/home.client.view.html'
+                });
         }
     ]);
 // Setting up route
@@ -748,6 +748,27 @@ angular
     .module('space')
     .controller('SpaceController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', 'lodash', 'SpaceService', '$q',
         function ($rootScope, $scope, $state, $http, $stateParams, _, SpaceService, $q) {
+
+            var spaceList = [];
+
+            $scope.activeSpaces = [];
+
+            function getAllActiveSpaces () {
+
+                return SpaceService.getAllActiveSpaces()
+                    .then (
+                        function (activeSpaceRes) {
+                            spaceList = activeSpaceRes.data;
+                            
+                            SpaceService.formatActiveSpaces(spaceList);
+                            $scope.activeSpaces = spaceList;
+                        },
+                        function (err) {
+                            console.log('Error while getting all spaces: ', err);
+                        });
+            }
+
+            getAllActiveSpaces();
             
             // Find the space
             $scope.findSpace = function () {
@@ -773,6 +794,64 @@ angular
                             console.log('Error while getting spaces');
                         });
             };
+
+            function getSpaceDetails () {
+                var spaceDetails = {
+                    roomNumber: $scope.roomNumber
+                };
+
+                if ($scope.roomDescription) {
+                    spaceDetails.description = $scope.roomDescription;
+                }
+
+                if ($scope.roomCapacity) {
+                    spaceDetails.capacity = $scope.roomCapacity;
+                }
+
+                if ($scope.projector) {
+                    spaceDetails.projector = $scope.projector;
+                }
+
+                if($scope.blueJeans) {
+                    spaceDetails.blueJeans = $scope.blueJeans;
+                }
+
+                return spaceDetails;
+            }
+
+            // Add a new space
+            $scope.addSpace = function () {
+                var spaceDetails = getSpaceDetails();
+
+                SpaceService.addSpace(spaceDetails)
+                    .then (
+                        function (spaceRes){
+                            var space = spaceRes.data;
+                            SpaceService.formatSpace(space);
+                            spaceList.push(space);
+
+                            $scope.activeSpaces = spaceList;
+                        },
+                        function (err) {
+                            console.log('Error while adding space: ', err, null, 2);
+                        });
+            };
+
+            // Delete a space
+            $scope.deleteSpace = function (space) {
+                console.log('Space to be deleted: ', space, null, 2);
+                SpaceService.deleteSpace(space)
+                    .then (
+                        function (deletedSpaceRes) {
+                            var deletedSpaceId = deletedSpaceRes.data._id,
+                                splicedSpaceList = SpaceService.getSplicedSpaceList(spaceList, deletedSpaceId);
+
+                            $scope.activeSpaces = splicedSpaceList;
+                        },
+                        function (err) {
+                            console.log('Error while deleting space: ', err);
+                        });
+            };
             
         }
     ])
@@ -781,11 +860,17 @@ angular
 // Service that provides helper functions for Space Controller
 angular
     .module('space')
-    .factory('SpaceService', ['$http', '$q',
-        function ($http, $q) {
+    .factory('SpaceService', ['$http', '$q', 'lodash',
+        function ($http, $q, _) {
             // Provide service functions as closure
             return {
-                getSpace: getSpace
+                getSpace: getSpace,
+                getAllActiveSpaces: getAllActiveSpaces,
+                formatActiveSpaces: formatActiveSpaces,
+                formatSpace: formatSpace,
+                addSpace: addSpace,
+                deleteSpace: deleteSpace,
+                getSplicedSpaceList: getSplicedSpaceList
             };
 
             // Get space based on the space details
@@ -793,6 +878,47 @@ angular
                 return $http.get('/api/space', { params: spaceDetails });
             }
 
+            // Get all active spaces
+            function getAllActiveSpaces () {
+                return $http.get('/api/space/all');
+            }
+
+            // Format all the active space details if not present
+            function formatActiveSpaces (spaces) {
+                _.forEach(spaces, function (space) {
+                    if (!_.has(space, 'details.capacity')) {
+                        _.set(space, 'details.capacity', 'NA');
+                    }
+
+                });
+            }
+
+            // Format a space
+            function formatSpace (space) {
+                if (!_.has(space, 'details.capacity')) {
+                    _.set(space, 'details.capacity', 'NA');
+                }   
+            }
+
+            // Add a new space
+            function addSpace (spaceDetails) {
+                return $http.post('/api/space', spaceDetails);
+            }
+
+            // Delete a space by Id
+            function deleteSpace (space) {
+                var spaceIdParams = { spaceId: space._id };
+                return $http.delete('/api/space', { params: spaceIdParams });
+            }
+
+            // Remove a space from the space list and return the spliced list
+            function getSplicedSpaceList (spaces, spaceId) {
+                var removedSpace = _.remove(spaces, function (space) {
+                    return space._id == spaceId;
+                });
+
+                return spaces;
+            }
             
         }
     ]);

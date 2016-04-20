@@ -57,5 +57,33 @@ module.exports = function (spaceService) {
                 return res.status(400).send(error);
             });
     };
+
+    SpaceController.prototype.getAllActiveSpaces = function (req, res, next) {
+        return spaceService.getAllActiveSpaces()
+            .then(function (spaces) {
+                return res.status(200).send(spaces);
+            })
+            .catch(function (err) {
+                console.log('Error while getting all active spaces: ', err);
+                return res.status(400).send(err);
+            });
+    };
+
+    SpaceController.prototype.deleteSpaceById = function (req, res, next) {
+        var spaceId = req.query.spaceId;
+        if (!spaceId) {
+            return res.status(200).send({ message: 'No Space Id found in the request' });
+        }
+
+        return spaceService.deleteSpaceById(spaceId)
+            .then(function (deletedSpace) {
+                return res.status(200).send(deletedSpace);
+            })
+            .catch(function (err) {
+                console.log('Error while deleting a space: ', err);
+                return res.status(400).send(err);
+            });
+    };
+
     return new SpaceController();
 };

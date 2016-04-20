@@ -18,9 +18,10 @@ module.exports = function (services, config) {
 
     // Load module services
     services.space = require('./services/space.service.js')(ccisroomDb);
+    services.member = require('../member/services/member.service.js')(ccisroomDb);
 
     // Load routes
-    require('./routes/space.routes.js')(moduleRoutes, services.space);
+    require('./routes/space.routes.js')(moduleRoutes, services.space, services.member);
 
     // Attach routes
     moduleApp.use(modulePath, moduleRoutes);

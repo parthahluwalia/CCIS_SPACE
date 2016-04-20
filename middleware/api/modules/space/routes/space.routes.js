@@ -3,11 +3,14 @@
  */
 'use strict';
 
-module.exports = function (moduleRoutes, spaceService) {
+module.exports = function (moduleRoutes, spaceService, memberService) {
 
-    var spaceController = require('../controllers/space.controller.js')(spaceService);
+    var spaceController = require('../controllers/space.controller.js')(spaceService),
+    	memberController = require('../../member/controllers/member.controller.js')(memberService);
 
-    moduleRoutes.get('/', spaceController.getSpace);
-    moduleRoutes.post('/', spaceController.createSpace);
-    moduleRoutes.put('/', spaceController.updateSpace);
+    moduleRoutes.get('/', memberController.isAuthenticated, spaceController.getSpace);
+    moduleRoutes.post('/', memberController.isAuthenticated, spaceController.createSpace);
+    moduleRoutes.put('/', memberController.isAuthenticated, spaceController.updateSpace);
+    moduleRoutes.get('/all', spaceController.getAllActiveSpaces);
+    moduleRoutes.delete('/', memberController.isAuthenticated, spaceController.deleteSpaceById)
 };

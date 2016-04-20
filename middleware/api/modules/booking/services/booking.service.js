@@ -650,6 +650,10 @@ module.exports = function (ccisroomDb) {
             .findById(bookingId)
             .exec()
             .then(function (booking) {
+                if(!booking) {
+                    return Promise.reject('Booking with _id ', bookingId, 'not found');
+                }
+
                 booking.status = BOOKING_CANCELLED;
                 return booking.save()
                     .then(function (cancelledBooking) {

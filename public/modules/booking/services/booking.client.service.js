@@ -107,7 +107,7 @@ angular
                 return $http.delete('/api/booking', { params: bookingIdParams });
             }
 
-            // Remove a booking from the booking list and returned the spliced list
+            // Remove a booking from the booking list and return the spliced list
             function getSplicedBookingList (bookings, bookingId) {
                 var removedBooking = _.remove(bookings, function (booking) {
                     return booking.bookingId == bookingId;

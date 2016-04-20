@@ -180,5 +180,31 @@ module.exports = function (ccisroomDb) {
             })
     };
 
+    SpaceService.prototype.deleteSpaceById = function (spaceId) {
+        var self = this;
+
+        return self.RoomModel
+            .findById(spaceId)
+            .exec()
+            .then(function (space) {
+                if (!space) {
+                    return Promise.reject('Space with _id ', spaceId, 'Not Found');
+                }
+
+                space.active = false;
+                return space.save()
+                    .then(function (deletedSpace) {
+                        return Promise.resolve(deletedSpace);
+                    })
+                    .catch(function (err) {
+                        console.log('Error while saving deleted space: ', err);
+                        return Promise.reject(err);
+                    });
+            })
+            .catch(function (err) {
+                return Promise.reject(err);
+            });
+    };
+
     return new SpaceService();
 };
