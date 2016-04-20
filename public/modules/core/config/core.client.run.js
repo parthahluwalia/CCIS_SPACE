@@ -17,10 +17,19 @@ angular
                 $state.go('login');
             };
 
+            // Redirect to home
+            $rootScope.homeRedrect = function () {
+                $state.go('home');
+            }
+
             // On state change, check if a route is protected and user is not logged in, redirect to login, if yes
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toStateParams, fromState, fromStateParams) {
                 if (toStateParams.protected && !$rootScope.user) {
                     $rootScope.loginRedirect();           
+                }
+
+                if ($rootScope.user && toStateParams.superUserOnly && !$rootScope.user.isSuperUser) {
+                    $rootScope.homeRedrect();
                 }
             });
         }

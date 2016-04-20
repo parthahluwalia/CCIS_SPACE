@@ -1,22 +1,67 @@
 <section>
-	<table class="table table-striped table-responsive space-results">
-        <thead>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Tags</th>
-            <th>Operation</th>
-        </thead>
-        <tbody>
-            <tr ng-repeat="user in nonAdminUsers">
-                <td><b>{{user.email}}</b></td>
-                <td>{{user.name.first}} {{user.name.last}}</td>
-                <td>
-                	[ <span ng-repeat="tag in user.tags">'{{tag}}' </span>]
-                </td>
-                <td>
-                    Update / Delete Buttons
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row">
+        <form class="form-horizontal" ng-submit="addUser()">
+            <div class="form-group">
+                <label for="email" class="col-sm-2">Manage Users </label>
+            </div> 
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <input type="email" class="form-control" id="email" placeholder="Email" required ng-model="user.email">
+                </div>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" id="email" placeholder="Password" required ng-model="user.password">
+                </div>
+                <div class="col-sm-2 col-sm-offset-1">
+                    <input type="text" class="form-control" id="phone" placeholder="Phone" ng-model="user.phone">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="user.first">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="user.last">
+                </div>
+                <div class="col-sm-2">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="user.admin"> Admin
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-2 col-sm-offset-3">
+                    <button type="submit" class="btn btn-primary btn-space btn-block">
+                        <strong>Add User</strong> <!-- <i class="fa fa-lg fa-plus" aria-hidden="true"></i> -->
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="row space-results">
+        <table class="table table-striped table-responsive">
+            <thead>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Tags</th>
+                <th>Manage</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users">
+                    <td><b>{{user.email}}</b></td>
+                    <td>{{user.name.first}} {{user.name.last}}</td>
+                    <td>{{user.phone}}</td>
+                    <td>
+                        [ <span ng-repeat="tag in user.tags">'{{tag}}' </span>]
+                    </td>
+                    <td>
+                        Update / Delete Buttons
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </section>

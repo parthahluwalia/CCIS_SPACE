@@ -17,12 +17,12 @@ module.exports = function (moduleRoutes, memberService, passport) {
     moduleRoutes.post('/login', passport.authenticate('local-login', { failureRedirect: '/api/member/loginFailiure', failureFlash : true }), memberController.memberLogin);
     moduleRoutes.get('/logout', memberController.memberLogout);
 
-    moduleRoutes.post('/signup', memberController.createMember);
-    moduleRoutes.get('/non-admin', memberController.getNonAdminUsers);
+    moduleRoutes.post('/signup', memberController.isAuthenticated, memberController.createMember);
+    moduleRoutes.get('/non-admin', memberController.isAuthenticated, memberController.getNonAdminUsers);
 
     // Falllback for failures
     moduleRoutes.all('/loginFailiure', function (req, res) {
         console.log('Login failiure');
-        return res.status(401).send({ message: "The email / password you entered doesn't match any account. If you require access please contact the admin." });
+        return res.status(401).send({ message: "The email / password you entered doesn't match any account. If you require access, please contact the admin." });
     });
 };

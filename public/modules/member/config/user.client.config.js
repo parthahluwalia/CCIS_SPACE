@@ -8,7 +8,11 @@ angular
                 .state('user', {
                     url: '/users',
                     templateUrl: 'modules/member/views/user.client.view.html',
-                    controller: 'UserController'
+                    controller: 'UserController',
+                    params: {
+                        protected: true,
+                        superUserOnly: true
+                    }
                 })
                 .state('login', {
                     url: '/login',

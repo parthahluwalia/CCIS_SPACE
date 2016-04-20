@@ -13,8 +13,10 @@ angular
     				.then (
     					function (userRes) {
     						console.log('Logged in: ', userRes, null, 2);
-    						// Populate the user in the rootScope --> Bad practice, I know, but we gotta speed up!
-    						$rootScope.user = userRes.data;
+                            var loggedInUser = userRes.data;
+    						// Populate the user in the rootScope
+    						$rootScope.user = loggedInUser;
+                            $rootScope.user.isSuperUser = UserService.isSuperUser(loggedInUser.tags);
 
     						// Redirect to booking state
     						$state.go('booking');

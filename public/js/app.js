@@ -518,10 +518,19 @@ angular
                 $state.go('login');
             };
 
+            // Redirect to home
+            $rootScope.homeRedrect = function () {
+                $state.go('home');
+            }
+
             // On state change, check if a route is protected and user is not logged in, redirect to login, if yes
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toStateParams, fromState, fromStateParams) {
                 if (toStateParams.protected && !$rootScope.user) {
                     $rootScope.loginRedirect();           
+                }
+
+                if ($rootScope.user && toStateParams.superUserOnly && !$rootScope.user.isSuperUser) {
+                    $rootScope.homeRedrect();
                 }
             });
         }
@@ -535,7 +544,8 @@ angular
 
             // Check if a user is an admin
             $scope.isAdmin = function (user) {
-                // console.log('RootScope User: ', $rootScope.user, null, 2);
+                console.log('/location.path: ', $location.path());
+                console.log('RootScope User Tags: ', $rootScope.user.tags, null, 2);
                 var adminTag = _.find(user.tags, function (tag) {
                     return tag === "admin";
                 });
@@ -624,7 +634,11 @@ angular
                 .state('user', {
                     url: '/users',
                     templateUrl: 'modules/member/views/user.client.view.html',
-                    controller: 'UserController'
+                    controller: 'UserController',
+                    params: {
+                        protected: true,
+                        superUserOnly: true
+                    }
                 })
                 .state('login', {
                     url: '/login',
@@ -648,8 +662,10 @@ angular
     				.then (
     					function (userRes) {
     						console.log('Logged in: ', userRes, null, 2);
-    						// Populate the user in the rootScope --> Bad practice, I know, but we gotta speed up!
-    						$rootScope.user = userRes.data;
+                            var loggedInUser = userRes.data;
+    						// Populate the user in the rootScope
+    						$rootScope.user = loggedInUser;
+                            $rootScope.user.isSuperUser = UserService.isSuperUser(loggedInUser.tags);
 
     						// Redirect to booking state
     						$state.go('booking');
@@ -673,18 +689,65 @@ angular
 angular
     .module('user')
     .controller('UserController', ['$scope', '$http', 'UserService',
-    	function ($scope, $http, UserService) {
-    		// Get the non-admin users when controller loads
-    		UserService.getNonAdminUsers()
-    			.then (
-    				function (userRes) {
-    					// console.log('Non-admin user in User Controller: ', userRes, null, 2);
-    					$scope.nonAdminUsers = userRes.data;
-    				},
-    				function (err) {
-    					console.log('Error while getting users: ', err, null, 2);
-    				});
-    	}
+        function ($scope, $http, UserService) {
+            var userList = [];
+
+            $scope.user = {};
+            $scope.users = userList;
+
+            // Get the non-admin users when controller loads
+            UserService.getNonAdminUsers()
+                .then (
+                    function (userRes) {
+                        // console.log('Non-admin user in User Controller: ', userRes, null, 2);
+                        userList = userRes.data;
+                        $scope.users = userList;
+                    },
+                    function (err) {
+                        console.log('Error while getting users: ', err, null, 2);
+                    });
+
+            function getUserDetails () {
+                var userDetails = {
+                    email: $scope.user.email,
+                    password: $scope.user.password
+                };
+
+                if ($scope.user.phone) {
+                    userDetails.phone = $scope.user.phone;
+                }
+
+                if ($scope.user.first) {
+                    userDetails.first = $scope.user.first;
+                }
+
+                if($scope.user.last) {
+                    userDetails.last = $scope.user.last;
+                }
+
+                if($scope.user.admin) {
+                    userDetails.isAdmin = $scope.user.admin;
+                }
+
+                return userDetails;
+            }
+
+            // Add a new user in the system
+            $scope.addUser = function () {
+                var userDetails = getUserDetails();
+
+                UserService.addUser(userDetails)
+                    .then(
+                        function (userRes) {
+                            var newUser = userRes.data;
+                            userList.push(newUser);
+                            $scope.users = userList;
+                        },
+                        function (err) {
+                            console.log('Error while creating a user: ', err);
+                        });
+            };
+        }
     ]);
 'use strict';
 
@@ -707,7 +770,9 @@ angular
             return {
                 login: login,
                 logout: logout,
-                getNonAdminUsers: getNonAdminUsers
+                getNonAdminUsers: getNonAdminUsers,
+                addUser: addUser,
+                isSuperUser: isSuperUser
             };
 
             function login (email, password) {
@@ -726,6 +791,22 @@ angular
             function getNonAdminUsers () {
             	return $http.get('/api/member/non-admin');
             }
+
+            function addUser (userDetails) {
+                return $http.post('/api/member/signup', userDetails);
+            }
+
+            function isSuperUser (userTags) {
+                var adminTag = _.find(userTags, function (tag) {
+                    return tag === "admin";
+                });
+                
+                if (!adminTag) {
+                    return false;
+                }
+
+                return true;
+            };
     	}
     ]);
 // Setting up route
@@ -823,7 +904,7 @@ angular
             // Add a new space
             $scope.addSpace = function () {
                 var spaceDetails = getSpaceDetails();
-                console.log('Space Details in controller: ', spaceDetails);
+                // console.log('Space Details in controller: ', spaceDetails);
 
                 SpaceService.addSpace(spaceDetails)
                     .then (
@@ -904,7 +985,6 @@ angular
 
             // Add a new space
             function addSpace (spaceDetails) {
-                console.log('Space details: ', spaceDetails, null, 2);
                 return $http.post('/api/space', spaceDetails);
             }
 

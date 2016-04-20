@@ -9,7 +9,9 @@ angular
             return {
                 login: login,
                 logout: logout,
-                getNonAdminUsers: getNonAdminUsers
+                getNonAdminUsers: getNonAdminUsers,
+                addUser: addUser,
+                isSuperUser: isSuperUser
             };
 
             function login (email, password) {
@@ -28,5 +30,21 @@ angular
             function getNonAdminUsers () {
             	return $http.get('/api/member/non-admin');
             }
+
+            function addUser (userDetails) {
+                return $http.post('/api/member/signup', userDetails);
+            }
+
+            function isSuperUser (userTags) {
+                var adminTag = _.find(userTags, function (tag) {
+                    return tag === "admin";
+                });
+                
+                if (!adminTag) {
+                    return false;
+                }
+
+                return true;
+            };
     	}
     ]);

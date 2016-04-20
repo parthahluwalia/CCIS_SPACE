@@ -7,7 +7,8 @@ angular
 
             // Check if a user is an admin
             $scope.isAdmin = function (user) {
-                // console.log('RootScope User: ', $rootScope.user, null, 2);
+                console.log('/location.path: ', $location.path());
+                console.log('RootScope User Tags: ', $rootScope.user.tags, null, 2);
                 var adminTag = _.find(user.tags, function (tag) {
                     return tag === "admin";
                 });

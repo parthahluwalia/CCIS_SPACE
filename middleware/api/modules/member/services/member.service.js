@@ -176,6 +176,10 @@ module.exports = function (ccisroomDb, passport) {
 
         newMember.tags = ["user"];
 
+        if(memberDetails.isAdmin && (memberDetails.isAdmin === "true" || memberDetails.isAdmin == true)) {
+            newMember.tags.push("admin");
+        }
+
         return newMember;
     }
 
