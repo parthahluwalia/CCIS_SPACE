@@ -36,4 +36,20 @@ describe("Space Tests", function(){
         expect(true).to.be.true;
 
     });
+    it("Space Test PUT - update capacity(increase)", function(){
+        expect(true).to.be.true;
+
+    });
+    it("Space Test PUT - update projector", function(){
+        expect(true).to.be.true;
+
+    });
+    it("Space Test PUT - update blue Jeans", function(){
+        expect(true).to.be.true;
+
+    });
+    it("Space Test PUT - update capacity (reduce)", function(){
+        expect(true).to.be.true;
+
+    });
 })
