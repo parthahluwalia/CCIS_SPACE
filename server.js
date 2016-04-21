@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var port = process.env.OPENSHIFT_NODEJS_PORT || 3000; //6969 --> WTF?
+var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 // We need to get services based off of some config, how about creating a global service module like the one holding et.js, ses.js!?
 var services = {},
