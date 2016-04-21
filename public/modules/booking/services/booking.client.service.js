@@ -66,9 +66,9 @@ angular
                     multipleDayBooking = false;
                 }
 
-                if (multipleDayBooking) {
+                /*if (multipleDayBooking) {
                     day = day + 's';
-                }
+                }*/
 
                 newBooking.multipleDayBooking = multipleDayBooking;
                 newBooking.day = day;

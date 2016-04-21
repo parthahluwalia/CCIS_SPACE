@@ -2,8 +2,8 @@
 
 angular
     .module('booking')
-    .controller('BookingController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', '$filter', 'BookingService', '$location', 'Flash', 'lodash',
-        function ($rootScope, $scope, $state, $http, $stateParams, $filter, BookingService, $location, Flash, _) {
+    .controller('BookingController', ['$rootScope', '$scope', '$state', '$http', '$stateParams', '$filter', 'BookingService', '$location', 'Flash', 'lodash', '$uibModal', '$log',
+        function ($rootScope, $scope, $state, $http, $stateParams, $filter, BookingService, $location, Flash, _, $uibModal, $log) {
             // Global list of bookings - Mainly used while managing the bookings
             var bookingList = [];
             
@@ -12,6 +12,8 @@ angular
             $scope.requestor = {};
             $scope.newBooking = null;
             $scope.repeat = {};
+
+            $scope.animationsEnabled = true;
 
             // Return location path
             $scope.getPath = function () {
@@ -52,43 +54,39 @@ angular
 
                 nowDateWithoutTime.setHours(0,0,0,0);
 
-                if ($scope.startDate < nowDateWithoutTime) {
-                    Flash.create('danger', "<strong>Start Date</strong> should be greater than or equal to <strong>today's date</strong>");
-                    valid = false;
-                }
-
-                if ($scope.endDate < nowDateWithoutTime) {
-                    Flash.create('danger', "<strong>End Date</strong> should be greater than or equal to <strong>today's date</strong>");
-                    valid = false;
-                }
-
-                /*console.log('Start date: ', $scope.startDate, 'Type: ', typeof $scope.startDate);
-                console.log('End date: ', $scope.endDate);
-                console.log('Start Time: ', fromTime);
-                console.log('To Time: ', toTime);
-                console.log('Now Date w/o time: ', nowDateWithoutTime, 'Type: ', typeof nowDateWithoutTime);*/
-
-                if ($scope.startDate.getTime() === nowDateWithoutTime.getTime()
-                    || $scope.endDate.getTime() === nowDateWithoutTime.getTime()) {
-
-                    if (fromHours && fromHours < nowHours) {
-                        Flash.create('danger', "<strong>Start Time</strong> should be greater than the <strong>current time</strong>");
+                if ($scope.getPath() == '/booking/create') {
+                    if ($scope.startDate < nowDateWithoutTime) {
+                        Flash.create('danger', "<strong>Start Date</strong> should be greater than or equal to <strong>today's date</strong>");
                         valid = false;
                     }
 
-                    if (fromHours && fromHours == nowHours && fromMins < nowMins) {
-                        Flash.create('danger', "<strong>Start Time</strong> should be greater than the <strong>current time</strong>");
+                    if ($scope.endDate < nowDateWithoutTime) {
+                        Flash.create('danger', "<strong>End Date</strong> should be greater than or equal to <strong>today's date</strong>");
                         valid = false;
                     }
 
-                    if (toHours && toHours < nowHours) {
-                        Flash.create('danger', "<strong>End Time</strong> should be greater than the <strong>current time</strong>");
-                        valid = false;
-                    }
+                    if ($scope.startDate.getTime() === nowDateWithoutTime.getTime()
+                        || $scope.endDate.getTime() === nowDateWithoutTime.getTime()) {
 
-                    if (toHours && toHours == nowHours && toMins && toMins < nowMins) {
-                        Flash.create('danger', "<strong>End Time</strong> should be greater than the <strong>current time</strong>");
-                        valid = false;
+                        if (fromHours && fromHours < nowHours) {
+                            Flash.create('danger', "<strong>Start Time</strong> should be greater than the <strong>current time</strong>");
+                            valid = false;
+                        }
+
+                        if (fromHours && fromHours == nowHours && fromMins < nowMins) {
+                            Flash.create('danger', "<strong>Start Time</strong> should be greater than the <strong>current time</strong>");
+                            valid = false;
+                        }
+
+                        if (toHours && toHours < nowHours) {
+                            Flash.create('danger', "<strong>End Time</strong> should be greater than the <strong>current time</strong>");
+                            valid = false;
+                        }
+
+                        if (toHours && toHours == nowHours && toMins && toMins < nowMins) {
+                            Flash.create('danger', "<strong>End Time</strong> should be greater than the <strong>current time</strong>");
+                            valid = false;
+                        }
                     }
                 }
 
@@ -101,11 +99,6 @@ angular
                     Flash.create('danger', "<strong>End Time</strong> should be greater than the <strong>Start Time</strong>");
                     valid = false;
                 }
-
-                /*if (!bookingDetails.startTime || !bookingDetails.endTime) {
-                    message += "'Start Time' 'End Time'";
-                    valid = false;
-                }*/
 
                 return valid;
             }
@@ -286,6 +279,10 @@ angular
                         });
             };
 
+            $scope.getLocalTime = function (date) {
+                return moment(date).format('LT');
+            };
+
             // Delete a booking
             $scope.cancelBooking = function (booking) {
                 BookingService.cancelBooking(booking)
@@ -307,6 +304,31 @@ angular
              */
             $scope.go = function (route) {
                 $state.go(route);
+            };
+
+
+            // Cancel Booking Modal Code
+            $scope.confirmBookingCancellation = function (selectedBooking) {
+                var modalInstance = $uibModal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'cancel-booking-modal.html',
+                    controller: 'ModalInstanceCtrl',
+                    resolve: {
+                        selectedBooking: function () {
+                            return selectedBooking;
+                        }
+                    }
+                });
+
+                modalInstance.result
+                    .then (
+                        function (selectedBooking) {
+                            // $scope.selectedBooking = selectedBooking;
+                            $scope.cancelBooking(selectedBooking);
+                        }, 
+                        function () {
+                            $log.info('Modal dismissed at: ' + new Date());
+                    });
             };
         }
     ]);
